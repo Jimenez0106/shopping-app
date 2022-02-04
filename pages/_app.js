@@ -1,7 +1,17 @@
-import '../styles/globals.css'
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import allReducers from "../redux/reducers";
+import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+//REDUX devtools currently offline
+const store = createStore(allReducers);
 
-export default MyApp
+const MyApp = ({ Component, pageProps }) => {
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
+  );
+};
+
+export default MyApp;
