@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 1200px;
+  height: 200px;
+  padding: 15px;
+  gap: 15px;
+}
+
+.imageContainer {
+  display: flex;
+  align-items: center;
+}
+
+.imageContainer img {
+  border-radius: 50%;
+}

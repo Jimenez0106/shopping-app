@@ -39,6 +39,12 @@ export const removeFavorite = (item) => {
     payload: item,
   };
 };
+export const setFavorite = (item) => {
+  return {
+    type: "SET_FAVORITE",
+    payload: item,
+  };
+};
 
 //CATEGORY ACTIONS
 export const addCategories = (item) => {
@@ -69,6 +75,12 @@ export const addCart = (item) => {
 export const removeCart = (item) => {
   return {
     type: "REMOVE_CART",
+    payload: item,
+  };
+};
+export const setCart = (item) => {
+  return {
+    type: "SET_CART",
     payload: item,
   };
 };

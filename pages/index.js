@@ -27,9 +27,7 @@ const Home = ({ data }) => {
       <Header />
       <Categories />
       <div className="content">
-        <Items
-        // favoritesHandler={favoritesHandler}
-        />
+        <Items />
       </div>
     </div>
   );

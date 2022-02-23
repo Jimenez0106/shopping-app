@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { useEffect } from "react";
+import { useUser } from "@auth0/nextjs-auth0";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addFavorite,
@@ -6,9 +8,11 @@ import {
   removeCart,
   addCart,
 } from "../redux/actions";
+
 import styles from "../styles/Items/Items.module.css";
 
-const Item = ({ item }) => {
+const Item = ({ item, refresh, setRefresh }) => {
+  const { user, error, isLoading } = useUser();
   const { image, price, rating, title, id } = item;
   const priceFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -18,8 +22,16 @@ const Item = ({ item }) => {
   const favorites = useSelector((state) => state.favorites);
   const cart = useSelector((state) => state.cart);
 
-  //ADD OR REMOVE ITEM FROM FAVORITES STORE
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+    if (user) {
+      localStorage.setItem(user.name, JSON.stringify(favorites));
+    }
+  }, [favorites, cart]);
+
+  //ADD OR REMOVE ITEM TO FAVORITES STORE
   const favoritesHandler = (item) => {
+    setRefresh(!refresh);
     const favoritesCopy = favorites;
     const filteredCopy = favoritesCopy.filter(
       (favoriteItem) => favoriteItem.id === item.id
@@ -28,32 +40,37 @@ const Item = ({ item }) => {
       ? dispatch(removeFavorite(item.id))
       : dispatch(addFavorite(item));
   };
-  const isChecked = (item) => {
-    const isFavorite = favorites.filter(
-      (favoriteItem) => favoriteItem.id === item.id
-    );
 
-    return isFavorite.length ? true : false;
+  //ADD ITEM TO CART STORE
+  const addToCartHandler = (item) => {
+    setRefresh(!refresh);
+    dispatch(addCart(item));
   };
 
-  //ADD OR REMOVE ITEM FROM CART STORE
-  const cartHandler = (item) => {
-    dispatch(addCart(item));
-    // const cartCopy = cart;
-    // const filteredCopy = cartCopy.filter((cartItem) => cartItem.id === item.id);
-    // filteredCopy.length ? "" : dispatch(addCart(item));
+  //LOOK UP LOCAL STORAGE TO SEE IF ITEM IS IN IT, CHECK IF TRUE
+  const isChecked = (item) => {
+    const userLocalStorage = JSON.parse(localStorage.getItem(user.name));
+    if (userLocalStorage === null) return false;
+    const isFavorite = userLocalStorage.filter(
+      (favoriteItem) => favoriteItem.id === item.id
+    );
+    return isFavorite.length ? true : false;
   };
 
   return (
     <div className={styles.card}>
-      <input
-        style={{ cursor: "pointer" }}
-        type="checkbox"
-        onChange={() => {
-          favoritesHandler(item);
-        }}
-        checked={isChecked(item)}
-      />
+      {user ? (
+        <input
+          style={{ cursor: "pointer" }}
+          type="checkbox"
+          onChange={() => {
+            favoritesHandler(item);
+          }}
+          checked={isChecked(item)}
+        />
+      ) : (
+        <></>
+      )}
       <div className={styles.image}>
         <Link href={`/listings/${id}`}>
           <img src={image} alt={title} />
@@ -74,7 +91,7 @@ const Item = ({ item }) => {
         </div>
       </div>
       <div className={styles.buttons}>
-        <button onClick={() => cartHandler(item)}>Add to cart</button>
+        <button onClick={() => addToCartHandler(item)}>Add to cart</button>
       </div>
     </div>
   );

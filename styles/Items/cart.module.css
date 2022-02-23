@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  padding: 15px;
+  border-radius: 15px;
+  gap: 15px;
+}
+
+.imageContainer {
+}
+
+.subtotalContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.subtotalContainer h3 {
+  font-weight: normal;
+}
+
+.proceedContainer {
+  
+}
