@@ -23,7 +23,7 @@ const cart = () => {
   return (
     <div className="page-container">
       <Header />
-      <div className="content">
+      <div className="content" style={{ justifyContent: "space-evenly" }}>
         <div className="main-container">
           {cart.map((item, id) => {
             const { price } = item;
@@ -35,7 +35,9 @@ const cart = () => {
             <h2>${totalCost}</h2>
           </div>
         </div>
-        <div> PROCEED TO CHECKOUT HERE</div>
+        <div className={styles.proceedContainer}>
+          <h1>PROCEED TO CHECKOUT HERE</h1>
+        </div>
       </div>
     </div>
   );

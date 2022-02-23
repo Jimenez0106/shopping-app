@@ -8,6 +8,16 @@
 }
 
 .imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 180px;
+  height: 180px;
+}
+
+.imageContainer img {
+  max-width: 180px;
+  max-height: 180px;
 }
 
 .subtotalContainer {
@@ -22,5 +32,18 @@
 }
 
 .proceedContainer {
-  
+  display: flex;
+  height: 100%;
+  align-items: flex-start;
+  background-color: rgb(224, 224, 224);
+}
+
+.descriptionContainer {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

@@ -6,6 +6,7 @@
   justify-content: space-evenly;
   top: 0;
   width: 100%;
+  border-bottom: 2px solid rgb(224, 224, 224);
 }
 .logo {
 }
@@ -27,7 +28,7 @@
   justify-content: space-evenly;
   top: 0;
   width: 100%;
-  border: 2px solid rgb(224, 224, 224);
+  border-bottom: 2px solid rgb(224, 224, 224);
   padding: 13px;
 }
 
@@ -48,6 +49,6 @@
   background-color: #f1f1f1;
   min-width: 160px;
   overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }

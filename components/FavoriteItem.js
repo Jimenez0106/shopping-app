@@ -5,7 +5,7 @@ import styles from "../styles/Items/favorites.module.css";
 
 const Favorite = ({ item, user }) => {
   const dispatch = useDispatch();
-  const { image, price, rating, title, id } = item;
+  const { description, image, price, rating, title, id } = item;
   const favorites = useSelector((state) => state.favorites);
   const cart = useSelector((state) => state.cart);
   const priceFormatter = new Intl.NumberFormat("en-US", {
@@ -14,6 +14,7 @@ const Favorite = ({ item, user }) => {
   });
 
   useEffect(() => {
+    
     localStorage.setItem("cart", JSON.stringify(cart));
     if (user) {
       localStorage.setItem(user.name, JSON.stringify(favorites));
