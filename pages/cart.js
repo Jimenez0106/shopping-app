@@ -11,6 +11,9 @@ const cart = () => {
   const cart = useSelector((state) => state.cart);
   const { user, error, isLoading } = useUser();
   const dispatch = useDispatch();
+  const displayCart = cart.filter(
+    (v, i, a) => a.findIndex((t) => t.id === v.id) === i
+  );
   let totalCost = 0;
 
   useEffect(() => {
@@ -25,10 +28,10 @@ const cart = () => {
       <Header />
       <div className="content" style={{ justifyContent: "space-evenly" }}>
         <div className="main-container">
-          {cart.map((item, id) => {
+          {displayCart.map((item, id) => {
             const { price } = item;
             totalCost += price;
-            return <CartItem key={id} item={item} />;
+            return <CartItem key={id} item={item} cart={cart} />;
           })}
           <div className={styles.subtotalContainer}>
             <h3>Subtotal:&nbsp;</h3>
