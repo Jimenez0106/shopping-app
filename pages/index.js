@@ -10,7 +10,6 @@ import { addItems, addDisplay } from "../redux/actions";
 const Home = ({ data }) => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const items = useSelector((state) => state.items);
 
   useEffect(() => {
     setLoading(true);
@@ -22,17 +21,16 @@ const Home = ({ data }) => {
   if (loading) {
     return <div>LOADING</div>;
   }
-  if (items) {
-    return (
-      <div className="page-container">
-        <Header />
-        <Categories />
-        <div className="content">
-          <Items />
-        </div>
+
+  return (
+    <div className="page-container">
+      <Header />
+      <Categories />
+      <div className="content">
+        <Items />
       </div>
-    );
-  }
+    </div>
+  );
 };
 
 export const getServerSideProps = async () => {
