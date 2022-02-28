@@ -31,7 +31,7 @@ const account = () => {
         <div className="content">
           <div className={styles.container}>
             <div className={styles.imageContainer}>
-              <img src={user.picture} />
+              <Image src={user.picture} alt={user.name} />
             </div>
             <h3>Hello, {user.given_name}!</h3>
             <p>Favorited Items: {favorites.length}</p>
