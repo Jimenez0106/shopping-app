@@ -14,7 +14,12 @@ export const Header = () => {
     <>
       <div className={styles.header}>
         <div className={styles.logo}>
-          <Image src={logo} height={75} width={70} />
+          <Image
+            src={logo}
+            height={75}
+            width={70}
+            onClick={() => router.push("/")}
+          />
         </div>
         <div>Search Bar here</div>
         <ul className={styles.buttons}>
@@ -23,8 +28,7 @@ export const Header = () => {
             <>
               <li onClick={() => router.push("/favorites")}>Favorites</li>
               <li onClick={() => router.push("/account")}>Account</li>
-
-              <Image
+              <img
                 className={styles.profilepic}
                 src={user.picture}
                 alt={user.name}

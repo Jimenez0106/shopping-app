@@ -14,6 +14,7 @@
   align-items: center;
   padding-bottom: 10px;
   max-height: 50px;
+  cursor: pointer;
 }
 
 .buttons {
@@ -41,7 +42,7 @@
 .profilepic {
   border-radius: 50%;
   width: auto;
-  height: 24px;
+  height: 27px;
 }
 
 .dropdown {
