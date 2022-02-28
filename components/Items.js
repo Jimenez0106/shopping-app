@@ -31,24 +31,22 @@ const Items = () => {
 
   if (isLoading) return <div>Loading Items...</div>;
   if (error) return <div>{error.message}</div>;
-  if (display && display.length) {
-    return (
-      <section className={styles.container}>
-        {display.map((item) => {
-          const { id } = item;
-          return (
-            <Item
-              key={id}
-              item={item}
-              setRefresh={setRefresh}
-              refresh={refresh}
-            />
-          );
-        })}
-      </section>
-    );
-  }
-  return <div>Loading Items</div>;
+
+  return (
+    <section className={styles.container}>
+      {display.map((item) => {
+        const { id } = item;
+        return (
+          <Item
+            key={id}
+            item={item}
+            setRefresh={setRefresh}
+            refresh={refresh}
+          />
+        );
+      })}
+    </section>
+  );
 };
 
 export default Items;

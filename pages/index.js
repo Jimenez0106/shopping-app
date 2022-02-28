@@ -10,6 +10,7 @@ import { addItems, addDisplay } from "../redux/actions";
 const Home = ({ data }) => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+  const itemDisplay = useSelector((state) => state.display);
 
   useEffect(() => {
     setLoading(true);
@@ -18,11 +19,7 @@ const Home = ({ data }) => {
     setLoading(false);
   }, []);
 
-  if (loading) {
-    return <div>LOADING</div>;
-  }
-
-  return (
+  return itemDisplay.length ? (
     <div className="page-container">
       <Header />
       <Categories />
@@ -30,6 +27,8 @@ const Home = ({ data }) => {
         <Items />
       </div>
     </div>
+  ) : (
+    <div>loading</div>
   );
 };
 
