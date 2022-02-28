@@ -21,16 +21,17 @@ const Home = ({ data }) => {
   if (loading) {
     return <div>LOADING</div>;
   }
-
-  return (
-    <div className="page-container">
-      <Header />
-      <Categories />
-      <div className="content">
-        <Items />
+  if (data) {
+    return (
+      <div className="page-container">
+        <Header />
+        <Categories />
+        <div className="content">
+          <Items />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export const getServerSideProps = async () => {
