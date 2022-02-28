@@ -15,9 +15,11 @@ const Items = () => {
   useEffect(() => {
     //CHECK CART LOCALSTORAGE FOR HISTORY OF ITEMS, THEN SET TO CART STORE
     const cartHistoryCheck = () => {
-      JSON.parse(localStorage.getItem("cart")).length
-        ? dispatch(setCart(JSON.parse(localStorage.getItem("cart"))))
-        : "";
+      if (localStorage.getItem("cart")) {
+        JSON.parse(localStorage.getItem("cart")).length
+          ? dispatch(setCart(JSON.parse(localStorage.getItem("cart"))))
+          : "";
+      }
     };
     //CHECK FAVORITE LOCALSTORAGE FOR HISTORY OF ITEMS, THEN SET TO FAVORITES STORE
     const userFavoriteHistoryCheck = () => {
