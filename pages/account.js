@@ -25,7 +25,7 @@ const account = () => {
 
   if (isLoading) return <div>Loading Account Page</div>;
   if (error) return <div>{error.message}</div>;
-  return user && itemDisplay ? (
+  return user && itemDisplay.length ? (
     <div className="page-container">
       <Header />
       <div className="content">
