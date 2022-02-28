@@ -4,10 +4,11 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { setFavorite, setCart } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import Image from "next/image";
 import "../styles/Header/Header.module.css";
 import styles from "../styles/Account.module.css";
 
-const account = () => {
+const Account = () => {
   const { user, error, isLoading } = useUser();
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
@@ -43,6 +44,6 @@ const account = () => {
   }
 };
 
-export default account;
+export default Account;
 
 export const getServerSideProps = withPageAuthRequired();
