@@ -4,12 +4,13 @@ import Items from "../components/Items";
 import Categories from "../components/Categories";
 import "../styles/Header/Header.module.css";
 import "../styles/Items/Items.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItems, addDisplay } from "../redux/actions";
 
 const Home = ({ data }) => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+  const items = useSelector((state) => state.items);
 
   useEffect(() => {
     setLoading(true);
@@ -21,7 +22,7 @@ const Home = ({ data }) => {
   if (loading) {
     return <div>LOADING</div>;
   }
-  if (data) {
+  if (items) {
     return (
       <div className="page-container">
         <Header />
