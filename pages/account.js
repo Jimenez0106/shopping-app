@@ -8,7 +8,7 @@ import Image from "next/image";
 import "../styles/Header/Header.module.css";
 import styles from "../styles/Account.module.css";
 
-const Account = () => {
+const account = () => {
   const { user, error, isLoading } = useUser();
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
@@ -44,6 +44,6 @@ const Account = () => {
   }
 };
 
-export default Account;
+export default account;
 
 export const getServerSideProps = withPageAuthRequired();
