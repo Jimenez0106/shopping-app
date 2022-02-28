@@ -9,6 +9,7 @@ import styles from "../styles/Items/cart.module.css";
 
 const cart = () => {
   const cart = useSelector((state) => state.cart);
+  const itemDisplay = useSelector((state) => state.display);
   const { user, error, isLoading } = useUser();
   const dispatch = useDispatch();
   let totalCost = 0;
@@ -21,7 +22,7 @@ const cart = () => {
     // Create Stripe checkout
     const {
       data: { id },
-    } = await axios.post('/api/checkout_sessions', {
+    } = await axios.post("/api/checkout_sessions", {
       items: Object.entries(cartDetails).map(([_, { id, quantity }]) => ({
         price: id,
         quantity,
@@ -39,11 +40,9 @@ const cart = () => {
     if (user) {
       dispatch(setFavorite(JSON.parse(localStorage.getItem(user.name))));
     }
-  }, [user]);
+  }, [user, itemDisplay]);
 
-  
-
-  return (
+  return itemDisplay.length ? (
     <div className="page-container">
       <Header />
       <div
@@ -73,6 +72,8 @@ const cart = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <div>Loading</div>
   );
 };
 

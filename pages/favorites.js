@@ -11,6 +11,7 @@ const favorites = () => {
   const [refresh, setRefresh] = useState(false);
   const dispatch = useDispatch();
   let favorites = useSelector((state) => state.favorites);
+  const itemDisplay = useSelector((state) => state.display);
 
   useEffect(() => {
     dispatch(setCart(JSON.parse(localStorage.getItem("cart"))));
@@ -19,21 +20,20 @@ const favorites = () => {
     }
   }, [user, refresh]);
 
-  if (user) {
-    return (
-      <div className="page-container">
-        <Header />
-        <div className="content">
-          <div className="main-container">
-            {favorites.map((item) => {
-              return <FavoriteItem key={item.id} item={item} user={user} />;
-            })}
-          </div>
+  return itemDisplay.length && user ? (
+    <div className="page-container">
+      <Header />
+      <div className="content">
+        <div className="main-container">
+          {favorites.map((item) => {
+            return <FavoriteItem key={item.id} item={item} user={user} />;
+          })}
         </div>
       </div>
-    );
-  }
-  return <div>Loading</div>;
+    </div>
+  ) : (
+    <div>Loading</div>
+  );
 };
 
 export default favorites;

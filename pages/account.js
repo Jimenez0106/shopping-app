@@ -12,7 +12,8 @@ const account = () => {
   const { user, error, isLoading } = useUser();
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
-  const cart = useSelector((state) => state.cart)
+  const itemDisplay = useSelector((state) => state.display);
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
     console.log(user);
@@ -24,24 +25,23 @@ const account = () => {
 
   if (isLoading) return <div>Loading Account Page</div>;
   if (error) return <div>{error.message}</div>;
-
-  if (user && user.picture) {
-    return (
-      <div className="page-container">
-        <Header />
-        <div className="content">
-          <div className={styles.container}>
-            <div className={styles.imageContainer}>
-              <Image src={user.picture} alt={user.name} />
-            </div>
-            <h3>Hello, {user.given_name}!</h3>
-            <p>Favorited Items: {favorites.length}</p>
-            <p>Items in Cart: {cart.length}</p>
+  return user && itemDisplay ? (
+    <div className="page-container">
+      <Header />
+      <div className="content">
+        <div className={styles.container}>
+          <div className={styles.imageContainer}>
+            <img src={user.picture} alt={user.name} />
           </div>
+          <h3>Hello, {user.given_name}!</h3>
+          <p>Favorited Items: {favorites.length}</p>
+          <p>Items in Cart: {cart.length}</p>
         </div>
       </div>
-    );
-  }
+    </div>
+  ) : (
+    <div>Loading</div>
+  );
 };
 
 export default account;
