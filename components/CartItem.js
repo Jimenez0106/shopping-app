@@ -22,12 +22,11 @@ const CartItem = ({ item, cart, displayCart }) => {
         item.id === cartItem.id ? (counter += 1) : "";
       });
       setCount(counter);
-      displayCart.map((product, index)=> {
+      displayCart.map((product, index) => {
         if (product.id === item.id) {
-          displayCart[index] = {...displayCart[index], count: count}
+          displayCart[index] = { ...displayCart[index], count: count };
         }
-      })
-      console.log(displayCart)
+      });
     };
     itemCounter();
   }, [cart, count]);
@@ -53,7 +52,7 @@ const CartItem = ({ item, cart, displayCart }) => {
     const cartCopy = cart;
     const filterLimit = 0;
     const filteredCopy = cartCopy.filter((cartItem) => {
-      if ((filterLimit === 0 && cartItem.id === item.id)) {
+      if (filterLimit === 0 && cartItem.id === item.id) {
         filterLimit += 1;
         return false;
       }
