@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { addCart, removeCart, setCart } from "../redux/actions";
 import { useDispatch } from "react-redux";
 
-const CartItem = ({ item, cart }) => {
+const CartItem = ({ item, cart, displayCart }) => {
   const dispatch = useDispatch();
   const [count, setCount] = useState(0);
   const [refresh, setRefresh] = useState(false);
@@ -22,9 +22,15 @@ const CartItem = ({ item, cart }) => {
         item.id === cartItem.id ? (counter += 1) : "";
       });
       setCount(counter);
+      displayCart.map((product, index)=> {
+        if (product.id === item.id) {
+          displayCart[index] = {...displayCart[index], count: count}
+        }
+      })
+      console.log(displayCart)
     };
     itemCounter();
-  }, [cart]);
+  }, [cart, count]);
 
   //REMOVE ALL ITEMS OF SAME ID FROM CART
   const removeFromCartHandler = (item) => {

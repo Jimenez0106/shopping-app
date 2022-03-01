@@ -7,10 +7,7 @@ import "../styles/Header/Header.module.css";
 import CartItem from "../components/CartItem";
 import styles from "../styles/Items/cart.module.css";
 import { loadStripe } from '@stripe/stripe-js';
-
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-);
+import axios from "axios";
 
 const cart = () => {
   const cart = useSelector((state) => state.cart);
@@ -23,18 +20,6 @@ const cart = () => {
   );
 
   useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
-    const query = new URLSearchParams(window.location.search);
-    if (query.get('success')) {
-      console.log('Order placed! You will receive an email confirmation.');
-    }
-
-    if (query.get('canceled')) {
-      console.log('Order canceled -- continue to shop around and checkout when you’re ready.');
-    }
-  }, []);
-
-  useEffect(() => {
     //GET AND SET CART AND FAVORITES FOR PAGE CHANGE
     dispatch(setCart(JSON.parse(localStorage.getItem("cart"))));
     if (user) {
@@ -42,6 +27,22 @@ const cart = () => {
     }
   }, [user]);
 
+
+
+  const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+  const stripePromise = loadStripe(publishableKey);
+  const createCheckoutSession = async () => {
+    const stripe = await stripePromise;
+    const checkoutSession = await axios.post('/api/checkout_sessions', {
+      items: displayCart,
+    });
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+    if (result.error) {
+      alert(result.error.message);
+    }
+  }
   return (
     <div className="page-container">
       <Header />
@@ -54,7 +55,7 @@ const cart = () => {
           {displayCart.map((item, id) => {
             const { price } = item;
             totalCost += price;
-            return <CartItem key={id} item={item} cart={cart} />;
+            return <CartItem key={id} item={item} cart={cart} displayCart={displayCart}/>;
           })}
           {/* SUBTOTAL OF COSTS */}
           <div className={styles.subtotalContainer}>
@@ -68,11 +69,7 @@ const cart = () => {
             <h3>Subtotal:&nbsp;</h3>
             <h2>${totalCost}</h2>
           </div>
-          <form action="/api/checkout_sessions" method="POST">
-            <section>
-              <button>Proceed to checkout</button>
-            </section>
-          </form>
+          <button onClick={createCheckoutSession}>Proceed to Checkout</button>
         </div>
       </div>
     </div>
