@@ -17,9 +17,7 @@ const Categories = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const categories = useSelector((state) => state.categories);
-  //itemDisplay will hold all filtered items
-  const itemDisplay = useSelector((state) => state.display);
-  const [display] = itemDisplay;
+
   //itemList will hold all items
   const itemsList = useSelector((state) => state.items);
   const [items] = itemsList;
