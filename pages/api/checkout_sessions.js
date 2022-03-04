@@ -3,7 +3,6 @@ async function CreateStripeSession(req, res) {
   const { items } = req.body;
 
   const transformedItems = items.map((item) => ({
-    description: item.description,
     quantity: item.count,
     price_data: {
       currency: "USD",
@@ -13,19 +12,18 @@ async function CreateStripeSession(req, res) {
         images: [item.image],
       },
     },
+  
   }));
-
-  console.log(transformedItems)
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: transformedItems,
     mode: "payment",
-    success_url: `${req.headers.origin}/`,
+    success_url: `${req.headers.origin}/success`,
     cancel_url: `${req.headers.origin}/cart`,
   });
-
   res.json({ id: session.id });
 }
+
 
 export default CreateStripeSession;
