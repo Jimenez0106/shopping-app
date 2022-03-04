@@ -6,14 +6,20 @@ import { setFavorite, setCart } from "../redux/actions";
 import "../styles/Header/Header.module.css";
 import CartItem from "../components/CartItem";
 import styles from "../styles/Items/cart.module.css";
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const cart = () => {
+  const router = useRouter();
   const cart = useSelector((state) => state.cart);
   const { user, error, isLoading } = useUser();
   const dispatch = useDispatch();
   let totalCost = 0;
+  const priceFormatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
   //GET UNIQUE ITEMS IN CART TO DISPLAY
   const displayCart = cart.filter(
     (v, i, a) => a.findIndex((t) => t.id === v.id) === i
@@ -27,13 +33,11 @@ const cart = () => {
     }
   }, [user]);
 
-
-
   const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
   const stripePromise = loadStripe(publishableKey);
   const createCheckoutSession = async () => {
     const stripe = await stripePromise;
-    const checkoutSession = await axios.post('/api/checkout_sessions', {
+    const checkoutSession = await axios.post("/api/checkout_sessions", {
       items: displayCart,
     });
     const result = await stripe.redirectToCheckout({
@@ -42,7 +46,7 @@ const cart = () => {
     if (result.error) {
       alert(result.error.message);
     }
-  }
+  };
   return (
     <div className="page-container">
       <Header />
@@ -55,21 +59,32 @@ const cart = () => {
           {displayCart.map((item, id) => {
             const { price } = item;
             totalCost += price;
-            return <CartItem key={id} item={item} cart={cart} displayCart={displayCart}/>;
+            return (
+              <CartItem
+                key={id}
+                item={item}
+                cart={cart}
+                displayCart={displayCart}
+              />
+            );
           })}
           {/* SUBTOTAL OF COSTS */}
           <div className={styles.subtotalContainer}>
             <h3>Subtotal:&nbsp;</h3>
-            <h2>${totalCost}</h2>
+            <h2>{priceFormatter.format(totalCost)}</h2>
           </div>
         </div>
         {/* CHECKOUT DISPLAY */}
         <div className={styles.proceedContainer}>
           <div className={styles.subtotalContainer}>
             <h3>Subtotal:&nbsp;</h3>
-            <h2>${totalCost}</h2>
+            <h2>{priceFormatter.format(totalCost)}</h2>
           </div>
-          <button onClick={createCheckoutSession}>Proceed to Checkout</button>
+          {cart.length ? (
+            <button onClick={createCheckoutSession}>Proceed to Checkout</button>
+          ) : (
+            <button onClick={() => router.push("/")}>Go shopping!</button>
+          )}
         </div>
       </div>
     </div>
