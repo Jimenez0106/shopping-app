@@ -4,19 +4,23 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { setFavorite, setCart } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import Image from "next/image";
-import "../styles/Header/Header.module.css";
-import styles from "../styles/Account.module.css";
+import {
+  Box,
+  Flex,
+  Heading,
+  Image,
+  LinkBox,
+  LinkOverlay,
+  Text,
+} from "@chakra-ui/react";
 
 const account = () => {
   const { user, error, isLoading } = useUser();
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites);
-  const itemDisplay = useSelector((state) => state.display);
   const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
-    console.log(user);
     dispatch(setCart(JSON.parse(localStorage.getItem("cart"))));
     if (user) {
       dispatch(setFavorite(JSON.parse(localStorage.getItem(user.name))));
@@ -25,23 +29,86 @@ const account = () => {
 
   if (isLoading) return <div>Loading Account Page</div>;
   if (error) return <div>{error.message}</div>;
-  return user && itemDisplay.length ? (
-    <div className="page-container">
-      <Header />
-      <div className="content">
-        <div className={styles.container}>
-          <div className={styles.imageContainer}>
-            <img src={user.picture} alt={user.name} />
-          </div>
-          <h3>Hello, {user.given_name}!</h3>
-          <p>Favorited Items: {favorites.length}</p>
-          <p>Items in Cart: {cart.length}</p>
-        </div>
-      </div>
-    </div>
-  ) : (
-    <div>Loading</div>
-  );
+  if (user)
+    return (
+      <Flex direction="column" h="100vh">
+        <Header />
+        <Flex justifyContent="center" alignItems="center" w="100%" mt={25}>
+          <Flex
+            direction="column"
+            justifyContent="flex-start"
+            alignItems="center"
+            w="100%"
+          >
+            <Flex
+              direction="column"
+              alignItems="center"
+              justifyContent="space-evenly"
+              w="100%"
+              gap={10}
+            >
+              {/* Name and Image */}
+              <Box>
+                <Image src={user.picture} alt={user.name} rounded="50%" />
+                <Heading>Hello, {user.given_name}!</Heading>
+              </Box>
+              {/* Favorites Container */}
+              <Flex direction="column" w="90%" gap={5}>
+                <Heading>Your Favorites:</Heading>
+                <Box gap={0} overflowX="auto">
+                  <Flex direction="row" gap={5}>
+                    {favorites.map((item) => {
+                      const { title, image, id } = item;
+                      return (
+                        <Flex direction="column" minW="200px">
+                          <LinkBox>
+                            <LinkOverlay href={`/listings/${id}`}>
+                              <Image
+                                src={image}
+                                alt={title}
+                                boxSize={200}
+                                objectFit="contain"
+                              />
+                              <Text>{title}</Text>
+                            </LinkOverlay>
+                          </LinkBox>
+                        </Flex>
+                      );
+                    })}
+                  </Flex>
+                </Box>
+              </Flex>
+              {/* Cart Container */}
+              <Flex direction="column" w="90%" gap={5}>
+                <Heading>Cart:</Heading>
+                <Box gap={0} overflowX="scroll">
+                  <Flex direction="row" gap={5}>
+                    {cart.map((item) => {
+                      const { title, image, id } = item;
+                      return (
+                        <Flex direction="column" minW="200px">
+                          <LinkBox>
+                            <LinkOverlay href={`/listings/${id}`}>
+                              <Image
+                                src={image}
+                                alt={title}
+                                boxSize={200}
+                                objectFit="contain"
+                              />
+                              <Text>{title}</Text>
+                            </LinkOverlay>
+                          </LinkBox>
+                        </Flex>
+                      );
+                    })}
+                  </Flex>
+                </Box>
+              </Flex>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    );
 };
 
 export default account;

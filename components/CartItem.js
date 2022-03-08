@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "../styles/Items/cart.module.css";
 import { useState, useEffect } from "react";
-import { addCart, removeCart, setCart } from "../redux/actions";
+import { addCart, setCart } from "../redux/actions";
 import { useDispatch } from "react-redux";
+import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
 
 const CartItem = ({ item, cart, displayCart }) => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const CartItem = ({ item, cart, displayCart }) => {
   });
 
   useEffect(() => {
-    //GET COUNT OF SAME ID ITEMS IN CART
+    //Set the counter for each repeat item
     const itemCounter = () => {
       let counter = 0;
       cart.map((cartItem) => {
@@ -31,7 +31,7 @@ const CartItem = ({ item, cart, displayCart }) => {
     itemCounter();
   }, [cart, count]);
 
-  //REMOVE ALL ITEMS OF SAME ID FROM CART
+  //Remove all same ID items from cart
   const removeFromCartHandler = (item) => {
     const cartCopy = cart;
     const filteredCopy = cartCopy.filter((cartItem) => cartItem.id !== item.id);
@@ -40,14 +40,14 @@ const CartItem = ({ item, cart, displayCart }) => {
     setRefresh(!refresh);
   };
 
-  //ADD 1 ITEM TO CART COUNTER
+  //Add 1 item to cart counter
   const addItemToCartHandler = () => {
     dispatch(addCart(item));
     localStorage.setItem("cart", JSON.stringify(cart));
     setRefresh(!refresh);
   };
 
-  //REMOVE 1 ITEM FROM CART COUNTER
+  //Remove 1 item from cart counter
   const removeItemFromCart = () => {
     const cartCopy = cart;
     const filterLimit = 0;
@@ -64,25 +64,28 @@ const CartItem = ({ item, cart, displayCart }) => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.imageContainer}>
-        <img src={image} alt={title} />
-      </div>
-      <div className={styles.descriptionContainer}>
-        <div className={styles.header}>
-          <h3>{title}</h3>
-          <p>{priceFormatter.format(price * count)}</p>
-        </div>
-        <div className={styles.header} style={{ height: "25px" }}>
-          <button onClick={() => removeFromCartHandler(item)}>Remove</button>
-          <div className={styles.counter}>
-            <button onClick={() => addItemToCartHandler()}>+</button>
-            <h5>{count}</h5>
-            <button onClick={() => removeItemFromCart()}>-</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Flex direction="row" backgroundColor="white" p={15} rounded={15} gap={15}>
+      {/* Item Image */}
+      <Box>
+        <Image src={image} alt={title} maxH="180px" maxW="180px" />
+      </Box>
+      <Box w="100%">
+        {/* Title and Remove Button */}
+        <Flex direction="row" justifyContent="space-between">
+          <Heading size="md">{title}</Heading>
+          <Text>{priceFormatter.format(price * count)}</Text>
+        </Flex>
+        {/* Price and Quantity */}
+        <Flex direction="row" justifyContent="space-between">
+          <Button onClick={() => removeFromCartHandler(item)}>Remove</Button>
+          <Flex direction="row" gap={3} alignItems="center">
+            <Button size="xs" onClick={() => addItemToCartHandler()}>+</Button>
+            <Text fontSize="xl">{count}</Text>
+            <Button size="xs" onClick={() => removeItemFromCart()}>-</Button>
+          </Flex>
+        </Flex>
+      </Box>
+    </Flex>
   );
 };
 

@@ -1,42 +1,119 @@
+import { useUser } from "@auth0/nextjs-auth0";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../../components/Header";
-import styles from "../../styles/Listing/Listing.module.css";
+import {
+  addCart,
+  addFavorite,
+  removeFavorite,
+} from "../../redux/actions";
 
 const listings = ({ item }) => {
+  const [refresh, setRefresh] = useState(false);
   const { description, image, price, rating, title } = item;
+  const { user, error, isLoading } = useUser();
+  const dispatch = useDispatch();
   const priceFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   });
+  //REDUX stores
+  const favorites = useSelector((state) => state.favorites);
+  const cart = useSelector((state) => state.cart);
+
+  useEffect(() => {
+    //Update cart and favorite LocalStorage on any changes
+    localStorage.setItem("cart", JSON.stringify(cart));
+    if (user) {
+      localStorage.setItem(user.name, JSON.stringify(favorites));
+    }
+  }, [favorites, cart]);
+
+  //Add item to REDUX cart store
+  const addToCartHandler = (item) => {
+    setRefresh(!refresh);
+    dispatch(addCart(item));
+    console.log(cart);
+  };
+
+  //Add or remove favorite from REDUX favorite store
+  const favoritesHandler = (item) => {
+    setRefresh(!refresh);
+    const favoritesCopy = favorites;
+    const filteredCopy = favoritesCopy.filter(
+      (favoriteItem) => favoriteItem.id === item.id
+    );
+    filteredCopy.length
+      ? dispatch(removeFavorite(item.id))
+      : dispatch(addFavorite(item));
+  };
+
+  if (isLoading) return <div>Loading Item...</div>;
+  if (error) return <div>{error.message}</div>;
+
   return (
-    <div className="page-container">
+    <Flex direction="column" h="100vh">
       <Header />
-      <div className={styles.content}>
-        <div className={styles.container}>
-          <div className={styles.imageContainer}>
-            <img src={image} alt={title} />
-          </div>
-          <div className={styles.infoContainer}>
-            <div>
-              <h1>{title}</h1>
-            </div>
-            <div className={styles.price}>
-              <h2>{priceFormatter.format(price)}</h2>
-              {/* <h5>{rating.rate}</h5> */}
-            </div>
-            <div>
-              <p>{description}</p>
-            </div>
-            <div className={styles.footer}>
-              <button>Add to cart</button>
-              <button>{`<3`}</button>
-            </div>
-          </div>
-          <button className={styles.return} onClick={() => history.back()}>
+      <Flex
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        h="100%"
+      >
+        <Flex
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          gap={5}
+          p={15}
+          rounded={15}
+          bgColor="rgb(224, 224, 224)"
+          h="50%"
+          w="80%"
+        >
+          <Flex bgColor="white" p={15} rounded={15} gap={5}>
+            <Box>
+              <Image
+                src={image}
+                alt={title}
+                boxSize={350}
+                objectFit="contain"
+              />
+            </Box>
+            <Box bgColor="white" h="100%" w="100%">
+              <Heading>{title}</Heading>
+              <Stack>
+                <Text fontSize="2xl">{priceFormatter.format(price)}</Text>
+                <Text fontSize="2xl">{rating.rate}</Text>
+                <Text>{description}</Text>
+              </Stack>
+              <Flex alignItems="flex-end" justifyContent="center" gap={5}>
+                <Button onClick={() => addToCartHandler(item)}>
+                  Add to cart
+                </Button>
+                {user ? (
+                  <Button onClick={() => favoritesHandler(item)}>{`<3`}</Button>
+                ) : (
+                  <></>
+                )}
+              </Flex>
+            </Box>
+          </Flex>
+          <Button onClick={() => history.back()}>
             Return
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };
 

@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Items from "../components/Items";
 import Categories from "../components/Categories";
-import "../styles/Header/Header.module.css";
-import "../styles/Items/Items.module.css";
+import { Flex, Spinner } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { addItems, addDisplay } from "../redux/actions";
 
@@ -19,17 +18,17 @@ const Home = ({ data }) => {
   }, []);
 
   if (loading) {
-    return <div>LOADING</div>;
+    return <Spinner />;
   }
 
   return (
-    <div className="page-container">
+    <Flex direction="column" height="100vh">
       <Header />
       <Categories />
-      <div className="content">
+      <Flex justifyContent="center" alignItems="center" width="100%" mt={25}>
         <Items />
-      </div>
-    </div>
+      </Flex>
+    </Flex>
   );
 };
 

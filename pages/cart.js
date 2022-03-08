@@ -3,12 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useEffect } from "react";
 import { setFavorite, setCart } from "../redux/actions";
-import "../styles/Header/Header.module.css";
 import CartItem from "../components/CartItem";
-import styles from "../styles/Items/cart.module.css";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { Button, Flex, Heading, Text } from "@chakra-ui/react";
 
 const cart = () => {
   const router = useRouter();
@@ -48,14 +47,17 @@ const cart = () => {
     }
   };
   return (
-    <div className="page-container">
+    <Flex direction="column" height="100vh">
       <Header />
-      <div
-        className="content"
-        style={{ justifyContent: "space-evenly", alignItems: "flex-start" }}
-      >
+      <Flex justifyContent="space-evenly" alignItems="flex-start" mt={25}>
         {/* CART DISPLAY */}
-        <div className="main-container">
+        <Flex
+          direction="column"
+          backgroundColor="rgb(224, 224, 224)"
+          gap={5}
+          p={15}
+          w="60%"
+        >
           {displayCart.map((item, id) => {
             const { price } = item;
             totalCost += price;
@@ -69,25 +71,31 @@ const cart = () => {
             );
           })}
           {/* SUBTOTAL OF COSTS */}
-          <div className={styles.subtotalContainer}>
-            <h3>Subtotal:&nbsp;</h3>
-            <h2>{priceFormatter.format(totalCost)}</h2>
-          </div>
-        </div>
+          <Flex justifyContent="flex-end" alignItems="center">
+            <Text fontSize="x-large">Subtotal:&nbsp;</Text>
+            <Heading>{priceFormatter.format(totalCost)}</Heading>
+          </Flex>
+        </Flex>
         {/* CHECKOUT DISPLAY */}
-        <div className={styles.proceedContainer}>
-          <div className={styles.subtotalContainer}>
-            <h3>Subtotal:&nbsp;</h3>
-            <h2>{priceFormatter.format(totalCost)}</h2>
-          </div>
+        <Flex
+          direction="column"
+          backgroundColor="rgb(224, 224, 224)"
+          p={15}
+          rounded={15}
+          gap={5}
+        >
+          <Flex direction="row" alignItems="center">
+            <Text fontSize="md">Subtotal:&nbsp;</Text>
+            <Heading size="lg">{priceFormatter.format(totalCost)}</Heading>
+          </Flex>
           {cart.length ? (
-            <button onClick={createCheckoutSession}>Proceed to Checkout</button>
+            <Button onClick={createCheckoutSession}>Proceed to Checkout</Button>
           ) : (
-            <button onClick={() => router.push("/")}>Go shopping!</button>
+            <Button onClick={() => router.push("/")}>Go shopping!</Button>
           )}
-        </div>
-      </div>
-    </div>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };
 

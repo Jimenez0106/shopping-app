@@ -2,34 +2,38 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useDispatch, useSelector } from "react-redux";
+import { addFavorite, removeFavorite, addCart } from "../redux/actions";
 import {
-  addFavorite,
-  removeFavorite,
-  removeCart,
-  addCart,
-} from "../redux/actions";
-
-import styles from "../styles/Items/Items.module.css";
+  Box,
+  Button,
+  Checkbox,
+  Flex,
+  Heading,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 
 const Item = ({ item, refresh, setRefresh }) => {
+  const dispatch = useDispatch();
   const { user, error, isLoading } = useUser();
   const { image, price, rating, title, id } = item;
   const priceFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   });
-  const dispatch = useDispatch();
+  //REDUX stores
   const favorites = useSelector((state) => state.favorites);
   const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
+    //Update cart and favorite LocalStorage on any changes
     localStorage.setItem("cart", JSON.stringify(cart));
     if (user) {
       localStorage.setItem(user.name, JSON.stringify(favorites));
     }
   }, [favorites, cart]);
 
-  //ADD OR REMOVE ITEM TO FAVORITES STORE
+  //Add or remove favorite from REDUX favorite store
   const favoritesHandler = (item) => {
     setRefresh(!refresh);
     const favoritesCopy = favorites;
@@ -41,13 +45,13 @@ const Item = ({ item, refresh, setRefresh }) => {
       : dispatch(addFavorite(item));
   };
 
-  //ADD ITEM TO CART STORE
+  //Add item to REDUX cart store
   const addToCartHandler = (item) => {
     setRefresh(!refresh);
     dispatch(addCart(item));
   };
 
-  //LOOK UP LOCAL STORAGE TO SEE IF ITEM IS IN IT, CHECK IF TRUE
+  //Check if item is in favorites LocalStorage, if true 'check' item
   const isChecked = (item) => {
     const userLocalStorage = JSON.parse(localStorage.getItem(user.name));
     if (userLocalStorage === null) return false;
@@ -57,43 +61,72 @@ const Item = ({ item, refresh, setRefresh }) => {
     return isFavorite.length ? true : false;
   };
 
+  if (isLoading) return <div>Loading Item...</div>;
+  if (error) return <div>{error.message}</div>;
+
   return (
-    <div className={styles.card}>
+    <Flex
+      direction="column"
+      position="relative"
+      alignItems="center"
+      flex="1 16%"
+      p={15}
+      border="2px solid rgb(236, 236, 236);"
+      boxShadow="0px 0px 10px 0px rgba(0, 0, 0, 0.25)"
+      bgColor="white"
+      rounded={15}
+    >
       {user ? (
-        <input
-          style={{ cursor: "pointer" }}
-          type="checkbox"
-          onChange={() => {
-            favoritesHandler(item);
-          }}
-          checked={isChecked(item)}
-        />
+        <Flex justifyContent="flex-end" w="100%">
+          <Checkbox
+            type="checkbox"
+            size="lg"
+            colorScheme="red"
+            onChange={() => {
+              favoritesHandler(item);
+            }}
+            isChecked={isChecked(item)}
+          />
+        </Flex>
       ) : (
         <></>
       )}
-      <div className={styles.image}>
+      <Box w="250px" h="250px" display="flex" justifyContent="center">
         <Link href={`/listings/${id}`}>
-          <img src={image} alt={title} />
+          <Image
+            src={image}
+            alt={title}
+            minH="250px"
+            maxW="100%"
+            maxH="100%"
+            objectFit="scale-down"
+            cursor="pointer"
+          />
         </Link>
-      </div>
-      <div className={styles.title}>
+      </Box>
+      <Heading as="h4" size="sm">
         <Link href={`/listings/${id}`}>
-          <h4>{title}</h4>
+          <Text textAlign="center">{title}</Text>
         </Link>
-      </div>
-      <div className={styles.footer}>
-        <div className={styles.price}>
-          <h5>{priceFormatter.format(price)}</h5>
-        </div>
-        <div className={styles.ratings}>
-          <h6>{rating.rate}</h6>
-          <h6>stars here</h6>
-        </div>
-      </div>
-      <div className={styles.buttons}>
-        <button onClick={() => addToCartHandler(item)}>Add to cart</button>
-      </div>
-    </div>
+      </Heading>
+      <Flex
+        direction="row"
+        justifyContent="space-evenly"
+        alignItems="flex-end"
+        w="100%"
+        h="100%"
+      >
+        <Flex alignItems="center" justifyContent="space-evenly" w="100%">
+          <Text m={0} color="darkorange">
+            {priceFormatter.format(price)}
+          </Text>
+          <Text m={0}>{rating.rate} stars</Text>
+        </Flex>
+      </Flex>
+      <Flex>
+        <Button onClick={() => addToCartHandler(item)}>Add to cart</Button>
+      </Flex>
+    </Flex>
   );
 };
 

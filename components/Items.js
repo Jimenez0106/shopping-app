@@ -1,19 +1,20 @@
 import { useUser } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
-import styles from "../styles/Items/Items.module.css";
 import Item from "./Item";
 import { useSelector, useDispatch } from "react-redux";
 import { setCart, setFavorite } from "../redux/actions";
+import { Flex } from "@chakra-ui/react";
 
 const Items = () => {
   const [refresh, setRefresh] = useState(false);
   const { user, error, isLoading } = useUser();
   const dispatch = useDispatch();
+  //Get collection of items from REDUX Store
   const itemDisplay = useSelector((state) => state.display);
   const [display] = itemDisplay;
 
   useEffect(() => {
-    //CHECK CART LOCALSTORAGE FOR HISTORY OF ITEMS, THEN SET TO CART STORE
+    //Check cart LocalStorage for cart history, set it as current REDUX Cart Store
     const cartHistoryCheck = () => {
       if (localStorage.getItem("cart")) {
         JSON.parse(localStorage.getItem("cart")).length
@@ -21,7 +22,7 @@ const Items = () => {
           : "";
       }
     };
-    //CHECK FAVORITE LOCALSTORAGE FOR HISTORY OF ITEMS, THEN SET TO FAVORITES STORE
+    //Check user's favorite LocalStorage for favorite history, set as current REDUX Favorite Store
     const userFavoriteHistoryCheck = () => {
       user && JSON.parse(localStorage.getItem(user.name))
         ? dispatch(setFavorite(JSON.parse(localStorage.getItem(user.name))))
@@ -31,11 +32,17 @@ const Items = () => {
     userFavoriteHistoryCheck();
   }, [user, refresh]);
 
-  if (isLoading) return <div>Loading Items...</div>;
+  if (isLoading) return <div>Obtaining Item Collection...</div>;
   if (error) return <div>{error.message}</div>;
 
   return (
-    <section className={styles.container}>
+    <Flex
+      wrap="wrap"
+      gap={15}
+      width="1200px"
+      backgroundColor="rgb(224, 224, 224)"
+      p={15}
+    >
       {display.map((item) => {
         const { id } = item;
         return (
@@ -47,7 +54,7 @@ const Items = () => {
           />
         );
       })}
-    </section>
+    </Flex>
   );
 };
 

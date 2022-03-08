@@ -1,30 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addCategories,
-  addDisplay,
-  addItems,
-  filterDisplay,
-  removeCategories,
-  resetCategories,
-  resetDisplay,
-  resetItems,
-  setDisplay,
-} from "../redux/actions";
+import { addCategories, resetCategories, setDisplay } from "../redux/actions";
 import { useEffect, useState } from "react";
-import styles from "../styles/Header/Header.module.css";
+import { Button, Flex } from "@chakra-ui/react";
 
 const Categories = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const categories = useSelector((state) => state.categories);
 
-  //itemList will hold all items
+  //REDUX Store
+  const categories = useSelector((state) => state.categories);
   const itemsList = useSelector((state) => state.items);
   const [items] = itemsList;
   const tempCategories = [];
 
   useEffect(() => {
     setLoading(true);
+    //Set item categories
     items.map((item) => {
       const { category } = item;
       tempCategories.includes(category) ? "" : tempCategories.push(category);
@@ -36,6 +27,7 @@ const Categories = () => {
     setLoading(false);
   }, []);
 
+  //Filter display based on selected category
   const filterHandler = (category) => {
     const itemsCopy = items;
     let filteredCopy = itemsCopy.filter((item) => item.category === category);
@@ -49,27 +41,33 @@ const Categories = () => {
   }
 
   return (
-    <div className={styles.header2}>
-      <button
+    <Flex
+      direction="row"
+      alignItems="center"
+      justifyContent="space-evenly"
+      borderBottom="2px solid rgb(224, 224, 224)"
+      p={2}
+    >
+      <Button
         onClick={() => {
           filterHandler("All");
         }}
       >
         All
-      </button>
+      </Button>
       {categories.map((category, index) => {
         return (
-          <button
+          <Button
             key={index}
             onClick={() => {
               filterHandler(category);
             }}
           >
             {category}
-          </button>
+          </Button>
         );
       })}
-    </div>
+    </Flex>
   );
 };
 

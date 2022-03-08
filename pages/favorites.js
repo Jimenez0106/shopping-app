@@ -4,7 +4,7 @@ import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
 import { setFavorite, setCart } from "../redux/actions";
 import FavoriteItem from "../components/FavoriteItem";
-import "../styles/Header/Header.module.css";
+import { Flex } from "@chakra-ui/react";
 
 const favorites = () => {
   const { user, error, isLoading } = useUser();
@@ -19,21 +19,29 @@ const favorites = () => {
     }
   }, [user, refresh]);
 
+  if (isLoading) return <div>loading</div>;
+  if (error) return <div>{error.message}</div>;
   if (user) {
     return (
-      <div className="page-container">
+      <Flex direction="column" h="100vh">
         <Header />
-        <div className="content">
-          <div className="main-container">
+        {/* Page Content */}
+        <Flex justifyContent="center" alignItems="center" w="100%" mt={25}>
+          <Flex
+            direction="column"
+            gap={3}
+            p={15}
+            w="1000px"
+            backgroundColor="rgb(224, 224, 224)"
+          >
             {favorites.map((item) => {
               return <FavoriteItem key={item.id} item={item} user={user} />;
             })}
-          </div>
-        </div>
-      </div>
+          </Flex>
+        </Flex>
+      </Flex>
     );
   }
-  return <div>Loading</div>;
 };
 
 export default favorites;
