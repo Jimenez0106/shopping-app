@@ -4,7 +4,9 @@ import Image from "next/image";
 import logo from "../styles/images/RJ.png";
 import {
   Box,
+  Button,
   Flex,
+  IconButton,
   Input,
   InputGroup,
   InputRightElement,
@@ -15,9 +17,11 @@ import {
   MenuList,
   Stack,
   UnorderedList,
+  useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
-import { useEffect, useState } from "react";
+import { CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setDisplay } from "../redux/actions";
 
@@ -26,11 +30,11 @@ export const Header = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
+  const { toggleColorMode } = useColorMode();
+  const colorMode = useColorModeValue("rgb(224, 224, 224)", "black");
   //REDUX Store
   const itemsCollection = useSelector((state) => state.items);
   const [items] = itemsCollection;
-
-  useEffect(() => {}, []);
 
   //Handle search input
   const searchHandler = () => {
@@ -50,7 +54,7 @@ export const Header = () => {
         direction="row"
         alignItems="center"
         justifyContent="space-evenly"
-        borderBottom="2px solid rgb(224, 224, 224)"
+        borderBottom={`4px solid ${colorMode}`}
       >
         {/* Logo */}
         <Box
@@ -129,6 +133,11 @@ export const Header = () => {
             </ListItem>
           )}
           <ListItem onClick={() => router.push("/cart")}>Cart</ListItem>
+          <IconButton
+            onClick={toggleColorMode}
+            icon={colorMode === "black" ? <MoonIcon /> : <SunIcon />}
+            variant="outline"
+          ></IconButton>
         </UnorderedList>
       </Flex>
     </>
