@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import Image from "next/image";
-import logo from "../styles/images/RJ.png";
+import logo from "../styles/images/RJ Market.png";
 import {
   Box,
   Button,
@@ -31,7 +31,10 @@ export const Header = () => {
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
   const { toggleColorMode } = useColorMode();
-  const colorMode = useColorModeValue("rgb(224, 224, 224)", "black");
+
+  //ChakraUI Themes
+  const colorMode1 = useColorModeValue("white", "#292929");
+
   //REDUX Store
   const itemsCollection = useSelector((state) => state.items);
   const [items] = itemsCollection;
@@ -54,7 +57,7 @@ export const Header = () => {
         direction="row"
         alignItems="center"
         justifyContent="space-evenly"
-        borderBottom={`4px solid ${colorMode}`}
+        bgColor={colorMode1}
       >
         {/* Logo */}
         <Box
@@ -68,7 +71,7 @@ export const Header = () => {
           <Image
             src={logo}
             height={75}
-            width={70}
+            width={250}
             onClick={() => router.push("/")}
           />
         </Box>
@@ -99,17 +102,38 @@ export const Header = () => {
           listStyleType="none"
           display="flex"
           direction="row"
+          fontSize={20}
           gap={15}
         >
-          <ListItem onClick={() => router.push("/")}>Shop</ListItem>
+          {/* Shop Button */}
+          <ListItem
+            onClick={() => router.push("/")}
+            transition="ease-in-out .2s"
+            _hover={{
+              color: "#FF1AF5",
+              borderBottom: "2px solid #FF1AF5",
+              mt: -1,
+            }}
+          >
+            Shop
+          </ListItem>
+
+          {/* User Button */}
           {user ? (
             <Menu>
-              <MenuButton rounded="50%">
+              <MenuButton
+                transition="ease-in-out .2s"
+                _hover={{
+                  color: "#7F70EE",
+                  borderBottom: "2px solid #7F70EE",
+                  mt: -1,
+                }}
+              >
                 <img
                   src={user.picture}
                   alt={user.name}
                   style={{
-                    maxHeight: "27px",
+                    maxHeight: "32px",
                     borderRadius: "15px",
                   }}
                 />
@@ -128,16 +152,35 @@ export const Header = () => {
               </MenuList>
             </Menu>
           ) : (
-            <ListItem onClick={() => router.push("/api/auth/login")}>
+            <ListItem
+              onClick={() => router.push("/api/auth/login")}
+              transition="ease-in-out .2s"
+              _hover={{
+                color: "#7F70EE",
+                borderBottom: "2px solid #7F70EE",
+                mt: -1,
+              }}
+            >
               Login
             </ListItem>
           )}
-          <ListItem onClick={() => router.push("/cart")}>Cart</ListItem>
+          <ListItem
+            onClick={() => router.push("/cart")}
+            transition="ease-in-out .2s"
+            _hover={{
+              color: "#12EAFC",
+              borderBottom: "2px solid #12EAFC",
+              mt: -1,
+            }}
+          >
+            Cart
+          </ListItem>
           <IconButton
+            size="sm"
             onClick={toggleColorMode}
-            icon={colorMode === "black" ? <MoonIcon /> : <SunIcon />}
+            icon={colorMode1 === "black" ? <MoonIcon /> : <SunIcon />}
             variant="outline"
-          ></IconButton>
+          />
         </UnorderedList>
       </Flex>
     </>

@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Items from "../components/Items";
 import Categories from "../components/Categories";
-import { Flex, Spinner } from "@chakra-ui/react";
+import { Flex, Spinner, useColorModeValue } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { addItems, addDisplay } from "../redux/actions";
 
 const Home = ({ data }) => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+
+  //ChakraUI Themes
+  const colorMode1 = useColorModeValue("white", "#121212");
 
   useEffect(() => {
     setLoading(true);
@@ -22,10 +25,10 @@ const Home = ({ data }) => {
   }
 
   return (
-    <Flex direction="column" height="100vh">
+    <Flex direction="column" height="100vh" bgColor={colorMode1} bgPosition="center">
       <Header />
       <Categories />
-      <Flex justifyContent="center" alignItems="center" width="100%" mt={25}>
+      <Flex justifyContent="center" alignItems="center" width="100%" bgColor={colorMode1}>
         <Items />
       </Flex>
     </Flex>

@@ -11,6 +11,8 @@ import {
   Heading,
   Image,
   Text,
+  Tooltip,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 const Item = ({ item, refresh, setRefresh }) => {
@@ -21,6 +23,10 @@ const Item = ({ item, refresh, setRefresh }) => {
     style: "currency",
     currency: "USD",
   });
+
+  //ChakraUI Themes
+  const colorMode1 = useColorModeValue("white", "#343434");
+
   //REDUX stores
   const favorites = useSelector((state) => state.favorites);
   const cart = useSelector((state) => state.cart);
@@ -71,10 +77,9 @@ const Item = ({ item, refresh, setRefresh }) => {
       alignItems="center"
       flex="1 16%"
       p={15}
-      border="2px solid rgb(236, 236, 236);"
       boxShadow="0px 0px 10px 0px rgba(0, 0, 0, 0.25)"
-      bgColor="white"
       rounded={15}
+      bgColor={colorMode1}
     >
       {user ? (
         <Flex justifyContent="flex-end" w="100%">
@@ -89,9 +94,19 @@ const Item = ({ item, refresh, setRefresh }) => {
           />
         </Flex>
       ) : (
-        <></>
+        <Flex justifyContent="flex-end" w="100%">
+          <Tooltip label="Login to Add to Favorites!" shouldWrapChildren>
+            <Checkbox type="checkbox" size="lg" colorScheme="red" isDisabled />
+          </Tooltip>
+        </Flex>
       )}
-      <Box w="250px" h="250px" display="flex" justifyContent="center">
+      <Box
+        w="250px"
+        h="250px"
+        display="flex"
+        justifyContent="center"
+        bg="white"
+      >
         <Link href={`/listings/${id}`}>
           <Image
             src={image}

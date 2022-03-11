@@ -3,12 +3,16 @@ import { useEffect, useState } from "react";
 import Item from "./Item";
 import { useSelector, useDispatch } from "react-redux";
 import { setCart, setFavorite } from "../redux/actions";
-import { Flex } from "@chakra-ui/react";
+import { Flex, useColorModeValue } from "@chakra-ui/react";
 
 const Items = () => {
   const [refresh, setRefresh] = useState(false);
   const { user, error, isLoading } = useUser();
   const dispatch = useDispatch();
+
+  //ChakraUI Themes
+  const colorMode1 = useColorModeValue("white", "#292929");
+
   //Get collection of items from REDUX Store
   const itemDisplay = useSelector((state) => state.display);
   const [display] = itemDisplay;
@@ -38,10 +42,11 @@ const Items = () => {
   return (
     <Flex
       wrap="wrap"
-      gap={15}
-      width="1200px"
-      backgroundColor="rgb(224, 224, 224)"
+      gap={18}
+      width="59%"
+      bgColor={colorMode1}
       p={15}
+      rounded={15}
     >
       {display.map((item) => {
         const { id } = item;

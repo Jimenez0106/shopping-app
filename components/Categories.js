@@ -1,11 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addCategories, resetCategories, setDisplay } from "../redux/actions";
 import { useEffect, useState } from "react";
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex, useColorModeValue } from "@chakra-ui/react";
 
 const Categories = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+
+  //ChakraUI Themes
+  const colorMode1 = useColorModeValue("white", "#292929");
+  const colorMode2 = useColorModeValue("lightgray", "#292929");
 
   //REDUX Store
   const categories = useSelector((state) => state.categories);
@@ -45,8 +49,10 @@ const Categories = () => {
       direction="row"
       alignItems="center"
       justifyContent="space-evenly"
-      borderBottom="2px solid rgb(224, 224, 224)"
-      p={2}
+      mb={10}
+      p={3}
+      bgColor={colorMode1}
+      borderBottom={`3px solid ${colorMode2}`}
     >
       <Button
         onClick={() => {
@@ -56,6 +62,10 @@ const Categories = () => {
         All
       </Button>
       {categories.map((category, index) => {
+        const capitalize = category
+          .split(" ")
+          .map((str) => str.charAt(0).toUpperCase() + str.substring(1))
+          .join(" ");
         return (
           <Button
             key={index}
@@ -63,7 +73,7 @@ const Categories = () => {
               filterHandler(category);
             }}
           >
-            {category}
+            {capitalize}
           </Button>
         );
       })}
