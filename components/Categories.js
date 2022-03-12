@@ -55,6 +55,9 @@ const Categories = () => {
       borderBottom={`3px solid ${colorMode2}`}
     >
       <Button
+        w="100%"
+        variant="ghost"
+        colorScheme="teal"
         onClick={() => {
           filterHandler("All");
         }}
@@ -68,6 +71,9 @@ const Categories = () => {
           .join(" ");
         return (
           <Button
+            w="100%"
+            variant="ghost"
+            colorScheme="teal"
             key={index}
             onClick={() => {
               filterHandler(category);

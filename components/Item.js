@@ -14,6 +14,7 @@ import {
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
+import ReactStars from "react-rating-stars-component";
 
 const Item = ({ item, refresh, setRefresh }) => {
   const dispatch = useDispatch();
@@ -80,18 +81,21 @@ const Item = ({ item, refresh, setRefresh }) => {
       boxShadow="0px 0px 10px 0px rgba(0, 0, 0, 0.25)"
       rounded={15}
       bgColor={colorMode1}
+      gap={3}
     >
       {user ? (
         <Flex justifyContent="flex-end" w="100%">
-          <Checkbox
-            type="checkbox"
-            size="lg"
-            colorScheme="red"
-            onChange={() => {
-              favoritesHandler(item);
-            }}
-            isChecked={isChecked(item)}
-          />
+          <Tooltip label="Add to Favorites!" shouldWrapChildren>
+            <Checkbox
+              type="checkbox"
+              size="lg"
+              colorScheme="red"
+              onChange={() => {
+                favoritesHandler(item);
+              }}
+              isChecked={isChecked(item)}
+            />
+          </Tooltip>
         </Flex>
       ) : (
         <Flex justifyContent="flex-end" w="100%">
@@ -119,11 +123,14 @@ const Item = ({ item, refresh, setRefresh }) => {
           />
         </Link>
       </Box>
-      <Heading as="h4" size="sm">
-        <Link href={`/listings/${id}`}>
-          <Text textAlign="center">{title}</Text>
-        </Link>
-      </Heading>
+      <Flex justifyContent="center" alignItems="center" h="100%">
+        <Heading as="h4" size="sm">
+          <Link href={`/listings/${id}`}>
+            <Text textAlign="center">{title}</Text>
+          </Link>
+        </Heading>
+      </Flex>
+
       <Flex
         direction="row"
         justifyContent="space-evenly"
@@ -131,11 +138,14 @@ const Item = ({ item, refresh, setRefresh }) => {
         w="100%"
         h="100%"
       >
-        <Flex alignItems="center" justifyContent="space-evenly" w="100%">
-          <Text m={0} color="darkorange">
+        <Flex alignItems="center" justifyContent="space-evenly" w="100%" h="100%">
+          <Text m={0} color="darkorange" fontWeight="bold">
             {priceFormatter.format(price)}
           </Text>
-          <Text m={0}>{rating.rate} stars</Text>
+          <Flex>
+            <ReactStars edit={false} value={rating.rate} />
+            <Text size="xs">&nbsp;({rating.rate})</Text>
+          </Flex>
         </Flex>
       </Flex>
       <Flex>
