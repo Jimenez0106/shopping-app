@@ -48,40 +48,58 @@ const account = () => {
               gap={10}
             >
               {/* Name and Image */}
-              <Box>
-                <Image src={user.picture} alt={user.name} rounded="50%" />
+              <Flex
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Image
+                  src={user.picture}
+                  alt={`${user.name}'s Email Icon`}
+                  rounded="50%"
+                />
                 <Heading>Hello, {user.given_name}!</Heading>
-              </Box>
+              </Flex>
               {/* Favorites Container */}
               <Flex direction="column" w="90%" gap={5}>
                 <Heading>Your Favorites:</Heading>
-                <Box gap={0} overflowX="auto">
-                  <Flex direction="row" gap={5}>
-                    {favorites.map((item) => {
-                      const { title, image, id } = item;
-                      return (
-                        <Flex direction="column" minW="200px">
-                          <LinkBox>
-                            <LinkOverlay href={`/listings/${id}`}>
+
+                {/* Favorites */}
+                <Flex direction="row" gap={5} p={5} overflowX="auto">
+                  {favorites.length ? favorites.map((item) => {
+                    const { title, image, id } = item;
+                    return (
+                      <Flex
+                        justifyContent="center"
+                        alignItems="center"
+                        minW="200px"
+                        maxW="200px"
+                        h="100%"
+                      >
+                        <LinkBox>
+                          <LinkOverlay href={`/listings/${id}`}>
+                            <Box bgColor="white" rounded={15} mb={3}>
                               <Image
                                 src={image}
                                 alt={title}
                                 boxSize={200}
                                 objectFit="contain"
                               />
-                              <Text>{title}</Text>
-                            </LinkOverlay>
-                          </LinkBox>
-                        </Flex>
-                      );
-                    })}
-                  </Flex>
-                </Box>
+                            </Box>
+
+                            <Text textAlign="center">{title}</Text>
+                          </LinkOverlay>
+                        </LinkBox>
+                      </Flex>
+                    );
+                  }) : <Text>No items favorited</Text> }
+                  
+                </Flex>
               </Flex>
               {/* Cart Container */}
               <Flex direction="column" w="90%" gap={5}>
                 <Heading>Cart:</Heading>
-                <Box gap={0} overflowX="scroll">
+                <Box overflowX="auto">
                   <Flex direction="row" gap={5}>
                     {cart.map((item) => {
                       const { title, image, id } = item;

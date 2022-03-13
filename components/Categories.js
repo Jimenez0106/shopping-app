@@ -8,8 +8,7 @@ const Categories = () => {
   const [loading, setLoading] = useState(true);
 
   //ChakraUI Themes
-  const colorMode1 = useColorModeValue("white", "#292929");
-  const colorMode2 = useColorModeValue("lightgray", "#292929");
+  const colorMode1 = useColorModeValue("#FFFFFF", "#292929");
 
   //REDUX Store
   const categories = useSelector((state) => state.categories);
@@ -52,12 +51,14 @@ const Categories = () => {
       mb={10}
       p={3}
       bgColor={colorMode1}
-      borderBottom={`3px solid ${colorMode2}`}
+      boxShadow="0 4px 3px -5px #000000"
     >
       <Button
         w="100%"
         variant="ghost"
-        colorScheme="teal"
+        colorScheme="cyan"
+        fontSize={18}
+        fontWeight="bold"
         onClick={() => {
           filterHandler("All");
         }}
@@ -73,7 +74,9 @@ const Categories = () => {
           <Button
             w="100%"
             variant="ghost"
-            colorScheme="teal"
+            colorScheme="cyan"
+            fontSize={18}
+            fontWeight="bold"
             key={index}
             onClick={() => {
               filterHandler(category);

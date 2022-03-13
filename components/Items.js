@@ -43,10 +43,10 @@ const Items = () => {
     <Flex
       wrap="wrap"
       gap={18}
-      width="59%"
-      bgColor={colorMode1}
+      width="90%"
       p={15}
       rounded={15}
+      mb={10}
     >
       {display.map((item) => {
         const { id } = item;

@@ -13,6 +13,7 @@ import {
   ListItem,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
   Stack,
@@ -30,7 +31,7 @@ export const Header = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
-  const { toggleColorMode } = useColorMode();
+  const { toggleColorMode, colorMode } = useColorMode();
 
   //ChakraUI Themes
   const colorMode1 = useColorModeValue("white", "#292929");
@@ -50,7 +51,6 @@ export const Header = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>{error.message}</div>;
-
   return (
     <>
       <Flex
@@ -58,6 +58,7 @@ export const Header = () => {
         alignItems="center"
         justifyContent="space-evenly"
         bgColor={colorMode1}
+        pt={3}
       >
         {/* Logo */}
         <Box
@@ -80,6 +81,7 @@ export const Header = () => {
             {/* Search Bar */}
             <InputGroup>
               <Input
+                focusBorderColor="cyan.400"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 onSubmit={searchHandler()}
@@ -139,13 +141,14 @@ export const Header = () => {
                 />
               </MenuButton>
 
-              <MenuList>
+              <MenuList bgColor={colorMode === "light" ? "#ffffff" : "#222222"}>
                 <MenuItem onClick={() => router.push("/account")}>
                   Account
                 </MenuItem>
                 <MenuItem onClick={() => router.push("/favorites")}>
                   Favorites
                 </MenuItem>
+                <MenuDivider/>
                 <MenuItem onClick={() => router.push("/api/auth/logout")}>
                   Logout
                 </MenuItem>

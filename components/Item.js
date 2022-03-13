@@ -72,21 +72,24 @@ const Item = ({ item, refresh, setRefresh }) => {
   if (error) return <div>{error.message}</div>;
 
   return (
+    //Item container
     <Flex
       direction="column"
       position="relative"
       alignItems="center"
       flex="1 16%"
       p={15}
-      boxShadow="0px 0px 10px 0px rgba(0, 0, 0, 0.25)"
+      boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px;"
       rounded={15}
       bgColor={colorMode1}
       gap={3}
     >
+      {/* Checkbox */}
       {user ? (
         <Flex justifyContent="flex-end" w="100%">
           <Tooltip label="Add to Favorites!" shouldWrapChildren>
             <Checkbox
+              bgColor="gray.300"
               type="checkbox"
               size="lg"
               colorScheme="red"
@@ -104,6 +107,8 @@ const Item = ({ item, refresh, setRefresh }) => {
           </Tooltip>
         </Flex>
       )}
+
+      {/* Image */}
       <Box
         w="250px"
         h="250px"
@@ -123,6 +128,8 @@ const Item = ({ item, refresh, setRefresh }) => {
           />
         </Link>
       </Box>
+
+      {/* Title */}
       <Flex justifyContent="center" alignItems="center" h="100%">
         <Heading as="h4" size="sm">
           <Link href={`/listings/${id}`}>
@@ -131,25 +138,42 @@ const Item = ({ item, refresh, setRefresh }) => {
         </Heading>
       </Flex>
 
+      {/* Price and ratings */}
       <Flex
         direction="row"
         justifyContent="space-evenly"
-        alignItems="flex-end"
+        alignItems="center"
         w="100%"
         h="100%"
       >
-        <Flex alignItems="center" justifyContent="space-evenly" w="100%" h="100%">
+        {/*  */}
+        <Box rounded={15} bgColor="orange.100" px={2}>
           <Text m={0} color="darkorange" fontWeight="bold">
             {priceFormatter.format(price)}
           </Text>
-          <Flex>
-            <ReactStars edit={false} value={rating.rate} />
-            <Text size="xs">&nbsp;({rating.rate})</Text>
-          </Flex>
+        </Box>
+        {/* Ratings */}
+        <Flex alignItems="center">
+          <ReactStars
+            edit={false}
+            value={rating.rate}
+            size={18}
+            activeColor="#F703FE"
+            isHalf
+          />
+          <Text size="xs">&nbsp;({rating.rate})</Text>
         </Flex>
       </Flex>
+
+      {/* Button */}
       <Flex>
-        <Button onClick={() => addToCartHandler(item)}>Add to cart</Button>
+        <Button
+          colorScheme="cyan"
+          variant="ghost"
+          onClick={() => addToCartHandler(item)}
+        >
+          Add to cart
+        </Button>
       </Flex>
     </Flex>
   );
