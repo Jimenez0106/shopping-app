@@ -10,9 +10,6 @@ const Items = () => {
   const { user, error, isLoading } = useUser();
   const dispatch = useDispatch();
 
-  //ChakraUI Themes
-  const colorMode1 = useColorModeValue("white", "#292929");
-
   //Get collection of items from REDUX Store
   const itemDisplay = useSelector((state) => state.display);
   const [display] = itemDisplay;

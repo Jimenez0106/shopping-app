@@ -4,13 +4,16 @@ import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
 import { setFavorite, setCart } from "../redux/actions";
 import FavoriteItem from "../components/FavoriteItem";
-import { Flex } from "@chakra-ui/react";
+import { Flex, useColorMode } from "@chakra-ui/react";
 
 const favorites = () => {
   const { user, error, isLoading } = useUser();
   const [refresh, setRefresh] = useState(false);
   const dispatch = useDispatch();
-  let favorites = useSelector((state) => state.favorites);
+  const favorites = useSelector((state) => state.favorites);
+
+  //ChakraUI Theme
+  const { colorMode } = useColorMode();
 
   useEffect(() => {
     dispatch(setCart(JSON.parse(localStorage.getItem("cart"))));
@@ -23,17 +26,18 @@ const favorites = () => {
   if (error) return <div>{error.message}</div>;
   if (user) {
     return (
-      <Flex direction="column" h="100vh">
+      <Flex
+        direction="column"
+        h="100%"
+        minH="100vh"
+        className={
+          colorMode === "light" ? "background-light" : "background-dark"
+        }
+      >
         <Header />
         {/* Page Content */}
         <Flex justifyContent="center" alignItems="center" w="100%" mt={25}>
-          <Flex
-            direction="column"
-            gap={3}
-            p={15}
-            w="1000px"
-            backgroundColor="rgb(224, 224, 224)"
-          >
+          <Flex direction="column" gap={3} p={15} w="90%">
             {favorites.map((item) => {
               return <FavoriteItem key={item.id} item={item} user={user} />;
             })}

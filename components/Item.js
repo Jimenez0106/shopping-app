@@ -4,6 +4,10 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { useDispatch, useSelector } from "react-redux";
 import { addFavorite, removeFavorite, addCart } from "../redux/actions";
 import {
+  RiShoppingCart2Line as shoppingCart,
+  RiHeartFill as heart,
+} from "react-icons/ri";
+import {
   Box,
   Button,
   Checkbox,
@@ -11,8 +15,10 @@ import {
   Heading,
   Image,
   Text,
+  useToast,
   Tooltip,
   useColorModeValue,
+  Icon,
 } from "@chakra-ui/react";
 import ReactStars from "react-rating-stars-component";
 
@@ -48,14 +54,15 @@ const Item = ({ item, refresh, setRefresh }) => {
       (favoriteItem) => favoriteItem.id === item.id
     );
     filteredCopy.length
-      ? dispatch(removeFavorite(item.id))
-      : dispatch(addFavorite(item));
+      ? (dispatch(removeFavorite(item.id)), favoriteToast())
+      : (dispatch(addFavorite(item)), favoriteToast(true));
   };
 
   //Add item to REDUX cart store
   const addToCartHandler = (item) => {
     setRefresh(!refresh);
     dispatch(addCart(item));
+    cartToast();
   };
 
   //Check if item is in favorites LocalStorage, if true 'check' item
@@ -66,6 +73,63 @@ const Item = ({ item, refresh, setRefresh }) => {
       (favoriteItem) => favoriteItem.id === item.id
     );
     return isFavorite.length ? true : false;
+  };
+
+  //***Toasts***
+  const toast = useToast();
+  //Add to cart
+  const cartToast = () => {
+    toast({
+      render: () => (
+        <Flex
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+          p={2}
+          bg="#9A65FD"
+          color="#000000"
+          border="2px solid #000000"
+          rounded={20}
+          boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          gap={3}
+        >
+          <Icon as={shoppingCart} w="32px" h="32px" />
+          <Box>
+            <Heading fontSize={18} textAlign="center">
+              Added to Cart!
+            </Heading>
+            <Text textAlign="center">{title}</Text>
+          </Box>
+        </Flex>
+      ),
+    });
+  };
+  //Add or remove from favorites
+  const favoriteToast = (isAdded = false) => {
+    toast({
+      render: () => (
+        <Flex
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+          p={2}
+          bg="#FC8181"
+          color="black"
+          border="2px solid #000000"
+          rounded={20}
+          boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          gap={3}
+        >
+          <Icon as={heart} w="32px" h="32px" />
+          <Box>
+            <Heading fontSize={18} textAlign="center">
+              {isAdded ? "Added to Favorites!" : "Removed from Favorites!"}
+            </Heading>
+            <Text textAlign="center">{title}</Text>
+          </Box>
+        </Flex>
+      ),
+    });
   };
 
   if (isLoading) return <div>Loading Item...</div>;
@@ -146,7 +210,7 @@ const Item = ({ item, refresh, setRefresh }) => {
         w="100%"
         h="100%"
       >
-        {/*  */}
+        {/* Price */}
         <Box rounded={15} bgColor="orange.100" px={2}>
           <Text m={0} color="darkorange" fontWeight="bold">
             {priceFormatter.format(price)}

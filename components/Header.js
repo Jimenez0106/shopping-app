@@ -2,10 +2,13 @@ import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import Image from "next/image";
 import logo from "../styles/images/RJ Market.png";
+import { RiShoppingCart2Line as shoppingCart } from "react-icons/ri";
 import {
+  Avatar,
+  AvatarBadge,
   Box,
-  Button,
   Flex,
+  Icon,
   IconButton,
   Input,
   InputGroup,
@@ -17,6 +20,7 @@ import {
   MenuItem,
   MenuList,
   Stack,
+  Text,
   UnorderedList,
   useColorMode,
   useColorModeValue,
@@ -31,9 +35,10 @@ export const Header = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
-  const { toggleColorMode, colorMode } = useColorMode();
+  const cart = useSelector((state) => state.cart);
 
   //ChakraUI Themes
+  const { toggleColorMode, colorMode } = useColorMode();
   const colorMode1 = useColorModeValue("white", "#292929");
 
   //REDUX Store
@@ -113,7 +118,6 @@ export const Header = () => {
             transition="ease-in-out .2s"
             _hover={{
               color: "#FF1AF5",
-              borderBottom: "2px solid #FF1AF5",
               mt: -1,
             }}
           >
@@ -127,20 +131,18 @@ export const Header = () => {
                 transition="ease-in-out .2s"
                 _hover={{
                   color: "#7F70EE",
-                  borderBottom: "2px solid #7F70EE",
                   mt: -1,
                 }}
               >
-                <img
+                <Avatar
                   src={user.picture}
                   alt={user.name}
-                  style={{
-                    maxHeight: "32px",
-                    borderRadius: "15px",
-                  }}
+                  maxH="30px"
+                  maxW="30px"
                 />
               </MenuButton>
 
+              {/* Dropdown Menu */}
               <MenuList bgColor={colorMode === "light" ? "#ffffff" : "#222222"}>
                 <MenuItem onClick={() => router.push("/account")}>
                   Account
@@ -148,7 +150,7 @@ export const Header = () => {
                 <MenuItem onClick={() => router.push("/favorites")}>
                   Favorites
                 </MenuItem>
-                <MenuDivider/>
+                <MenuDivider />
                 <MenuItem onClick={() => router.push("/api/auth/logout")}>
                   Logout
                 </MenuItem>
@@ -160,28 +162,48 @@ export const Header = () => {
               transition="ease-in-out .2s"
               _hover={{
                 color: "#7F70EE",
-                borderBottom: "2px solid #7F70EE",
                 mt: -1,
               }}
             >
               Login
             </ListItem>
           )}
-          <ListItem
-            onClick={() => router.push("/cart")}
-            transition="ease-in-out .2s"
-            _hover={{
-              color: "#12EAFC",
-              borderBottom: "2px solid #12EAFC",
-              mt: -1,
-            }}
-          >
-            Cart
+          {/* Cart Button */}
+          <ListItem onClick={() => router.push("/cart")} maxH="32px">
+            <Avatar
+              w="32px"
+              h="32px"
+              bg={colorMode1}
+              icon={
+                <Icon
+                  color={colorMode === "light" ? "#000000" : "#ffffff"}
+                  as={shoppingCart}
+                  w="32px"
+                  h="32px"
+                  transition="ease-in-out .2s"
+                  _hover={{
+                    color: "#12EAFC",
+                    mt: -1,
+                  }}
+                />
+              }
+            >
+              {/* Cart Badge */}
+              {cart.length ? (
+                <AvatarBadge boxSize="6" bg="#FF1AF5">
+                  <Text fontSize={12} fontWeight="bold" color="#ffffff">
+                    {cart.length}
+                  </Text>
+                </AvatarBadge>
+              ) : (
+                ""
+              )}
+            </Avatar>
           </ListItem>
           <IconButton
             size="sm"
             onClick={toggleColorMode}
-            icon={colorMode1 === "black" ? <MoonIcon /> : <SunIcon />}
+            icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
             variant="outline"
           />
         </UnorderedList>

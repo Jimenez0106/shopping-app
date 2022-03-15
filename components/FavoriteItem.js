@@ -1,26 +1,35 @@
 import {
+  Box,
   Flex,
   Button,
   LinkBox,
+  Icon,
   Image,
   Link,
   LinkOverlay,
   Text,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFavorite, addCart } from "../redux/actions";
+import {
+  RiShoppingCart2Line as shoppingCart,
+  RiHeartFill as heart,
+} from "react-icons/ri";
+import ReactStars from "react-rating-stars-component";
 
 const Favorite = ({ item, user }) => {
   const dispatch = useDispatch();
   const { description, image, price, rating, title, id } = item;
-  const favorites = useSelector((state) => state.favorites);
-  const cart = useSelector((state) => state.cart);
   const priceFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   });
+  //REDUX Stores
+  const favorites = useSelector((state) => state.favorites);
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
     //Update cart and favorite LocalStorage on any changes
@@ -29,6 +38,76 @@ const Favorite = ({ item, user }) => {
       localStorage.setItem(user.name, JSON.stringify(favorites));
     }
   }, [favorites, cart]);
+
+  //***Toasts***
+  const toast = useToast();
+  //Add to cart
+  const cartToast = () => {
+    toast({
+      render: () => (
+        <Flex
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+          p={2}
+          bg="#9A65FD"
+          color="#000000"
+          border="2px solid #000000"
+          rounded={20}
+          boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          gap={3}
+        >
+          <Icon as={shoppingCart} w="32px" h="32px" />
+          <Box>
+            <Heading fontSize={18} textAlign="center">
+              Added to Cart!
+            </Heading>
+            <Text textAlign="center">{title}</Text>
+          </Box>
+        </Flex>
+      ),
+    });
+  };
+
+  //Add or remove from favorites
+  const favoriteToast = (isAdded = false) => {
+    toast({
+      render: () => (
+        <Flex
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+          p={2}
+          bg="#FC8181"
+          color="black"
+          border="2px solid #000000"
+          rounded={20}
+          boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          gap={3}
+        >
+          <Icon as={heart} w="32px" h="32px" />
+          <Box>
+            <Heading fontSize={18} textAlign="center">
+              {isAdded ? "Added to Favorites!" : "Removed from Favorites!"}
+            </Heading>
+            <Text textAlign="center">{title}</Text>
+          </Box>
+        </Flex>
+      ),
+    });
+  };
+
+  //Add Item to cart
+  const addToCart = () => {
+    dispatch(addCart(item));
+    cartToast();
+  };
+
+  //Remove item from favorites
+  const removeFromFavorite = () => {
+    dispatch(removeFavorite(id));
+    favoriteToast();
+  };
 
   return (
     <Flex
@@ -48,14 +127,29 @@ const Favorite = ({ item, user }) => {
         </LinkOverlay>
       </LinkBox>
       {/* Buttons, Item Info, and Item Description */}
-      <Flex justifyContent="space-between" w="100%">
+      <Flex w="100%">
         {/* Item Info */}
         <Flex direction="column" w="40%">
-          <Link href={`/listings/${id}`}>
+          <Link href={`/listings/${id}`} mb={3}>
             <Heading size="sm">{title}</Heading>
           </Link>
-          <Text>{rating.rate}/5</Text>
-          <Text>{priceFormatter.format(price)}</Text>
+          {/* Price */}
+          <Box rounded={15} bgColor="orange.100" px={2} w="77px">
+            <Text m={0} color="darkorange" fontWeight="bold" textAlign="center">
+              {priceFormatter.format(price)}
+            </Text>
+          </Box>
+          {/* Ratings */}
+          <Flex alignItems="center">
+            <ReactStars
+              edit={false}
+              value={rating.rate}
+              size={18}
+              activeColor="#F703FE"
+              isHalf
+            />
+            <Text size="xs">&nbsp;({rating.rate})</Text>
+          </Flex>
         </Flex>
         {/* Description */}
         <Flex w="50%" maxH="80%">
@@ -67,8 +161,18 @@ const Favorite = ({ item, user }) => {
           alignItems="center"
           justifyContent="space-evenly"
         >
-          <Button onClick={() => dispatch(addCart(item))}>Add to Cart</Button>
-          <Button onClick={() => dispatch(removeFavorite(id))}>
+          <Button
+            onClick={() => addToCart()}
+            colorScheme="cyan"
+            variant="ghost"
+          >
+            Add to Cart
+          </Button>
+          <Button
+            onClick={() => removeFromFavorite()}
+            colorScheme="cyan"
+            variant="ghost"
+          >
             Unfavorite
           </Button>
         </Flex>
