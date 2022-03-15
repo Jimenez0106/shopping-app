@@ -24,22 +24,27 @@ const Home = ({ data }) => {
     return <Spinner />;
   }
 
-  return (
-    <Flex
-      direction="column"
-      className={colorMode === "light" ? "background-light" : "background-dark"}
-      minH="100vh"
-      h="100%"
-    >
-      <Header />
-      <Categories />
-      <Flex justifyContent="center" alignItems="center" w="100%" h="100%">
-        <Items />
+  if (data) {
+    return (
+      <Flex
+        direction="column"
+        className={
+          colorMode === "light" ? "background-light" : "background-dark"
+        }
+        minH="100vh"
+        h="100%"
+      >
+        <Header />
+        <Categories />
+        <Flex justifyContent="center" alignItems="center" w="100%" h="100%">
+          <Items />
+        </Flex>
       </Flex>
-    </Flex>
-  );
+    );
+  }
 };
 
+//Fetch fakestoreapi products
 export const getServerSideProps = async () => {
   const res = await fetch("https://fakestoreapi.com/products");
   const data = await res.json();

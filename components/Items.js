@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Item from "./Item";
 import { useSelector, useDispatch } from "react-redux";
 import { setCart, setFavorite } from "../redux/actions";
-import { Flex, useColorModeValue } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 
 const Items = () => {
   const [refresh, setRefresh] = useState(false);

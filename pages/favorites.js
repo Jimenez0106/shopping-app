@@ -10,12 +10,15 @@ const favorites = () => {
   const { user, error, isLoading } = useUser();
   const [refresh, setRefresh] = useState(false);
   const dispatch = useDispatch();
+
+  //REDUX Stores
   const favorites = useSelector((state) => state.favorites);
 
   //ChakraUI Theme
   const { colorMode } = useColorMode();
 
   useEffect(() => {
+    //Set REDUX cart/favorites to current localStorage cart/favorites for page change
     dispatch(setCart(JSON.parse(localStorage.getItem("cart"))));
     if (user) {
       dispatch(setFavorite(JSON.parse(localStorage.getItem(user.name))));
@@ -36,7 +39,12 @@ const favorites = () => {
       >
         <Header />
         {/* Page Content */}
-        <Flex justifyContent="center" alignItems="center" w="100%" mt={25}>
+        <Flex
+          justifyContent="center"
+          alignItems="center"
+          w="100%"
+          mt={25}
+        >
           <Flex direction="column" gap={3} p={15} w="90%">
             {favorites.map((item) => {
               return <FavoriteItem key={item.id} item={item} user={user} />;

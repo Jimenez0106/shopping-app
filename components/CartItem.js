@@ -2,12 +2,29 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { addCart, setCart } from "../redux/actions";
 import { useDispatch } from "react-redux";
-import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 
-const CartItem = ({ item, cart, displayCart }) => {
+const CartItem = ({
+  item,
+  cart,
+  displayCart,
+  font,
+  background,
+  refresh,
+  setRefresh,
+  user,
+  favorites,
+}) => {
   const dispatch = useDispatch();
   const [count, setCount] = useState(0);
-  const [refresh, setRefresh] = useState(false);
+
   const { image, price, rating, title } = item;
   const priceFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -28,6 +45,11 @@ const CartItem = ({ item, cart, displayCart }) => {
         }
       });
     };
+    //Update cart and favorite LocalStorage on any changes
+    localStorage.setItem("cart", JSON.stringify(cart));
+    if (user) {
+      localStorage.setItem(user.name, JSON.stringify(favorites));
+    }
     itemCounter();
   }, [cart, count]);
 
@@ -50,7 +72,7 @@ const CartItem = ({ item, cart, displayCart }) => {
   //Remove 1 item from cart counter
   const removeItemFromCart = () => {
     const cartCopy = cart;
-    const filterLimit = 0;
+    let filterLimit = 0;
     const filteredCopy = cartCopy.filter((cartItem) => {
       if (filterLimit === 0 && cartItem.id === item.id) {
         filterLimit += 1;
@@ -64,25 +86,57 @@ const CartItem = ({ item, cart, displayCart }) => {
   };
 
   return (
-    <Flex direction="row" backgroundColor="white" p={15} rounded={15} gap={15}>
+    <Flex
+      direction="row"
+      backgroundColor={background}
+      color={font}
+      p={15}
+      rounded={15}
+      gap={15}
+    >
       {/* Item Image */}
-      <Box>
-        <Image src={image} alt={title} maxH="180px" maxW="180px" />
+      <Box bg="white" p={3}>
+        <Image src={image} alt={title} boxSize="150px" objectFit="contain" />
       </Box>
       <Box w="100%">
-        {/* Title and Remove Button */}
+        {/* Title and Price */}
         <Flex direction="row" justifyContent="space-between">
           <Heading size="md">{title}</Heading>
-          <Text>{priceFormatter.format(price * count)}</Text>
+          <Text fontWeight="bold" size="lg">
+            {priceFormatter.format(price * count)}
+          </Text>
         </Flex>
-        {/* Price and Quantity */}
-        <Flex direction="row" justifyContent="space-between">
-          <Button onClick={() => removeFromCartHandler(item)}>Remove</Button>
-          <Flex direction="row" gap={3} alignItems="center">
-            <Button size="xs" onClick={() => addItemToCartHandler()}>+</Button>
-            <Text fontSize="xl">{count}</Text>
-            <Button size="xs" onClick={() => removeItemFromCart()}>-</Button>
-          </Flex>
+        {/* Quantity */}
+        <Flex direction="row" alignItems="center" py={1} gap={1}>
+          <Button
+            onClick={() => addItemToCartHandler()}
+            variant="ghost"
+            colorScheme="cyan"
+            fontWeight="bold"
+            fontSize={24}
+          >
+            +
+          </Button>
+          <Text fontSize={24}>{count}</Text>
+          <Button
+            onClick={() => removeItemFromCart()}
+            fontWeight="bold"
+            fontSize={24}
+            variant="ghost"
+            colorScheme="cyan"
+          >
+            -
+          </Button>
+        </Flex>
+        {/* Remove Button*/}
+        <Flex justifyContent="space-between">
+          <Button
+            onClick={() => removeFromCartHandler(item)}
+            variant="ghost"
+            colorScheme="cyan"
+          >
+            Remove
+          </Button>
         </Flex>
       </Box>
     </Flex>

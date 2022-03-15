@@ -10,6 +10,7 @@ import {
   Text,
   Heading,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,9 +28,13 @@ const Favorite = ({ item, user }) => {
     style: "currency",
     currency: "USD",
   });
+
   //REDUX Stores
   const favorites = useSelector((state) => state.favorites);
   const cart = useSelector((state) => state.cart);
+
+  //ChakraUI Theme
+  const background1 = useColorModeValue("white", "#292929");
 
   useEffect(() => {
     //Update cart and favorite LocalStorage on any changes
@@ -119,22 +124,29 @@ const Favorite = ({ item, user }) => {
       rounded={15}
       gap={3}
       minH="235px"
+      bgColor={background1}
     >
       {/* Image */}
-      <LinkBox>
+      <LinkBox bgColor="white">
         <LinkOverlay href={`/listings/${item.id}`}>
-          <Image boxSize="135px" objectFit="contain" src={image} alt={title} />
+          <Image boxSize="180px" objectFit="contain" src={image} alt={title} />
         </LinkOverlay>
       </LinkBox>
       {/* Buttons, Item Info, and Item Description */}
       <Flex w="100%">
         {/* Item Info */}
-        <Flex direction="column" w="40%">
-          <Link href={`/listings/${id}`} mb={3}>
+        <Flex
+          direction="column"
+          w="40%"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          gap={1}
+        >
+          <Link href={`/listings/${id}`}>
             <Heading size="sm">{title}</Heading>
           </Link>
           {/* Price */}
-          <Box rounded={15} bgColor="orange.100" px={2} w="77px">
+          <Box rounded={15} bgColor="orange.100" w="77px">
             <Text m={0} color="darkorange" fontWeight="bold" textAlign="center">
               {priceFormatter.format(price)}
             </Text>
@@ -152,7 +164,7 @@ const Favorite = ({ item, user }) => {
           </Flex>
         </Flex>
         {/* Description */}
-        <Flex w="50%" maxH="80%">
+        <Flex w="50%">
           <Text>{description}</Text>
         </Flex>
         {/* Buttons */}
@@ -160,6 +172,7 @@ const Favorite = ({ item, user }) => {
           direction="column"
           alignItems="center"
           justifyContent="space-evenly"
+          minH="100%"
         >
           <Button
             onClick={() => addToCart()}

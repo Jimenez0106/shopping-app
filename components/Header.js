@@ -100,7 +100,7 @@ export const Header = () => {
             </InputGroup>
           </Stack>
         ) : (
-          <></>
+          <Box w="50%"></Box>
         )}
 
         {/* Menu Buttons */}
