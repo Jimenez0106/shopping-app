@@ -3,12 +3,18 @@ import { useState, useEffect } from "react";
 import { addCart, setCart } from "../redux/actions";
 import { useDispatch } from "react-redux";
 import {
+  RiShoppingCart2Line as shoppingCart,
+  RiHeartFill as heart,
+} from "react-icons/ri";
+import {
   Box,
   Button,
   Flex,
   Heading,
+  Icon,
   Image,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 
 const CartItem = ({
@@ -60,6 +66,7 @@ const CartItem = ({
     dispatch(setCart(filteredCopy));
     localStorage.setItem("cart", JSON.stringify(filteredCopy));
     setRefresh(!refresh);
+    deleteToast();
   };
 
   //Add 1 item to cart counter
@@ -67,6 +74,7 @@ const CartItem = ({
     dispatch(addCart(item));
     localStorage.setItem("cart", JSON.stringify(cart));
     setRefresh(!refresh);
+    cartToast();
   };
 
   //Remove 1 item from cart counter
@@ -83,6 +91,64 @@ const CartItem = ({
     dispatch(setCart(filteredCopy));
     localStorage.setItem("cart", JSON.stringify(filteredCopy));
     setRefresh(!refresh);
+    cartToast(true);
+  };
+
+  //***Toasts***
+  const toast = useToast();
+  //Add or Remove from cart
+  const cartToast = (remove = false) => {
+    toast({
+      render: () => (
+        <Flex
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+          p={2}
+          bg="#9A65FD"
+          color="#000000"
+          border="2px solid #000000"
+          rounded={20}
+          boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          gap={3}
+        >
+          <Icon as={shoppingCart} w="32px" h="32px" />
+          <Box>
+            <Heading fontSize={18} textAlign="center">
+              {remove ? "Removed 1 item from Cart!" : "Added to Cart!"}
+            </Heading>
+            <Text textAlign="center">{title}</Text>
+          </Box>
+        </Flex>
+      ),
+    });
+  };
+  //Delete from cart
+  const deleteToast = () => {
+    toast({
+      render: () => (
+        <Flex
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+          p={2}
+          bg="#FC8181"
+          color="#000000"
+          border="2px solid #000000"
+          rounded={20}
+          boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          gap={3}
+        >
+          <Icon as={shoppingCart} w="32px" h="32px" />
+          <Box>
+            <Heading fontSize={18} textAlign="center">
+              Deleted from Cart!
+            </Heading>
+            <Text textAlign="center">{title}</Text>
+          </Box>
+        </Flex>
+      ),
+    });
   };
 
   return (
@@ -128,14 +194,14 @@ const CartItem = ({
             -
           </Button>
         </Flex>
-        {/* Remove Button*/}
+        {/* Delete Button*/}
         <Flex justifyContent="space-between">
           <Button
             onClick={() => removeFromCartHandler(item)}
             variant="ghost"
             colorScheme="cyan"
           >
-            Remove
+            Delete
           </Button>
         </Flex>
       </Box>

@@ -19,6 +19,8 @@ import {
   Tooltip,
   useColorModeValue,
   Icon,
+  Spinner,
+  useColorMode,
 } from "@chakra-ui/react";
 import ReactStars from "react-rating-stars-component";
 
@@ -33,6 +35,7 @@ const Item = ({ item, refresh, setRefresh }) => {
 
   //ChakraUI Themes
   const colorMode1 = useColorModeValue("white", "#343434");
+  const { colorMode } = useColorMode();
 
   //REDUX stores
   const favorites = useSelector((state) => state.favorites);
@@ -132,7 +135,27 @@ const Item = ({ item, refresh, setRefresh }) => {
     });
   };
 
-  if (isLoading) return <div>Loading Item...</div>;
+  if (isLoading)
+    return (
+      <Flex
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        flex="1 16%"
+        p={15}
+        boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px;"
+        rounded={15}
+        bgColor={colorMode1}
+        gap={3}
+        h="476px"
+      >
+        <Spinner
+          size="xl"
+          thickness="3px"
+          color={colorMode === "light" ? "#FF1AF5" : "#12EAFC"}
+        />
+      </Flex>
+    );
   if (error) return <div>{error.message}</div>;
 
   return (
@@ -179,6 +202,7 @@ const Item = ({ item, refresh, setRefresh }) => {
         display="flex"
         justifyContent="center"
         bg="white"
+        rounded={15}
       >
         <Link href={`/listings/${id}`}>
           <Image

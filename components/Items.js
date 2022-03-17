@@ -33,9 +33,6 @@ const Items = () => {
     userFavoriteHistoryCheck();
   }, [user, refresh]);
 
-  if (isLoading) return <div>Obtaining Item Collection...</div>;
-  if (error) return <div>{error.message}</div>;
-
   return (
     <Flex
       wrap="wrap"

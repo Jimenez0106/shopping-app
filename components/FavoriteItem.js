@@ -133,11 +133,11 @@ const Favorite = ({ item, user }) => {
         </LinkOverlay>
       </LinkBox>
       {/* Buttons, Item Info, and Item Description */}
-      <Flex w="100%">
+      <Flex w="100%" gap={5}>
         {/* Item Info */}
         <Flex
           direction="column"
-          w="40%"
+          w="30%"
           justifyContent="flex-start"
           alignItems="flex-start"
           gap={1}
@@ -164,7 +164,7 @@ const Favorite = ({ item, user }) => {
           </Flex>
         </Flex>
         {/* Description */}
-        <Flex w="50%">
+        <Flex w="100%">
           <Text>{description}</Text>
         </Flex>
         {/* Buttons */}

@@ -29,6 +29,7 @@ import { CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setDisplay } from "../redux/actions";
+import { route } from "next/dist/server/router";
 
 export const Header = () => {
   const { user, error, isLoading } = useUser();
@@ -53,9 +54,7 @@ export const Header = () => {
     );
     dispatch(setDisplay(filteredCopy));
   };
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
+ 
   return (
     <>
       <Flex
@@ -78,7 +77,9 @@ export const Header = () => {
             src={logo}
             height={75}
             width={250}
-            onClick={() => router.push("/")}
+            onClick={() => {
+              router.asPath !== "/" ? router.push("/") : "";
+            }}
           />
         </Box>
         {router.asPath === "/" ? (
@@ -114,7 +115,9 @@ export const Header = () => {
         >
           {/* Shop Button */}
           <ListItem
-            onClick={() => router.push("/")}
+            onClick={() => {
+              router.asPath !== "/" ? router.push("/") : "";
+            }}
             transition="ease-in-out .2s"
             _hover={{
               color: "#FF1AF5",
