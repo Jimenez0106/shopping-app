@@ -21,7 +21,16 @@ const Home = ({ data }) => {
   }, []);
 
   if (loading) {
-    return <Spinner />;
+    return (
+      <Flex
+        direction="column"
+        className={
+          colorMode === "light" ? "background-light" : "background-dark"
+        }
+        minH="100vh"
+        h="100%"
+      ></Flex>
+    );
   }
 
   if (data) {

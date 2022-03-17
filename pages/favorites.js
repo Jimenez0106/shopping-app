@@ -47,7 +47,7 @@ const favorites = () => {
         >
           <Flex direction="column" gap={3} p={15} w="80%">
             {favorites.map((item) => {
-              return <FavoriteItem key={item.id} item={item} user={user} />;
+              return <FavoriteItem key={item.id} item={item} user={user} isLoading={isLoading}/>;
             })}
           </Flex>
         </Flex>

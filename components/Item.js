@@ -21,6 +21,7 @@ import {
   Icon,
   Spinner,
   useColorMode,
+  Skeleton,
 } from "@chakra-ui/react";
 import ReactStars from "react-rating-stars-component";
 
@@ -137,7 +138,7 @@ const Item = ({ item, refresh, setRefresh }) => {
 
   if (isLoading)
     return (
-      <Flex
+      <Skeleton
         direction="column"
         justifyContent="center"
         alignItems="center"
@@ -148,13 +149,7 @@ const Item = ({ item, refresh, setRefresh }) => {
         bgColor={colorMode1}
         gap={3}
         h="476px"
-      >
-        <Spinner
-          size="xl"
-          thickness="3px"
-          color={colorMode === "light" ? "#FF1AF5" : "#12EAFC"}
-        />
-      </Flex>
+      />
     );
   if (error) return <div>{error.message}</div>;
 

@@ -47,7 +47,7 @@ const account = () => {
   }, [user]);
 
   if (isLoading) return <div>Loading Account Page</div>;
-  if (error) return <div>{error.message}</div>;
+
   if (user)
     return (
       <Flex

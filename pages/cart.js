@@ -11,15 +11,18 @@ import {
   Button,
   Flex,
   Heading,
+  Spinner,
   Text,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 
 const cart = () => {
-  const router = useRouter();
   const { user, error, isLoading } = useUser();
+  const router = useRouter();
+
   const dispatch = useDispatch();
+  const [cursor, setCursor] = useState("default");
   const [refresh, setRefresh] = useState(false);
   const [subtotal, setSubtotal] = useState(0);
   const priceFormatter = new Intl.NumberFormat("en-US", {
@@ -29,7 +32,7 @@ const cart = () => {
 
   //REDUX Stores
   const cart = useSelector((state) => state.cart);
-  const favorites = useSelector((state) => state.favorites)
+  const favorites = useSelector((state) => state.favorites);
 
   //Get unique items in cart
   const displayCart = cart.filter(
@@ -70,7 +73,6 @@ const cart = () => {
     }
   };
 
-  if (isLoading) return <div>Loading Account Page</div>;
   if (error) return <div>{error.message}</div>;
   return (
     <Flex
@@ -78,34 +80,49 @@ const cart = () => {
       minH="100vh"
       h="100%"
       className={colorMode === "light" ? "background-light" : "background-dark"}
+      cursor={cursor}
     >
       <Header />
       <Flex justifyContent="space-evenly" alignItems="flex-start" mt={25}>
         {/* Cart Display Container */}
-        <Flex direction="column" gap={5} p={15} w="60%">
-          {/* Cart Items */}
-          {displayCart.map((item, id) => {
-            return (
-              <CartItem
-                key={id}
-                item={item}
-                cart={cart}
-                displayCart={displayCart}
-                font={font}
-                background={background1}
-                refresh={refresh}
-                setRefresh={setRefresh}
-                user={user}
-                favorites={favorites}
-              />
-            );
-          })}
-          {/* Subtotal */}
-          <Flex justifyContent="flex-end" alignItems="center">
-            <Text fontSize="x-large">Subtotal:&nbsp;</Text>
-            <Heading>{priceFormatter.format(subtotal)}</Heading>
+        {!isLoading ? (
+          <Spinner />
+        ) : (
+          <Flex direction="column" gap={5} p={15} w="60%">
+            {/* Has items in cart */}
+            {cart.length ? (
+              <>
+                {displayCart.map((item, id) => {
+                  return (
+                    <CartItem
+                      key={id}
+                      item={item}
+                      cart={cart}
+                      displayCart={displayCart}
+                      font={font}
+                      background={background1}
+                      refresh={refresh}
+                      setRefresh={setRefresh}
+                      user={user}
+                      favorites={favorites}
+                    />
+                  );
+                })}
+                {/* Subtotal */}
+                <Flex justifyContent="flex-end" alignItems="center">
+                  <Text fontSize="x-large">Subtotal:&nbsp;</Text>
+                  <Heading>{priceFormatter.format(subtotal)}</Heading>
+                </Flex>
+              </>
+            ) : (
+              //No items in cart
+              <Flex justifyContent="center" alignItems="center">
+                <Heading>Your cart has no items!</Heading>
+              </Flex>
+            )}
           </Flex>
-        </Flex>
+        )}
+
         {/* Checkout Container */}
         <Flex
           direction="column"
@@ -130,7 +147,10 @@ const cart = () => {
             </Button>
           ) : (
             <Button
-              onClick={() => router.push("/")}
+              onClick={() => {
+                router.push("/");
+                setCursor("wait");
+              }}
               variant="ghost"
               colorScheme="cyan"
             >

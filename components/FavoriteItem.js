@@ -11,6 +11,7 @@ import {
   Heading,
   useToast,
   useColorModeValue,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +22,7 @@ import {
 } from "react-icons/ri";
 import ReactStars from "react-rating-stars-component";
 
-const Favorite = ({ item, user }) => {
+const Favorite = ({ item, user, isLoading }) => {
   const dispatch = useDispatch();
   const { description, image, price, rating, title, id } = item;
   const priceFormatter = new Intl.NumberFormat("en-US", {
@@ -35,6 +36,7 @@ const Favorite = ({ item, user }) => {
 
   //ChakraUI Theme
   const background1 = useColorModeValue("white", "#292929");
+  const spinner = useColorModeValue("#FF1AF5", "#12EAFC");
 
   useEffect(() => {
     //Update cart and favorite LocalStorage on any changes
@@ -113,11 +115,26 @@ const Favorite = ({ item, user }) => {
     dispatch(removeFavorite(id));
     favoriteToast();
   };
+  if (isLoading)
+    return (
+      <Flex
+        w="90%"
+        direction="row"
+        alignItems="center"
+        justifyContent="center"
+        p={5}
+        rounded={15}
+        gap={3}
+        minH="235px"
+        bgColor={background1}
+      >
+        <Spinner size="xl" thickness="3px" color={spinner} />
+      </Flex>
+    );
 
   return (
     <Flex
       direction="row"
-      backgroundColor="white"
       alignItems="center"
       justifyContent="center"
       p={5}
