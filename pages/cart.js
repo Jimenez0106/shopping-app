@@ -11,6 +11,7 @@ import {
   Button,
   Flex,
   Heading,
+  Skeleton,
   Spinner,
   Text,
   useColorMode,
@@ -85,8 +86,10 @@ const cart = () => {
       <Header />
       <Flex justifyContent="space-evenly" alignItems="flex-start" mt={25}>
         {/* Cart Display Container */}
-        {!isLoading ? (
-          <Spinner />
+        {isLoading ? (
+          <Flex direction="column" gap={5} p={15} w="60%" h="203px">
+            <Skeleton p={15} rounded={15} gap={15} h="203px" />
+          </Flex>
         ) : (
           <Flex direction="column" gap={5} p={15} w="60%">
             {/* Has items in cart */}

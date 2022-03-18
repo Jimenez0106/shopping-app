@@ -4,7 +4,7 @@ import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
 import { setFavorite, setCart } from "../redux/actions";
 import FavoriteItem from "../components/FavoriteItem";
-import { Flex, useColorMode } from "@chakra-ui/react";
+import { Box, Flex, Skeleton, useColorMode } from "@chakra-ui/react";
 
 const favorites = () => {
   const { user, error, isLoading } = useUser();
@@ -25,35 +25,32 @@ const favorites = () => {
     }
   }, [user, refresh]);
 
-  if (isLoading) return <div>loading</div>;
   if (error) return <div>{error.message}</div>;
-  if (user) {
-    return (
-      <Flex
-        direction="column"
-        h="100%"
-        minH="100vh"
-        className={
-          colorMode === "light" ? "background-light" : "background-dark"
-        }
-      >
-        <Header />
-        {/* Page Content */}
-        <Flex
-          justifyContent="center"
-          alignItems="center"
-          w="100%"
-          mt={25}
-        >
-          <Flex direction="column" gap={3} p={15} w="80%">
-            {favorites.map((item) => {
-              return <FavoriteItem key={item.id} item={item} user={user} isLoading={isLoading}/>;
-            })}
-          </Flex>
+  return (
+    <Flex
+      direction="column"
+      h="100%"
+      minH="100vh"
+      className={colorMode === "light" ? "background-light" : "background-dark"}
+    >
+      <Header />
+      {/* Page Content */}
+      <Flex justifyContent="center" alignItems="center" w="100%" mt={25}>
+        <Flex direction="column" gap={3} p={15} w="80%">
+          {favorites.map((item) => {
+            return (
+              <FavoriteItem
+                key={item.id}
+                item={item}
+                user={user}
+                isLoading={isLoading}
+              />
+            );
+          })}
         </Flex>
       </Flex>
-    );
-  }
+    </Flex>
+  );
 };
 
 export default favorites;

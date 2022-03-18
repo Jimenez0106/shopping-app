@@ -29,7 +29,7 @@ const Home = ({ data }) => {
         }
         minH="100vh"
         h="100%"
-      ></Flex>
+      />
     );
   }
 

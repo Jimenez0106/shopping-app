@@ -19,8 +19,6 @@ import {
   Tooltip,
   useColorModeValue,
   Icon,
-  Spinner,
-  useColorMode,
   Skeleton,
 } from "@chakra-ui/react";
 import ReactStars from "react-rating-stars-component";
@@ -36,7 +34,6 @@ const Item = ({ item, refresh, setRefresh }) => {
 
   //ChakraUI Themes
   const colorMode1 = useColorModeValue("white", "#343434");
-  const { colorMode } = useColorMode();
 
   //REDUX stores
   const favorites = useSelector((state) => state.favorites);
@@ -192,8 +189,8 @@ const Item = ({ item, refresh, setRefresh }) => {
 
       {/* Image */}
       <Box
-        w="250px"
-        h="250px"
+        w="200px"
+        h="200px"
         display="flex"
         justifyContent="center"
         bg="white"
@@ -203,7 +200,7 @@ const Item = ({ item, refresh, setRefresh }) => {
           <Image
             src={image}
             alt={title}
-            minH="250px"
+            minH="200px"
             maxW="100%"
             maxH="100%"
             objectFit="scale-down"
@@ -247,7 +244,6 @@ const Item = ({ item, refresh, setRefresh }) => {
           <Text size="xs">&nbsp;({rating.rate})</Text>
         </Flex>
       </Flex>
-
       {/* Button */}
       <Flex>
         <Button

@@ -11,9 +11,11 @@ import {
   Heading,
   useToast,
   useColorModeValue,
-  Spinner,
+  Skeleton,
+  Hide,
+  Show,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFavorite, addCart } from "../redux/actions";
 import {
@@ -23,6 +25,7 @@ import {
 import ReactStars from "react-rating-stars-component";
 
 const Favorite = ({ item, user, isLoading }) => {
+  const [hidden, setHidden] = useState(true);
   const dispatch = useDispatch();
   const { description, image, price, rating, title, id } = item;
   const priceFormatter = new Intl.NumberFormat("en-US", {
@@ -36,7 +39,6 @@ const Favorite = ({ item, user, isLoading }) => {
 
   //ChakraUI Theme
   const background1 = useColorModeValue("white", "#292929");
-  const spinner = useColorModeValue("#FF1AF5", "#12EAFC");
 
   useEffect(() => {
     //Update cart and favorite LocalStorage on any changes
@@ -117,8 +119,7 @@ const Favorite = ({ item, user, isLoading }) => {
   };
   if (isLoading)
     return (
-      <Flex
-        w="90%"
+      <Skeleton
         direction="row"
         alignItems="center"
         justifyContent="center"
@@ -127,87 +128,187 @@ const Favorite = ({ item, user, isLoading }) => {
         gap={3}
         minH="235px"
         bgColor={background1}
-      >
-        <Spinner size="xl" thickness="3px" color={spinner} />
-      </Flex>
+      />
     );
-
   return (
-    <Flex
-      direction="row"
-      alignItems="center"
-      justifyContent="center"
-      p={5}
-      rounded={15}
-      gap={3}
-      minH="235px"
-      bgColor={background1}
-    >
-      {/* Image */}
-      <LinkBox bgColor="white">
-        <LinkOverlay href={`/listings/${item.id}`}>
-          <Image boxSize="180px" objectFit="contain" src={image} alt={title} />
-        </LinkOverlay>
-      </LinkBox>
-      {/* Buttons, Item Info, and Item Description */}
-      <Flex w="100%" gap={5}>
-        {/* Item Info */}
+    <>
+      <Hide below="md">
         <Flex
-          direction="column"
-          w="30%"
-          justifyContent="flex-start"
-          alignItems="flex-start"
-          gap={1}
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          p={5}
+          rounded={15}
+          gap={3}
+          minH="235px"
+          bgColor={background1}
         >
-          <Link href={`/listings/${id}`}>
-            <Heading size="sm">{title}</Heading>
-          </Link>
-          {/* Price */}
-          <Box rounded={15} bgColor="orange.100" w="77px">
-            <Text m={0} color="darkorange" fontWeight="bold" textAlign="center">
-              {priceFormatter.format(price)}
-            </Text>
-          </Box>
-          {/* Ratings */}
-          <Flex alignItems="center">
-            <ReactStars
-              edit={false}
-              value={rating.rate}
-              size={18}
-              activeColor="#F703FE"
-              isHalf
-            />
-            <Text size="xs">&nbsp;({rating.rate})</Text>
+          {/* Image */}
+          <LinkBox bgColor="white">
+            <LinkOverlay href={`/listings/${item.id}`}>
+              <Image
+                boxSize="180px"
+                objectFit="contain"
+                src={image}
+                alt={title}
+              />
+            </LinkOverlay>
+          </LinkBox>
+          {/* Buttons, Item Info, and Item Description */}
+          <Flex w="100%" gap={5}>
+            {/* Item Info */}
+            <Flex
+              direction="column"
+              w="100%"
+              justifyContent="flex-start"
+              alignItems="flex-start"
+              gap={1}
+            >
+              <Link href={`/listings/${id}`}>
+                <Heading size="sm">{title}</Heading>
+              </Link>
+              {/* Price */}
+              <Box rounded={15} bgColor="orange.100" w="77px">
+                <Text
+                  m={0}
+                  color="darkorange"
+                  fontWeight="bold"
+                  textAlign="center"
+                >
+                  {priceFormatter.format(price)}
+                </Text>
+              </Box>
+              {/* Ratings */}
+              <Flex alignItems="center">
+                <ReactStars
+                  edit={false}
+                  value={rating.rate}
+                  size={18}
+                  activeColor="#F703FE"
+                  isHalf
+                />
+                <Text size="xs">&nbsp;({rating.rate})</Text>
+              </Flex>
+            </Flex>
+            {/* Description */}
+            <Flex w="100%">
+              <Text>{description}</Text>
+            </Flex>
+            {/* Buttons */}
+            <Flex
+              direction="column"
+              alignItems="center"
+              justifyContent="space-evenly"
+              minH="100%"
+            >
+              <Button
+                onClick={() => addToCart()}
+                colorScheme="cyan"
+                variant="ghost"
+              >
+                Add to Cart
+              </Button>
+              <Button
+                onClick={() => removeFromFavorite()}
+                colorScheme="cyan"
+                variant="ghost"
+              >
+                Unfavorite
+              </Button>
+            </Flex>
           </Flex>
         </Flex>
-        {/* Description */}
-        <Flex w="100%">
-          <Text>{description}</Text>
-        </Flex>
-        {/* Buttons */}
+      </Hide>
+
+      {/* Mobile Favorites Display */}
+      <Show below="md">
         <Flex
           direction="column"
           alignItems="center"
-          justifyContent="space-evenly"
-          minH="100%"
+          justifyContent="center"
+          p={6}
+          rounded={15}
+          gap={3}
+          bgColor={background1}
         >
-          <Button
-            onClick={() => addToCart()}
-            colorScheme="cyan"
-            variant="ghost"
+          {/* Image */}
+          <LinkBox bgColor="white">
+            <LinkOverlay href={`/listings/${item.id}`}>
+              <Image
+                boxSize="180px"
+                objectFit="contain"
+                src={image}
+                alt={title}
+              />
+            </LinkOverlay>
+          </LinkBox>
+          {/* Description and Price/ratings */}
+          <Flex
+            direction="row"
+            justifyContent="space-evenly"
+            alignItems="center"
           >
-            Add to Cart
-          </Button>
-          <Button
-            onClick={() => removeFromFavorite()}
-            colorScheme="cyan"
-            variant="ghost"
-          >
-            Unfavorite
-          </Button>
+            <Flex direction="column" alignItems="center" w="100%">
+              {hidden ? (
+                <Text px={3} noOfLines={2}>
+                  {description}
+                </Text>
+              ) : (
+                <Text px={3}>{description}</Text>
+              )}
+              <Button
+                variant="link"
+                pb={5}
+                colorScheme="blue"
+                size="sm"
+                onClick={() => setHidden(!hidden)}
+              >
+                {hidden ? "Show More" : "Show Less"}
+              </Button>
+              {/* Price and Ratings */}
+              {/* Price */}
+              <Box rounded={15} bgColor="orange.100" w="77px">
+                <Text
+                  m={0}
+                  color="darkorange"
+                  fontWeight="bold"
+                  textAlign="center"
+                >
+                  {priceFormatter.format(price)}
+                </Text>
+              </Box>
+              {/* Ratings */}
+              <Flex alignItems="center">
+                <ReactStars
+                  edit={false}
+                  value={rating.rate}
+                  size={18}
+                  activeColor="#F703FE"
+                  isHalf
+                />
+                <Text size="xs">&nbsp;({rating.rate})</Text>
+              </Flex>
+              <Flex direction="row">
+                <Button
+                  onClick={() => addToCart()}
+                  colorScheme="cyan"
+                  variant="ghost"
+                >
+                  Add to Cart
+                </Button>
+                <Button
+                  onClick={() => removeFromFavorite()}
+                  colorScheme="cyan"
+                  variant="ghost"
+                >
+                  Unfavorite
+                </Button>
+              </Flex>
+            </Flex>
+          </Flex>
         </Flex>
-      </Flex>
-    </Flex>
+      </Show>
+    </>
   );
 };
 

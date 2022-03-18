@@ -39,14 +39,15 @@ const account = () => {
   const tooltip2 = useColorModeValue("#fff", "#4F4F4F");
 
   useEffect(() => {
-    //Set REDUX cart/favorites to current localStorage cart/favorites for page change
+    //Set REDUX cart/favorites to current localStorage cart/favorites for page refresh
     dispatch(setCart(JSON.parse(localStorage.getItem("cart"))));
     if (user) {
       dispatch(setFavorite(JSON.parse(localStorage.getItem(user.name))));
     }
   }, [user]);
 
-  if (isLoading) return <div>Loading Account Page</div>;
+  if (isLoading) return <Flex></Flex>;
+  if (error) return <div>{error.message}</div>
 
   if (user)
     return (
