@@ -113,11 +113,17 @@ const cart = () => {
             background={background1}
             font={font}
             setCursor={setCursor}
+            display={displayCart}
           />
         </Hide>
       </Flex>
       <Show below="md">
-        <Checkout background={background1} font={font} setCursor={setCursor} display={displayCart} />
+        <Checkout
+          background={background1}
+          font={font}
+          setCursor={setCursor}
+          display={displayCart}
+        />
       </Show>
     </Flex>
   );
