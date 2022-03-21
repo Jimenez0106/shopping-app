@@ -44,10 +44,10 @@ const success = () => {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        mt="75px"
+        h="100vh"
         gap={25}
       >
-        <Box width="600px">
+        <Flex justifyContent="center" alignItems="center" w="600px">
           <Alert
             status="success"
             variant="subtle"
@@ -65,7 +65,7 @@ const success = () => {
               You should receive an order confirmation email shortly.
             </AlertDescription>
           </Alert>
-        </Box>
+        </Flex>
         <Button
           border="2px solid #000"
           colorScheme="cyan"
