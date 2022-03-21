@@ -7,7 +7,6 @@ import { useEffect } from "react";
 import {
   Avatar,
   Box,
-  Checkbox,
   Flex,
   Heading,
   Image,
@@ -40,14 +39,18 @@ const account = () => {
 
   useEffect(() => {
     //Set REDUX cart/favorites to current localStorage cart/favorites for page refresh
+    console.log(favorites);
+
     dispatch(setCart(JSON.parse(localStorage.getItem("cart"))));
     if (user) {
-      dispatch(setFavorite(JSON.parse(localStorage.getItem(user.name))));
+      localStorage.getItem(user.name) !== null
+        ? dispatch(setFavorite(JSON.parse(localStorage.getItem(user.name))))
+        : "";
     }
   }, [user]);
 
   if (isLoading) return <Flex></Flex>;
-  if (error) return <div>{error.message}</div>
+  if (error) return <div>{error.message}</div>;
 
   if (user)
     return (
@@ -86,7 +89,7 @@ const account = () => {
                   rounded="50%"
                   size="2xl"
                 />
-                <Heading>Hello, {user.given_name}!</Heading>
+                <Heading>Hello, {user.name}!</Heading>
               </Flex>
 
               {/* Favorites Container */}

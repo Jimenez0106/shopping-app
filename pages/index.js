@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Items from "../components/Items";
 import Categories from "../components/Categories";
-import { color, Flex, Spinner, useColorMode } from "@chakra-ui/react";
+import { Flex, useColorMode } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { addItems, addDisplay } from "../redux/actions";
+import { useUser } from "@auth0/nextjs-auth0";
 
 const Home = ({ data }) => {
+  const { user, error, isLoading } = useUser();
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 

@@ -21,7 +21,9 @@ const favorites = () => {
     //Set REDUX cart/favorites to current localStorage cart/favorites for page change
     dispatch(setCart(JSON.parse(localStorage.getItem("cart"))));
     if (user) {
-      dispatch(setFavorite(JSON.parse(localStorage.getItem(user.name))));
+      localStorage.getItem(user.name) !== null
+        ? dispatch(setFavorite(JSON.parse(localStorage.getItem(user.name))))
+        : "";
     }
   }, [user, refresh]);
 
@@ -37,16 +39,20 @@ const favorites = () => {
       {/* Page Content */}
       <Flex justifyContent="center" alignItems="center" w="100%" mt={25}>
         <Flex direction="column" gap={3} p={15} w="80%">
-          {favorites.map((item) => {
-            return (
-              <FavoriteItem
-                key={item.id}
-                item={item}
-                user={user}
-                isLoading={isLoading}
-              />
-            );
-          })}
+          {favorites.length ? (
+            favorites.map((item) => {
+              return (
+                <FavoriteItem
+                  key={item.id}
+                  item={item}
+                  user={user}
+                  isLoading={isLoading}
+                />
+              );
+            })
+          ) : (
+            <Flex>You have no favorited items!</Flex>
+          )}
         </Flex>
       </Flex>
     </Flex>
