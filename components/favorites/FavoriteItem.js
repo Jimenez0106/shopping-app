@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFavorite, addCart } from "../redux/actions";
+import { removeFavorite, addCart } from "../../redux/actions";
 import {
   RiShoppingCart2Line as shoppingCart,
   RiHeartFill as heart,

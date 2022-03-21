@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { addCart, setCart } from "../redux/actions";
 import { useDispatch } from "react-redux";
 import {
   RiShoppingCart2Line as shoppingCart,
@@ -16,6 +15,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import { addCart, setCart } from "../../redux/actions";
 
 const CartItem = ({
   item,
@@ -30,7 +30,6 @@ const CartItem = ({
 }) => {
   const dispatch = useDispatch();
   const [count, setCount] = useState(0);
-
   const { image, price, rating, title } = item;
   const priceFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -99,6 +98,7 @@ const CartItem = ({
   //Add or Remove from cart
   const cartToast = (remove = false) => {
     toast({
+      duration: 2000,
       render: () => (
         <Flex
           direction="row"
@@ -126,6 +126,7 @@ const CartItem = ({
   //Delete from cart
   const deleteToast = () => {
     toast({
+      duration: 2000,
       render: () => (
         <Flex
           direction="row"

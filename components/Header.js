@@ -91,6 +91,9 @@ export const Header = () => {
         py={3}
         px={1}
         cursor={cursor}
+        pos="fixed"
+        w="100%"
+        zIndex={2}
       >
         {/* Logo */}
         {/* Show logo everywhere but shop page */}
@@ -310,43 +313,49 @@ export const Header = () => {
                 variant="outline"
               />
               <MenuList bgColor={colorMode === "light" ? "#ffffff" : "#222222"}>
-                {/* Categories */}
-                <MenuOptionGroup title="Filter Categories">
-                  <MenuItem
-                    onClick={() => {
-                      filterHandler("All");
-                    }}
-                  >
-                    All
-                    <Box w="100%" />
-                    <ChevronRightIcon />
-                  </MenuItem>
-                  {categories.map((category, index) => {
-                    const capitalize = category
-                      .split(" ")
-                      .map(
-                        (str) => str.charAt(0).toUpperCase() + str.substring(1)
-                      )
-                      .join(" ");
-                    return (
-                      <MenuItem
-                        key={index}
-                        onClick={() => {
-                          filterHandler(category);
-                        }}
-                      >
-                        <Flex
-                          justifyContent="space-between"
-                          alignItems="center"
-                          w="100%"
+                {router.asPath === "/" ? (
+                  //Categories
+                  <MenuOptionGroup title="Filter Categories">
+                    <MenuItem
+                      onClick={() => {
+                        filterHandler("All");
+                      }}
+                    >
+                      All
+                      <Box w="100%" />
+                      <ChevronRightIcon />
+                    </MenuItem>
+                    {categories.map((category, index) => {
+                      const capitalize = category
+                        .split(" ")
+                        .map(
+                          (str) =>
+                            str.charAt(0).toUpperCase() + str.substring(1)
+                        )
+                        .join(" ");
+                      return (
+                        <MenuItem
+                          key={index}
+                          onClick={() => {
+                            filterHandler(category);
+                          }}
                         >
-                          {capitalize}
-                          <ChevronRightIcon />
-                        </Flex>
-                      </MenuItem>
-                    );
-                  })}
-                </MenuOptionGroup>
+                          <Flex
+                            justifyContent="space-between"
+                            alignItems="center"
+                            w="100%"
+                          >
+                            {capitalize}
+                            <ChevronRightIcon />
+                          </Flex>
+                        </MenuItem>
+                      );
+                    })}
+                  </MenuOptionGroup>
+                ) : (
+                  ""
+                )}
+
                 <MenuDivider />
                 {user ? (
                   <MenuOptionGroup title="Profile">

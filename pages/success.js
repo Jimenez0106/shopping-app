@@ -44,7 +44,7 @@ const success = () => {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        mt={25}
+        mt="75px"
         gap={25}
       >
         <Box width="600px">

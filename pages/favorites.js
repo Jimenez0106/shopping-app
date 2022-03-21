@@ -3,8 +3,8 @@ import Header from "../components/Header";
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
 import { setFavorite, setCart } from "../redux/actions";
-import FavoriteItem from "../components/FavoriteItem";
-import { Box, Flex, Skeleton, useColorMode } from "@chakra-ui/react";
+import FavoriteItem from "../components/favorites/FavoriteItem";
+import { Flex, useColorMode } from "@chakra-ui/react";
 
 const favorites = () => {
   const { user, error, isLoading } = useUser();
@@ -37,7 +37,7 @@ const favorites = () => {
     >
       <Header />
       {/* Page Content */}
-      <Flex justifyContent="center" alignItems="center" w="100%" mt={25}>
+      <Flex justifyContent="center" alignItems="center" w="100%" mt="75px">
         <Flex direction="column" gap={3} p={15} w="80%">
           {favorites.length ? (
             favorites.map((item) => {

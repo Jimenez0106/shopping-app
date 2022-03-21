@@ -63,7 +63,7 @@ const account = () => {
         }
       >
         <Header />
-        <Flex justifyContent="center" alignItems="center" w="100%" mt={25}>
+        <Flex justifyContent="center" alignItems="center" w="100%" mt="75px">
           <Flex
             direction="column"
             justifyContent="flex-start"

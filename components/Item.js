@@ -146,6 +146,7 @@ const Item = ({ item, refresh, setRefresh }) => {
         bgColor={colorMode1}
         gap={3}
         h="476px"
+        minW="256px"
       />
     );
   if (error) return <div>{error.message}</div>;

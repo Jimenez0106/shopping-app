@@ -47,7 +47,7 @@ const Home = ({ data }) => {
       >
         <Header />
         <Categories />
-        <Flex justifyContent="center" alignItems="center" w="100%" h="100%">
+        <Flex justifyContent="center" alignItems="center" w="100%" h="100%" mt="75px">
           <Items />
         </Flex>
       </Flex>

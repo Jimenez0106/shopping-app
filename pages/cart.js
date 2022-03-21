@@ -3,29 +3,26 @@ import { useSelector, useDispatch } from "react-redux";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
 import { setFavorite, setCart } from "../redux/actions";
-import CartItem from "../components/CartItem";
-import { loadStripe } from "@stripe/stripe-js";
-import axios from "axios";
-import { useRouter } from "next/router";
+import CartItem from "../components/cart/CartItem";
 import {
-  Button,
   Flex,
   Heading,
+  Hide,
+  Show,
   Skeleton,
-  Spinner,
   Text,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
+import Checkout from "../components/cart/Checkout";
 
 const cart = () => {
   const { user, error, isLoading } = useUser();
-  const router = useRouter();
 
   const dispatch = useDispatch();
+  const [subtotal, setSubtotal] = useState(0);
   const [cursor, setCursor] = useState("default");
   const [refresh, setRefresh] = useState(false);
-  const [subtotal, setSubtotal] = useState(0);
   const priceFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -55,24 +52,8 @@ const cart = () => {
     cart.map((item) => {
       total += item.price;
     });
-    setSubtotal(total);
+    setSubtotal(priceFormatter.format(total));
   }, [user, refresh]);
-
-  //Stripe Setup
-  const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
-  const stripePromise = loadStripe(publishableKey);
-  const createCheckoutSession = async () => {
-    const stripe = await stripePromise;
-    const checkoutSession = await axios.post("/api/checkout_sessions", {
-      items: displayCart,
-    });
-    const result = await stripe.redirectToCheckout({
-      sessionId: checkoutSession.data.id,
-    });
-    if (result.error) {
-      alert(result.error.message);
-    }
-  };
 
   if (error) return <div>{error.message}</div>;
   return (
@@ -84,14 +65,14 @@ const cart = () => {
       cursor={cursor}
     >
       <Header />
-      <Flex justifyContent="space-evenly" alignItems="flex-start" mt={25}>
+      <Flex justifyContent="space-evenly" alignItems="flex-start" mt="75px">
         {/* Cart Display Container */}
         {isLoading ? (
           <Flex direction="column" gap={5} p={15} w="60%" h="203px">
             <Skeleton p={15} rounded={15} gap={15} h="203px" />
           </Flex>
         ) : (
-          <Flex direction="column" gap={5} p={15} w="60%">
+          <Flex direction="column" gap={5} p={15} w="60%" minW="412px">
             {/* Has items in cart */}
             {cart.length ? (
               <>
@@ -114,7 +95,7 @@ const cart = () => {
                 {/* Subtotal */}
                 <Flex justifyContent="flex-end" alignItems="center">
                   <Text fontSize="x-large">Subtotal:&nbsp;</Text>
-                  <Heading>{priceFormatter.format(subtotal)}</Heading>
+                  <Heading>{subtotal}</Heading>
                 </Flex>
               </>
             ) : (
@@ -127,41 +108,17 @@ const cart = () => {
         )}
 
         {/* Checkout Container */}
-        <Flex
-          direction="column"
-          backgroundColor={background1}
-          color={font}
-          p={15}
-          rounded={15}
-          gap={5}
-        >
-          <Flex direction="row" alignItems="center">
-            <Text fontSize="md">Subtotal:&nbsp;</Text>
-            <Heading size="lg">{priceFormatter.format(subtotal)}</Heading>
-          </Flex>
-          {/* Button */}
-          {cart.length ? (
-            <Button
-              onClick={createCheckoutSession}
-              variant="ghost"
-              colorScheme="cyan"
-            >
-              Proceed to Checkout
-            </Button>
-          ) : (
-            <Button
-              onClick={() => {
-                router.push("/");
-                setCursor("wait");
-              }}
-              variant="ghost"
-              colorScheme="cyan"
-            >
-              Go shopping!
-            </Button>
-          )}
-        </Flex>
+        <Hide below="md">
+          <Checkout
+            background={background1}
+            font={font}
+            setCursor={setCursor}
+          />
+        </Hide>
       </Flex>
+      <Show below="md">
+        <Checkout background={background1} font={font} setCursor={setCursor} display={displayCart} />
+      </Show>
     </Flex>
   );
 };
