@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import Image from "next/image";
-import logo from "../styles/images/RJ Market.png";
+import logo from "../../styles/images/RJ Market.png";
 import { RiShoppingCart2Line as shoppingCart } from "react-icons/ri";
 import {
   Avatar,
@@ -39,7 +39,9 @@ import { CgProfile } from "react-icons/cg";
 import { BsFillHeartFill, BsDoorOpenFill } from "react-icons/bs";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setDisplay } from "../redux/actions";
+import { setDisplay } from "../../redux/actions";
+import Banner from "./Banner";
+import Categories from "./Categories";
 
 export const Header = () => {
   const { user, error, isLoading } = useUser();
@@ -82,7 +84,15 @@ export const Header = () => {
   };
 
   return (
-    <>
+    <Flex direction="column" position="fixed" zIndex={2} w="100%">
+      {router.asPath === "/" ? (
+        <Show below="md">
+          <Banner colorMode1={colorMode1} />
+        </Show>
+      ) : (
+        ""
+      )}
+
       <Flex
         direction="row"
         alignItems="center"
@@ -91,9 +101,7 @@ export const Header = () => {
         py={3}
         px={1}
         cursor={cursor}
-        pos="fixed"
         w="100%"
-        zIndex={2}
       >
         {/* Logo */}
         {/* Show logo everywhere but shop page */}
@@ -351,12 +359,12 @@ export const Header = () => {
                         </MenuItem>
                       );
                     })}
+                    <MenuDivider />
                   </MenuOptionGroup>
                 ) : (
                   ""
                 )}
 
-                <MenuDivider />
                 {user ? (
                   <MenuOptionGroup title="Profile">
                     <MenuItem onClick={() => router.push("/account")}>
@@ -379,13 +387,13 @@ export const Header = () => {
                         <BsFillHeartFill />
                       </Flex>
                     </MenuItem>
+                    <MenuDivider />
                   </MenuOptionGroup>
                 ) : (
                   ""
                 )}
                 {/* Account */}
 
-                <MenuDivider />
                 {/* Logout and Theme */}
                 <MenuOptionGroup title="Settings">
                   <MenuItem onClick={() => toggleColorMode()}>
@@ -427,7 +435,8 @@ export const Header = () => {
           </Show>
         </UnorderedList>
       </Flex>
-    </>
+      {router.asPath === "/" ? <Categories /> : ""}
+    </Flex>
   );
 };
 

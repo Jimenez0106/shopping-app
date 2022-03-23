@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import Header from "../components/Header";
-import Items from "../components/Items";
-import Categories from "../components/Categories";
+import Header from "../components/header/Header";
+import Items from "../components/items/Items";
 import { Flex, useColorMode } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { addItems, addDisplay } from "../redux/actions";
@@ -46,7 +45,6 @@ const Home = ({ data }) => {
         h="100%"
       >
         <Header />
-        <Categories />
         <Flex justifyContent="center" alignItems="center" w="100%" h="100%" mt="75px">
           <Items />
         </Flex>

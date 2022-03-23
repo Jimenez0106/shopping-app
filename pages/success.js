@@ -12,7 +12,7 @@ import {
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 import { setCart } from "../redux/actions";
 
 const success = () => {

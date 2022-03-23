@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addCategories, resetCategories, setDisplay } from "../redux/actions";
-import { useEffect, useState } from "react";
+import { addCategories, resetCategories, setDisplay } from "../../redux/actions";
+import { useEffect } from "react";
 import { Button, Flex, Hide, useColorModeValue } from "@chakra-ui/react";
 
 const Categories = () => {
@@ -42,7 +42,6 @@ const Categories = () => {
         direction="row"
         alignItems="center"
         justifyContent="space-evenly"
-        mb={10}
         p={3}
         bgColor={colorMode1}
         boxShadow="0 4px 3px -5px #000000"

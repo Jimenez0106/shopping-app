@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useDispatch, useSelector } from "react-redux";
-import { addFavorite, removeFavorite, addCart } from "../redux/actions";
+import { addFavorite, removeFavorite, addCart } from "../../redux/actions";
 import {
   RiShoppingCart2Line as shoppingCart,
   RiHeartFill as heart,

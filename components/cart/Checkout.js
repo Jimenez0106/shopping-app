@@ -29,6 +29,8 @@ const Checkout = ({ background, font, setCursor, display }) => {
 
   return (
     <Flex
+      justifyContent="center"
+      alignItems="center"
       direction="column"
       backgroundColor={background}
       color={font}

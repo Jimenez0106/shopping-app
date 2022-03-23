@@ -38,7 +38,7 @@ const Favorite = ({ item, user, isLoading }) => {
   const cart = useSelector((state) => state.cart);
 
   //ChakraUI Theme
-  const background1 = useColorModeValue("white", "#292929");
+  const background1 = useColorModeValue("#fff", "#292929");
 
   useEffect(() => {
     //Update cart and favorite LocalStorage on any changes
@@ -144,7 +144,7 @@ const Favorite = ({ item, user, isLoading }) => {
           bgColor={background1}
         >
           {/* Image */}
-          <LinkBox bgColor="white">
+          <LinkBox bgColor="white" minW="100px">
             <LinkOverlay href={`/listings/${item.id}`}>
               <Image
                 boxSize="180px"
@@ -160,7 +160,7 @@ const Favorite = ({ item, user, isLoading }) => {
             <Flex
               direction="column"
               w="100%"
-              justifyContent="flex-start"
+              justifyContent="center"
               alignItems="flex-start"
               gap={1}
             >
@@ -168,30 +168,32 @@ const Favorite = ({ item, user, isLoading }) => {
                 <Heading size="sm">{title}</Heading>
               </Link>
               {/* Price */}
-              <Box rounded={15} bgColor="orange.100" w="77px">
-                <Text
-                  m={0}
-                  color="darkorange"
-                  fontWeight="bold"
-                  textAlign="center"
-                >
-                  {priceFormatter.format(price)}
-                </Text>
+              <Box minW="150px">
+                <Box rounded={15} bgColor="orange.100" w="77px">
+                  <Text
+                    m={0}
+                    color="darkorange"
+                    fontWeight="bold"
+                    textAlign="center"
+                  >
+                    {priceFormatter.format(price)}
+                  </Text>
+                </Box>
+                {/* Ratings */}
+                <Flex alignItems="center">
+                  <ReactStars
+                    edit={false}
+                    value={rating.rate}
+                    size={18}
+                    activeColor="#F703FE"
+                    isHalf
+                  />
+                  <Text size="xs">&nbsp;({rating.rate})</Text>
+                </Flex>
               </Box>
-              {/* Ratings */}
-              <Flex alignItems="center">
-                <ReactStars
-                  edit={false}
-                  value={rating.rate}
-                  size={18}
-                  activeColor="#F703FE"
-                  isHalf
-                />
-                <Text size="xs">&nbsp;({rating.rate})</Text>
-              </Flex>
             </Flex>
             {/* Description */}
-            <Flex w="100%">
+            <Flex w="100%" minW={250}>
               <Text>{description}</Text>
             </Flex>
             {/* Buttons */}
@@ -250,9 +252,11 @@ const Favorite = ({ item, user, isLoading }) => {
           >
             <Flex direction="column" alignItems="center" w="100%">
               {hidden ? (
-                <Text px={3} noOfLines={2}>
-                  {description}
-                </Text>
+                <Box minW={250}>
+                  <Text px={3} noOfLines={2}>
+                    {description}
+                  </Text>
+                </Box>
               ) : (
                 <Text px={3}>{description}</Text>
               )}

@@ -4,9 +4,12 @@ import {
   Button,
   Flex,
   Heading,
+  Hide,
   HStack,
   Icon,
   Image,
+  Show,
+  Skeleton,
   Text,
   useColorMode,
   useColorModeValue,
@@ -14,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../../components/Header";
+import Header from "../../components/header/Header";
 import { addCart, addFavorite, removeFavorite } from "../../redux/actions";
 import ReactStars from "react-rating-stars-component";
 import {
@@ -36,7 +39,7 @@ const listings = ({ item }) => {
 
   //ChakraUI Themes
   const { colorMode } = useColorMode();
-  const background1 = useColorModeValue("#fff", "#000");
+  const background1 = useColorModeValue("#fff", "#292929");
 
   //REDUX stores
   const favorites = useSelector((state) => state.favorites);
@@ -126,9 +129,37 @@ const listings = ({ item }) => {
     });
   };
 
-  if (isLoading) return <div>Loading Item...</div>;
-  if (error) return <div>{error.message}</div>;
+  if (isLoading)
+    return (
+      <Flex
+        direction="column"
+        className={
+          colorMode === "light" ? "background-light" : "background-dark"
+        }
+        h="100vh"
+      >
+        <Header />
+        <Flex
+          direction="column"
+          justifyContent="center"
+          alignItems="center"
+          h="100%"
+        >
+          <Skeleton
+            justifyContent="center"
+            alignItems="center"
+            gap={5}
+            rounded={15}
+            h="400px"
+            w="70%"
+            p={15}
+            mb={25}
+          ></Skeleton>
+        </Flex>
+      </Flex>
+    );
 
+  if (error) return <div>{error.message}</div>;
   return (
     <Flex
       direction="column"
@@ -144,88 +175,180 @@ const listings = ({ item }) => {
         alignItems="center"
         h="100%"
       >
-        {/* Main Container */}
-        <Flex
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          gap={5}
-          rounded={15}
-          bgColor={background1}
-          h="400px"
-          w="60%"
-          p={15}
-          mb={25}
-        >
-          {/* Image */}
+        <Hide below="md">
+          {/* Main Container */}
           <Flex
+            direction="row"
             justifyContent="center"
             alignItems="center"
-            minW="200px"
-            h="300px"
+            gap={5}
+            rounded={15}
+            bgColor={background1}
+            h="400px"
+            w="70%"
+            p={15}
+            mb={25}
           >
-            <Image
-              minH="200px"
-              maxW="100%"
-              maxH="100%"
-              objectFit="contain"
-              src={image}
-              alt={title}
-              p={15}
-            />
+            {/* Image */}
+            <Flex
+              justifyContent="center"
+              alignItems="center"
+              minW="200px"
+              h="300px"
+              bg="#fff"
+              rounded={15}
+            >
+              <Image
+                minH="200px"
+                maxW="100%"
+                maxH="100%"
+                objectFit="contain"
+                src={image}
+                alt={title}
+                p={15}
+              />
+            </Flex>
+            {/* Info Container */}
+            <Flex
+              direction="column"
+              justifyContent="flex-start"
+              h="100%"
+              w="100%"
+              gap={5}
+            >
+              <Heading textAlign="center">{title}</Heading>
+              <Box w="100%">
+                {/* Price */}
+                <Box rounded={15} bgColor="orange.100" w="77px">
+                  <Text
+                    m={0}
+                    color="darkorange"
+                    fontWeight="bold"
+                    textAlign="center"
+                  >
+                    {priceFormatter.format(price)}
+                  </Text>
+                </Box>
+                {/* Ratings */}
+                <Flex>
+                  <ReactStars
+                    edit={false}
+                    value={rating.rate}
+                    size={18}
+                    activeColor="#F703FE"
+                    isHalf
+                  />
+                  <Text size="xs">&nbsp;({rating.rate})</Text>
+                </Flex>
+              </Box>
+
+              <Text>{description}</Text>
+              <HStack justifyContent="center" alignItems="flex-end" h="100%">
+                <Button
+                  size="lg"
+                  colorScheme="cyan"
+                  variant="ghost"
+                  onClick={() => addToCartHandler()}
+                >
+                  Add to Cart
+                </Button>
+                <Button
+                  size="lg"
+                  colorScheme="cyan"
+                  variant="ghost"
+                  onClick={() => favoritesHandler()}
+                >
+                  Favorite
+                </Button>
+              </HStack>
+            </Flex>
           </Flex>
-          {/* Info Container */}
+        </Hide>
+
+        {/* Mobile */}
+        <Show below="md">
           <Flex
             direction="column"
-            justifyContent="flex-start"
-            h="100%"
-            gap={15}
+            alignItems="center"
+            justifyContent="center"
+            p={6}
+            rounded={15}
+            gap={3}
+            bgColor={background1}
+            mb={25}
           >
-            <Heading>{title}</Heading>
-            {/* Ratings */}
-            <Flex alignItems="center">
-              <ReactStars
-                edit={false}
-                value={rating.rate}
-                size={18}
-                activeColor="#F703FE"
-                isHalf
+            <Heading textAlign="center">{title}</Heading>
+            {/* Image */}
+            <Flex
+              justifyContent="center"
+              alignItems="center"
+              minW="200px"
+              h="300px"
+              bg="#fff"
+              rounded={15}
+            >
+              <Image
+                minH="200px"
+                maxW="100%"
+                maxH="100%"
+                objectFit="contain"
+                src={image}
+                alt={title}
+                p={15}
               />
-              <Text size="xs">&nbsp;({rating.rate})</Text>
-              {/* Price */}
-              <Box rounded={15} bgColor="orange.100" w="77px">
-                <Text
-                  m={0}
-                  color="darkorange"
-                  fontWeight="bold"
-                  textAlign="center"
-                >
-                  {priceFormatter.format(price)}
-                </Text>
-              </Box>
             </Flex>
-
-            <Text>{description}</Text>
-            <HStack justifyContent="center" alignItems="flex-end" h="100%">
-              <Button
-                size="lg"
-                colorScheme="cyan"
-                variant="ghost"
-                onClick={() => addToCartHandler()}
-              >
-                Add to Cart!
-              </Button>
-              <Button
-                size="lg"
-                colorScheme="cyan"
-                variant="ghost"
-                onClick={() => favoritesHandler()}
-              >
-                Favorite!
-              </Button>
-            </HStack>
+            {/* Description and Price/ratings */}
+            <Flex
+              direction="row"
+              justifyContent="space-evenly"
+              alignItems="center"
+            >
+              <Flex direction="column" alignItems="center" w="100%">
+                <Text px={3}>{description}</Text>
+                {/* Price */}
+                <Box minW="150px">
+                  <Box rounded={15} bgColor="orange.100" w="77px">
+                    <Text
+                      m={0}
+                      color="darkorange"
+                      fontWeight="bold"
+                      textAlign="center"
+                    >
+                      {priceFormatter.format(price)}
+                    </Text>
+                  </Box>
+                  {/* Ratings */}
+                  <Flex alignItems="center">
+                    <ReactStars
+                      edit={false}
+                      value={rating.rate}
+                      size={18}
+                      activeColor="#F703FE"
+                      isHalf
+                    />
+                    <Text size="xs">&nbsp;({rating.rate})</Text>
+                  </Flex>
+                </Box>
+                <Flex direction="row">
+                  <Button
+                    onClick={() => addToCart()}
+                    colorScheme="cyan"
+                    variant="ghost"
+                  >
+                    Add to Cart
+                  </Button>
+                  <Button
+                    onClick={() => removeFromFavorite()}
+                    colorScheme="cyan"
+                    variant="ghost"
+                  >
+                    Unfavorite
+                  </Button>
+                </Flex>
+              </Flex>
+            </Flex>
           </Flex>
-        </Flex>
+        </Show>
         <Button
           border="2px solid #000"
           colorScheme="cyan"

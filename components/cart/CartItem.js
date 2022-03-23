@@ -1,10 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  RiShoppingCart2Line as shoppingCart,
-  RiHeartFill as heart,
-} from "react-icons/ri";
+import { RiShoppingCart2Line as shoppingCart } from "react-icons/ri";
 import {
   Box,
   Button,
@@ -16,6 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { addCart, setCart } from "../../redux/actions";
+import { useRouter } from "next/router";
 
 const CartItem = ({
   item,
@@ -28,9 +26,10 @@ const CartItem = ({
   user,
   favorites,
 }) => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [count, setCount] = useState(0);
-  const { image, price, rating, title } = item;
+  const { image, price, title, id } = item;
   const priceFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -163,7 +162,14 @@ const CartItem = ({
     >
       {/* Item Image */}
       <Box bg="white" p={3}>
-        <Image src={image} alt={title} boxSize="150px" objectFit="contain" />
+        <Image
+          src={image}
+          alt={title}
+          boxSize="150px"
+          objectFit="contain"
+          cursor="pointer"
+          onClick={() => router.push(`/listings/${id}`)}
+        />
       </Box>
       <Box w="100%">
         {/* Title and Price */}

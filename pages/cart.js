@@ -1,4 +1,4 @@
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 import { useSelector, useDispatch } from "react-redux";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
@@ -65,7 +65,7 @@ const cart = () => {
       cursor={cursor}
     >
       <Header />
-      <Flex justifyContent="space-evenly" alignItems="flex-start" mt="75px">
+      <Flex justifyContent="space-evenly" alignItems="flex-start" mt={75}>
         {/* Cart Display Container */}
         {isLoading ? (
           <Flex direction="column" gap={5} p={15} w="60%" h="203px">

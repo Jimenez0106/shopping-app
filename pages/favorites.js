@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import Header from "../components/Header";
+import Header from "../components/header/Header";
 import { useUser, withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
 import { setFavorite, setCart } from "../redux/actions";
@@ -38,8 +38,8 @@ const favorites = () => {
       <Header />
       {/* Page Content */}
       <Flex justifyContent="center" alignItems="center" w="100%" mt="75px">
-        <Flex direction="column" gap={3} p={15} w="80%">
-          {favorites.length ? (
+        <Flex direction="column" gap={3} p={15} w="90%">
+          {favorites.length && favorites !== null ? (
             favorites.map((item) => {
               return (
                 <FavoriteItem

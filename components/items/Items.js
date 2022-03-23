@@ -2,7 +2,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { useEffect, useState } from "react";
 import Item from "./Item";
 import { useSelector, useDispatch } from "react-redux";
-import { setCart, setFavorite } from "../redux/actions";
+import { setCart, setFavorite } from "../../redux/actions";
 import { Flex } from "@chakra-ui/react";
 
 const Items = () => {
@@ -41,6 +41,7 @@ const Items = () => {
       p={15}
       rounded={15}
       mb={10}
+      mt={75}
     >
       {display.map((item) => {
         const { id } = item;
