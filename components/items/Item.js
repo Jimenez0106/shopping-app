@@ -166,24 +166,21 @@ const Item = ({ item, refresh, setRefresh }) => {
     >
       {/* Checkbox */}
       {user ? (
-        <Flex justifyContent="flex-end" w="100%">
+        <Flex justifyContent="flex-end" w="100%" pt={2} pr={2}>
           <Tooltip label="Add to Favorites!" shouldWrapChildren>
-            <Checkbox
-              bgColor="gray.300"
+            <input
               type="checkbox"
-              size="lg"
-              colorScheme="red"
               onChange={() => {
                 favoritesHandler(item);
               }}
-              isChecked={isChecked(item)}
+              checked={isChecked(item)}
             />
           </Tooltip>
         </Flex>
       ) : (
         <Flex justifyContent="flex-end" w="100%">
           <Tooltip label="Login to Add to Favorites!" shouldWrapChildren>
-            <Checkbox type="checkbox" size="lg" colorScheme="red" isDisabled />
+            <input type="checkbox" disabled="disabled" onChange={false} />
           </Tooltip>
         </Flex>
       )}
@@ -245,6 +242,7 @@ const Item = ({ item, refresh, setRefresh }) => {
           <Text size="xs">&nbsp;({rating.rate})</Text>
         </Flex>
       </Flex>
+      
       {/* Button */}
       <Flex>
         <Button

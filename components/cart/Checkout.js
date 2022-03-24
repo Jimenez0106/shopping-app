@@ -2,10 +2,10 @@ import React from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex, Heading, HStack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
-const Checkout = ({ background, font, setCursor, display }) => {
+const Checkout = ({ background, font, setCursor, display, subtotal }) => {
   const router = useRouter();
 
   //REDUX Stores
@@ -38,6 +38,13 @@ const Checkout = ({ background, font, setCursor, display }) => {
       rounded={15}
       gap={5}
     >
+      <HStack>
+        <Text>Subtotal:</Text>
+        <Heading size="md" textAlign="center">
+          {subtotal}
+        </Heading>
+      </HStack>
+
       {/* Checkout Button */}
       {cart.length ? (
         <Button

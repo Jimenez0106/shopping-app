@@ -9,6 +9,7 @@ import {
   Heading,
   Icon,
   Image,
+  Skeleton,
   Text,
   useToast,
 } from "@chakra-ui/react";
@@ -25,6 +26,7 @@ const CartItem = ({
   setRefresh,
   user,
   favorites,
+  isLoading,
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -151,6 +153,13 @@ const CartItem = ({
     });
   };
 
+  if (isLoading)
+    return (
+      <Flex direction="column" w="100%" minW="412px">
+        <Skeleton rounded={15} h="204px" />
+      </Flex>
+    );
+
   return (
     <Flex
       direction="row"
@@ -161,7 +170,7 @@ const CartItem = ({
       gap={15}
     >
       {/* Item Image */}
-      <Box bg="white" p={3}>
+      <Box bg="white" p={3} rounded={15}>
         <Image
           src={image}
           alt={title}

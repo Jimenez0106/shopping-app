@@ -19,6 +19,8 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
+import FavoriteItems from "../components/account/favoriteItems";
+import CartItems from "../components/account/cartItems";
 
 const account = () => {
   const { user, error, isLoading } = useUser();
@@ -27,11 +29,6 @@ const account = () => {
   //REDUX Stores
   const favorites = useSelector((state) => state.favorites);
   const cart = useSelector((state) => state.cart);
-
-  //Get unique items in cart
-  const displayCart = cart.filter(
-    (v, i, a) => a.findIndex((t) => t.id === v.id) === i
-  );
 
   //ChakraUI Theme
   const { colorMode } = useColorMode();
@@ -114,148 +111,20 @@ const account = () => {
             </Flex>
 
             {/* Favorites Container */}
-            <Flex direction="column" w="90%" gap={5}>
-              <Heading>Favorite items</Heading>
-
-              {/* Favorites */}
-              <Flex
-                direction="row"
-                gap={5}
-                p={5}
-                overflowX="auto"
-                bgColor={background1}
-                rounded={15}
-                className="horizontal"
-                minH={300}
-              >
-                {favorites.length && favorites !== null ? (
-                  favorites.map((item) => {
-                    const { title, image, id } = item;
-                    return (
-                      <Flex
-                        key={id}
-                        justifyContent="center"
-                        alignItems="center"
-                        minW="200px"
-                        maxW="200px"
-                        h="100%"
-                      >
-                        <Tooltip
-                          label={title}
-                          shouldWrapChildren
-                          openDelay={300}
-                          bgColor={tooltip2}
-                          color={tooltip1}
-                          textAlign="center"
-                          rounded={15}
-                        >
-                          <LinkBox>
-                            <LinkOverlay href={`/listings/${id}`}>
-                              <Box
-                                bgColor="white"
-                                rounded={15}
-                                mb={3}
-                                p={3}
-                                maxH="300px"
-                                maxW="200px"
-                              >
-                                <Image
-                                  src={image}
-                                  alt={title}
-                                  boxSize={200}
-                                  objectFit="contain"
-                                />
-                                <Text
-                                  textAlign="center"
-                                  isTruncated
-                                  color="#000"
-                                >
-                                  {title}
-                                </Text>
-                              </Box>
-                            </LinkOverlay>
-                          </LinkBox>
-                        </Tooltip>
-                      </Flex>
-                    );
-                  })
-                ) : (
-                  <Text>No items favorited</Text>
-                )}
-              </Flex>
-            </Flex>
+            <FavoriteItems
+              favorites={favorites}
+              background1={background1}
+              tooltip1={tooltip1}
+              tooltip2={tooltip2}
+            />
 
             {/* Cart Container */}
-            <Flex direction="column" w="90%" gap={5} mb={10}>
-              <Heading>Cart items</Heading>
-
-              {/* Cart */}
-              <Flex
-                direction="row"
-                gap={5}
-                p={5}
-                overflowX="auto"
-                className="horizontal"
-                bgColor={background1}
-                rounded={15}
-                minH={300}
-              >
-                {cart.length ? (
-                  displayCart.map((item) => {
-                    const { title, image, id } = item;
-                    return (
-                      <Flex
-                        key={id}
-                        justifyContent="center"
-                        alignItems="center"
-                        minW="200px"
-                        maxW="200px"
-                        h="100%"
-                      >
-                        <Tooltip
-                          label={title}
-                          openDelay={300}
-                          shouldWrapChildren
-                          bgColor={tooltip2}
-                          color={tooltip1}
-                          textAlign="center"
-                          rounded={15}
-                        >
-                          <LinkBox>
-                            <LinkOverlay href={`/listings/${id}`}>
-                              <Box
-                                bgColor="white"
-                                rounded={15}
-                                mb={3}
-                                p={3}
-                                maxH="300px"
-                                maxW="200px"
-                              >
-                                <Image
-                                  src={image}
-                                  alt={title}
-                                  boxSize={200}
-                                  objectFit="contain"
-                                />
-                                <Text
-                                  textAlign="center"
-                                  isTruncated
-                                  color="#000"
-                                >
-                                  {title}
-                                </Text>
-                              </Box>
-                            </LinkOverlay>
-                          </LinkBox>
-                        </Tooltip>
-                      </Flex>
-                    );
-                  })
-                ) : (
-                  <Text>No items in cart</Text>
-                )}
-              </Flex>
-            </Flex>
+            <CartItems
+              cart={cart}
+              background1={background1}
+              tooltip1={tooltip1}
+              tooltip2={tooltip2}
+            />
           </Flex>
         </Flex>
       </Flex>

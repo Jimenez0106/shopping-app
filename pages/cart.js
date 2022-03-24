@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { setFavorite, setCart } from "../redux/actions";
 import CartItem from "../components/cart/CartItem";
 import {
+  Box,
   Flex,
   Heading,
   Hide,
@@ -48,6 +49,8 @@ const cart = () => {
     if (user) {
       dispatch(setFavorite(JSON.parse(localStorage.getItem(user.name))));
     }
+
+    //Keep track of subtotal
     let total = 0;
     cart.map((item) => {
       total += item.price;
@@ -65,60 +68,67 @@ const cart = () => {
       cursor={cursor}
     >
       <Header />
-      <Flex justifyContent="space-evenly" alignItems="flex-start" mt={75}>
+      <Flex justifyContent="flex-start" alignItems="flex-start" mt={75}>
         {/* Cart Display Container */}
-        {isLoading ? (
-          <Flex direction="column" gap={5} p={15} w="60%" h="203px">
-            <Skeleton p={15} rounded={15} gap={15} h="203px" />
-          </Flex>
-        ) : (
-          <Flex direction="column" gap={5} p={15} w="60%" minW="412px">
-            {/* Has items in cart */}
-            {cart.length ? (
-              <>
-                {displayCart.map((item, id) => {
-                  return (
-                    <CartItem
-                      key={id}
-                      item={item}
-                      cart={cart}
-                      displayCart={displayCart}
-                      font={font}
-                      background={background1}
-                      refresh={refresh}
-                      setRefresh={setRefresh}
-                      user={user}
-                      favorites={favorites}
-                    />
-                  );
-                })}
-                {/* Subtotal */}
-                <Flex justifyContent="flex-end" alignItems="center">
-                  <Text fontSize="x-large">Subtotal:&nbsp;</Text>
-                  <Heading>{subtotal}</Heading>
-                </Flex>
-              </>
-            ) : (
-              //No items in cart
-              <Flex justifyContent="center" alignItems="center">
-                <Heading>Your cart has no items!</Heading>
+        <Flex direction="column" gap={5} p={15} w="70%" minW="412px">
+          {/* Has items in cart */}
+          {cart.length ? (
+            <>
+              {displayCart.map((item, id) => {
+                return (
+                  <CartItem
+                    key={id}
+                    item={item}
+                    cart={cart}
+                    displayCart={displayCart}
+                    font={font}
+                    background={background1}
+                    refresh={refresh}
+                    setRefresh={setRefresh}
+                    user={user}
+                    favorites={favorites}
+                    isLoading={isLoading}
+                  />
+                );
+              })}
+              {/* Subtotal */}
+              <Flex justifyContent="flex-end" alignItems="center">
+                <Text fontSize="x-large">Subtotal:&nbsp;</Text>
+                <Heading>{subtotal}</Heading>
               </Flex>
-            )}
-          </Flex>
-        )}
-
+            </>
+          ) : (
+            //No items in cart
+            <Flex justifyContent="center" alignItems="center">
+              <Heading>Your cart has no items!</Heading>
+            </Flex>
+          )}
+        </Flex>
         {/* Checkout Container */}
         <Hide below="md">
-          <Checkout
-            background={background1}
-            font={font}
-            setCursor={setCursor}
-            display={displayCart}
-          />
+          <Flex
+            minH="100%"
+            h="100vh"
+            mt={-75}
+            
+            w="95%"
+            justifyContent="flex-end"
+            alignItems="center"
+            position="fixed"
+          >
+            <Checkout
+              subtotal={subtotal}
+              background={background1}
+              font={font}
+              setCursor={setCursor}
+              display={displayCart}
+            />
+          </Flex>
         </Hide>
       </Flex>
       <Show below="md">
         <Checkout
+          subtotal={subtotal}
           background={background1}
           font={font}
           setCursor={setCursor}

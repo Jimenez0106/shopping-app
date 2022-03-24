@@ -117,17 +117,15 @@ const Favorite = ({ item, user, isLoading }) => {
     dispatch(removeFavorite(id));
     favoriteToast();
   };
+
   if (isLoading)
     return (
       <Skeleton
         direction="row"
-        alignItems="center"
-        justifyContent="center"
         p={5}
         rounded={15}
         gap={3}
         minH="235px"
-        bgColor={background1}
       />
     );
   return (
@@ -154,6 +152,7 @@ const Favorite = ({ item, user, isLoading }) => {
               />
             </LinkOverlay>
           </LinkBox>
+
           {/* Buttons, Item Info, and Item Description */}
           <Flex w="100%" gap={5}>
             {/* Item Info */}
@@ -192,10 +191,12 @@ const Favorite = ({ item, user, isLoading }) => {
                 </Flex>
               </Box>
             </Flex>
+
             {/* Description */}
             <Flex w="100%" minW={250}>
               <Text>{description}</Text>
             </Flex>
+            
             {/* Buttons */}
             <Flex
               direction="column"
