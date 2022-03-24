@@ -6,21 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {
   Avatar,
-  Box,
   Flex,
   Heading,
-  Image,
-  LinkBox,
-  LinkOverlay,
   Skeleton,
   SkeletonCircle,
-  Text,
-  Tooltip,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import FavoriteItems from "../components/account/favoriteItems";
-import CartItems from "../components/account/cartItems";
+import FavoriteItems from "../components/account/FavoriteItems";
+import CartItems from "../components/account/CartItems";
 
 const account = () => {
   const { user, error, isLoading } = useUser();
