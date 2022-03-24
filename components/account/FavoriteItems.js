@@ -13,7 +13,7 @@ import React from "react";
 const FavoriteItems = ({ favorites, background1, tooltip1, tooltip2 }) => {
   return (
     <>
-      <Box w="100%">
+      <Box w="90%">
         <Heading textAlign="left">Favorites</Heading>
       </Box>
 
