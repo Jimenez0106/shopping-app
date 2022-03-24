@@ -57,20 +57,6 @@ const account = () => {
         }
       >
         <Header />
-        <Flex
-          mt={67}
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-          mb={100}
-          gap={5}
-        >
-          <SkeletonCircle size="128px" />
-          <Skeleton w={250} h={43} />
-        </Flex>
-        <Flex justifyContent="center" alignItems="center">
-          <Skeleton gap={5} rounded={15} minH={300} w="88%" />
-        </Flex>
       </Flex>
     );
   if (error) return <div>{error.message}</div>;
@@ -94,37 +80,84 @@ const account = () => {
             justifyContent="space-evenly"
             w="100%"
             gap={10}
+            
           >
             {/* Name and Image container*/}
-            <Flex
-              direction="column"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Avatar
-                src={user.picture}
-                alt={`${user.name}'s Email Icon`}
-                rounded="50%"
-                size="2xl"
-              />
-              <Heading>Hello, {user.name}!</Heading>
-            </Flex>
-
+            {isLoading ? (
+              <Flex
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+                mb={0}
+                gap={5}
+              >
+                <SkeletonCircle
+                  size="128px"
+                  startColor="#F703FE"
+                  endColor="#05F5FA"
+                  speed={3}
+                />
+                <Skeleton
+                  w={250}
+                  h={43}
+                  startColor="#F703FE"
+                  endColor="#05F5FA"
+                  speed={3}
+                />
+              </Flex>
+            ) : (
+              <Flex
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Avatar
+                  src={user.picture}
+                  alt={`${user.name}'s Email Icon`}
+                  rounded="50%"
+                  size="2xl"
+                />
+                <Heading>Hello, {user.name}!</Heading>
+              </Flex>
+            )}{" "}
             {/* Favorites Container */}
-            <FavoriteItems
-              favorites={favorites}
-              background1={background1}
-              tooltip1={tooltip1}
-              tooltip2={tooltip2}
-            />
-
+            {isLoading ? (
+              <Skeleton
+                gap={5}
+                rounded={15}
+                minH={300}
+                w="88%"
+                startColor="#F703FE"
+                endColor="#05F5FA"
+                speed={3}
+              />
+            ) : (
+              <FavoriteItems
+                favorites={favorites}
+                background1={background1}
+                tooltip1={tooltip1}
+                tooltip2={tooltip2}
+              />
+            )}
             {/* Cart Container */}
-            <CartItems
-              cart={cart}
-              background1={background1}
-              tooltip1={tooltip1}
-              tooltip2={tooltip2}
-            />
+            {isLoading ? (
+              <Skeleton
+                gap={5}
+                rounded={15}
+                minH={300}
+                w="88%"
+                startColor="#F703FE"
+                endColor="#05F5FA"
+                speed={3}
+              />
+            ) : (
+              <CartItems
+                cart={cart}
+                background1={background1}
+                tooltip1={tooltip1}
+                tooltip2={tooltip2}
+              />
+            )}
           </Flex>
         </Flex>
       </Flex>

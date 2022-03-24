@@ -84,7 +84,13 @@ export const Header = () => {
   };
 
   return (
-    <Flex direction="column" position="fixed" zIndex={2} w="100%">
+    <Flex
+      direction="column"
+      position="fixed"
+      zIndex={2}
+      w="100%"
+      boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+    >
       {router.asPath === "/" ? (
         <Show below="md">
           <Banner colorMode1={colorMode1} />

@@ -133,127 +133,125 @@ const Item = ({ item, refresh, setRefresh }) => {
     });
   };
 
-  if (isLoading)
-    return (
-      <Skeleton
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        flex="1 16%"
-        p={15}
-        boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px;"
-        rounded={15}
-        bgColor={colorMode1}
-        gap={3}
-        h="476px"
-        minW="256px"
-      />
-    );
   if (error) return <div>{error.message}</div>;
 
   return (
-    //Item container
-    <Flex
-      direction="column"
-      position="relative"
-      alignItems="center"
-      flex="1 16%"
-      p={15}
-      boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px;"
-      rounded={15}
-      bgColor={colorMode1}
-      gap={3}
-    >
-      {/* Checkbox */}
-      {user ? (
-        <Flex justifyContent="flex-end" w="100%" pt={2} pr={2}>
-          <Tooltip label="Add to Favorites!" shouldWrapChildren>
-            <input
-              type="checkbox"
-              onChange={() => {
-                favoritesHandler(item);
-              }}
-              checked={isChecked(item)}
-            />
-          </Tooltip>
-        </Flex>
+    <>
+      {isLoading ? (
+        <Skeleton
+          flex="1 16%"
+          boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          rounded={15}
+          h="421px"
+          minW="231px"
+          startColor="#F703FE"
+          endColor="#05F5FA"
+          speed={3}
+        />
       ) : (
-        <Flex justifyContent="flex-end" w="100%">
-          <Tooltip label="Login to Add to Favorites!" shouldWrapChildren>
-            <input type="checkbox" disabled="disabled" onChange={false} />
-          </Tooltip>
+        <Flex
+          direction="column"
+          position="relative"
+          alignItems="center"
+          flex="1 16%"
+          p={15}
+          boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          rounded={15}
+          bgColor={colorMode1}
+          gap={3}
+        >
+          {/* Checkbox */}
+          {user ? (
+            <Flex justifyContent="flex-end" w="100%" pt={2} pr={2}>
+              <Tooltip label="Add to Favorites!" shouldWrapChildren>
+                <input
+                  type="checkbox"
+                  onChange={() => {
+                    favoritesHandler(item);
+                  }}
+                  checked={isChecked(item)}
+                />
+              </Tooltip>
+            </Flex>
+          ) : (
+            <Flex justifyContent="flex-end" w="100%">
+              <Tooltip label="Login to Add to Favorites!" shouldWrapChildren>
+                <input type="checkbox" disabled="disabled" onChange={false} />
+              </Tooltip>
+            </Flex>
+          )}
+
+          {/* Image */}
+          <Box
+            w="200px"
+            h="200px"
+            display="flex"
+            justifyContent="center"
+            bg="white"
+            rounded={15}
+          >
+            <Link href={`/listings/${id}`}>
+              <Image
+                src={image}
+                alt={title}
+                minH="200px"
+                maxW="100%"
+                maxH="100%"
+                objectFit="scale-down"
+                cursor="pointer"
+              />
+            </Link>
+          </Box>
+
+          {/* Title */}
+          <Flex justifyContent="center" alignItems="center" h="100%">
+            <Heading as="h4" size="sm">
+              <Link href={`/listings/${id}`}>
+                <Text textAlign="center">{title}</Text>
+              </Link>
+            </Heading>
+          </Flex>
+
+          {/* Price and ratings */}
+          <Flex
+            direction="row"
+            justifyContent="space-evenly"
+            alignItems="center"
+            w="100%"
+            h="100%"
+          >
+            {/* Price */}
+            <Box rounded={15} bgColor="orange.100" px={2}>
+              <Text m={0} color="darkorange" fontWeight="bold">
+                {priceFormatter.format(price)}
+              </Text>
+            </Box>
+            {/* Ratings */}
+            <Flex alignItems="center">
+              <ReactStars
+                edit={false}
+                value={rating.rate}
+                size={18}
+                activeColor="#F703FE"
+                isHalf
+              />
+              <Text size="xs">&nbsp;({rating.rate})</Text>
+            </Flex>
+          </Flex>
+
+          {/* Button */}
+          <Flex>
+            <Button
+              colorScheme="cyan"
+              variant="ghost"
+              onClick={() => addToCartHandler(item)}
+            >
+              Add to cart
+            </Button>
+          </Flex>
         </Flex>
       )}
-
-      {/* Image */}
-      <Box
-        w="200px"
-        h="200px"
-        display="flex"
-        justifyContent="center"
-        bg="white"
-        rounded={15}
-      >
-        <Link href={`/listings/${id}`}>
-          <Image
-            src={image}
-            alt={title}
-            minH="200px"
-            maxW="100%"
-            maxH="100%"
-            objectFit="scale-down"
-            cursor="pointer"
-          />
-        </Link>
-      </Box>
-
-      {/* Title */}
-      <Flex justifyContent="center" alignItems="center" h="100%">
-        <Heading as="h4" size="sm">
-          <Link href={`/listings/${id}`}>
-            <Text textAlign="center">{title}</Text>
-          </Link>
-        </Heading>
-      </Flex>
-
-      {/* Price and ratings */}
-      <Flex
-        direction="row"
-        justifyContent="space-evenly"
-        alignItems="center"
-        w="100%"
-        h="100%"
-      >
-        {/* Price */}
-        <Box rounded={15} bgColor="orange.100" px={2}>
-          <Text m={0} color="darkorange" fontWeight="bold">
-            {priceFormatter.format(price)}
-          </Text>
-        </Box>
-        {/* Ratings */}
-        <Flex alignItems="center">
-          <ReactStars
-            edit={false}
-            value={rating.rate}
-            size={18}
-            activeColor="#F703FE"
-            isHalf
-          />
-          <Text size="xs">&nbsp;({rating.rate})</Text>
-        </Flex>
-      </Flex>
-      
-      {/* Button */}
-      <Flex>
-        <Button
-          colorScheme="cyan"
-          variant="ghost"
-          onClick={() => addToCartHandler(item)}
-        >
-          Add to cart
-        </Button>
-      </Flex>
-    </Flex>
+    </>
   );
 };
 

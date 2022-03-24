@@ -118,56 +118,173 @@ const Favorite = ({ item, user, isLoading }) => {
     favoriteToast();
   };
 
-  if (isLoading)
-    return (
-      <Skeleton
-        direction="row"
-        p={5}
-        rounded={15}
-        gap={3}
-        minH="235px"
-      />
-    );
   return (
     <>
       <Hide below="md">
-        <Flex
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          p={5}
-          rounded={15}
-          gap={3}
-          minH="235px"
-          bgColor={background1}
-        >
-          {/* Image */}
-          <LinkBox bgColor="white" minW="100px">
-            <LinkOverlay href={`/listings/${item.id}`}>
-              <Image
-                boxSize="180px"
-                objectFit="contain"
-                src={image}
-                alt={title}
-              />
-            </LinkOverlay>
-          </LinkBox>
+        {isLoading ? (
+          <Skeleton
+            direction="row"
+            p={5}
+            rounded={15}
+            gap={3}
+            minH="235px"
+            startColor="#F703FE"
+            endColor="#05F5FA"
+            speed={3}
+            boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          />
+        ) : (
+          <Flex
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+            p={5}
+            rounded={15}
+            gap={3}
+            minH="235px"
+            bgColor={background1}
+            boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          >
+            {/* Image */}
+            <LinkBox bgColor="white" minW="100px">
+              <LinkOverlay href={`/listings/${item.id}`}>
+                <Image
+                  boxSize="180px"
+                  objectFit="contain"
+                  src={image}
+                  alt={title}
+                />
+              </LinkOverlay>
+            </LinkBox>
 
-          {/* Buttons, Item Info, and Item Description */}
-          <Flex w="100%" gap={5}>
-            {/* Item Info */}
+            {/* Buttons, Item Info, and Item Description */}
+            <Flex w="100%" gap={5}>
+              {/* Item Info */}
+              <Flex
+                direction="column"
+                w="100%"
+                justifyContent="center"
+                alignItems="flex-start"
+                gap={1}
+              >
+                <Link href={`/listings/${id}`}>
+                  <Heading size="sm">{title}</Heading>
+                </Link>
+                {/* Price */}
+                <Box minW="150px">
+                  <Box rounded={15} bgColor="orange.100" w="77px">
+                    <Text
+                      m={0}
+                      color="darkorange"
+                      fontWeight="bold"
+                      textAlign="center"
+                    >
+                      {priceFormatter.format(price)}
+                    </Text>
+                  </Box>
+                  {/* Ratings */}
+                  <Flex alignItems="center">
+                    <ReactStars
+                      edit={false}
+                      value={rating.rate}
+                      size={18}
+                      activeColor="#F703FE"
+                      isHalf
+                    />
+                    <Text size="xs">&nbsp;({rating.rate})</Text>
+                  </Flex>
+                </Box>
+              </Flex>
+
+              {/* Description */}
+              <Flex w="100%" minW={250}>
+                <Text>{description}</Text>
+              </Flex>
+
+              {/* Buttons */}
+              <Flex
+                direction="column"
+                alignItems="center"
+                justifyContent="space-evenly"
+                minH="100%"
+              >
+                <Button
+                  onClick={() => addToCart()}
+                  colorScheme="cyan"
+                  variant="ghost"
+                >
+                  Add to Cart
+                </Button>
+                <Button
+                  onClick={() => removeFromFavorite()}
+                  colorScheme="cyan"
+                  variant="ghost"
+                >
+                  Unfavorite
+                </Button>
+              </Flex>
+            </Flex>
+          </Flex>
+        )}
+      </Hide>
+
+      {/* Mobile Favorites Display */}
+      <Show below="md">
+        {isLoading ? (
+          <Skeleton
+            rounded={15}
+            h="418px"
+            boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          />
+        ) : (
+          <Flex
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            p={6}
+            rounded={15}
+            gap={3}
+            bgColor={background1}
+            boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+          >
+            {/* Image */}
+            <LinkBox bgColor="white">
+              <LinkOverlay href={`/listings/${item.id}`}>
+                <Image
+                  boxSize="180px"
+                  objectFit="contain"
+                  src={image}
+                  alt={title}
+                />
+              </LinkOverlay>
+            </LinkBox>
+            {/* Description and Price/ratings */}
             <Flex
-              direction="column"
-              w="100%"
-              justifyContent="center"
-              alignItems="flex-start"
-              gap={1}
+              direction="row"
+              justifyContent="space-evenly"
+              alignItems="center"
             >
-              <Link href={`/listings/${id}`}>
-                <Heading size="sm">{title}</Heading>
-              </Link>
-              {/* Price */}
-              <Box minW="150px">
+              <Flex direction="column" alignItems="center" w="100%">
+                {hidden ? (
+                  <Box minW={250}>
+                    <Text px={3} noOfLines={2}>
+                      {description}
+                    </Text>
+                  </Box>
+                ) : (
+                  <Text px={3}>{description}</Text>
+                )}
+                <Button
+                  variant="link"
+                  pb={5}
+                  colorScheme="blue"
+                  size="sm"
+                  onClick={() => setHidden(!hidden)}
+                >
+                  {hidden ? "Show More" : "Show Less"}
+                </Button>
+                {/* Price and Ratings */}
+                {/* Price */}
                 <Box rounded={15} bgColor="orange.100" w="77px">
                   <Text
                     m={0}
@@ -189,129 +306,26 @@ const Favorite = ({ item, user, isLoading }) => {
                   />
                   <Text size="xs">&nbsp;({rating.rate})</Text>
                 </Flex>
-              </Box>
-            </Flex>
-
-            {/* Description */}
-            <Flex w="100%" minW={250}>
-              <Text>{description}</Text>
-            </Flex>
-            
-            {/* Buttons */}
-            <Flex
-              direction="column"
-              alignItems="center"
-              justifyContent="space-evenly"
-              minH="100%"
-            >
-              <Button
-                onClick={() => addToCart()}
-                colorScheme="cyan"
-                variant="ghost"
-              >
-                Add to Cart
-              </Button>
-              <Button
-                onClick={() => removeFromFavorite()}
-                colorScheme="cyan"
-                variant="ghost"
-              >
-                Unfavorite
-              </Button>
-            </Flex>
-          </Flex>
-        </Flex>
-      </Hide>
-
-      {/* Mobile Favorites Display */}
-      <Show below="md">
-        <Flex
-          direction="column"
-          alignItems="center"
-          justifyContent="center"
-          p={6}
-          rounded={15}
-          gap={3}
-          bgColor={background1}
-        >
-          {/* Image */}
-          <LinkBox bgColor="white">
-            <LinkOverlay href={`/listings/${item.id}`}>
-              <Image
-                boxSize="180px"
-                objectFit="contain"
-                src={image}
-                alt={title}
-              />
-            </LinkOverlay>
-          </LinkBox>
-          {/* Description and Price/ratings */}
-          <Flex
-            direction="row"
-            justifyContent="space-evenly"
-            alignItems="center"
-          >
-            <Flex direction="column" alignItems="center" w="100%">
-              {hidden ? (
-                <Box minW={250}>
-                  <Text px={3} noOfLines={2}>
-                    {description}
-                  </Text>
-                </Box>
-              ) : (
-                <Text px={3}>{description}</Text>
-              )}
-              <Button
-                variant="link"
-                pb={5}
-                colorScheme="blue"
-                size="sm"
-                onClick={() => setHidden(!hidden)}
-              >
-                {hidden ? "Show More" : "Show Less"}
-              </Button>
-              {/* Price and Ratings */}
-              {/* Price */}
-              <Box rounded={15} bgColor="orange.100" w="77px">
-                <Text
-                  m={0}
-                  color="darkorange"
-                  fontWeight="bold"
-                  textAlign="center"
-                >
-                  {priceFormatter.format(price)}
-                </Text>
-              </Box>
-              {/* Ratings */}
-              <Flex alignItems="center">
-                <ReactStars
-                  edit={false}
-                  value={rating.rate}
-                  size={18}
-                  activeColor="#F703FE"
-                  isHalf
-                />
-                <Text size="xs">&nbsp;({rating.rate})</Text>
-              </Flex>
-              <Flex direction="row">
-                <Button
-                  onClick={() => addToCart()}
-                  colorScheme="cyan"
-                  variant="ghost"
-                >
-                  Add to Cart
-                </Button>
-                <Button
-                  onClick={() => removeFromFavorite()}
-                  colorScheme="cyan"
-                  variant="ghost"
-                >
-                  Unfavorite
-                </Button>
+                <Flex direction="row">
+                  <Button
+                    onClick={() => addToCart()}
+                    colorScheme="cyan"
+                    variant="ghost"
+                  >
+                    Add to Cart
+                  </Button>
+                  <Button
+                    onClick={() => removeFromFavorite()}
+                    colorScheme="cyan"
+                    variant="ghost"
+                  >
+                    Unfavorite
+                  </Button>
+                </Flex>
               </Flex>
             </Flex>
           </Flex>
-        </Flex>
+        )}
       </Show>
     </>
   );

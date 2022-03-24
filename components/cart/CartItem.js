@@ -153,75 +153,84 @@ const CartItem = ({
     });
   };
 
-  if (isLoading)
-    return (
-      <Flex direction="column" w="100%" minW="412px">
-        <Skeleton rounded={15} h="204px" />
-      </Flex>
-    );
-
   return (
-    <Flex
-      direction="row"
-      backgroundColor={background}
-      color={font}
-      p={15}
-      rounded={15}
-      gap={15}
-    >
-      {/* Item Image */}
-      <Box bg="white" p={3} rounded={15}>
-        <Image
-          src={image}
-          alt={title}
-          boxSize="150px"
-          objectFit="contain"
-          cursor="pointer"
-          onClick={() => router.push(`/listings/${id}`)}
+    <>
+      {isLoading ? (
+        <Skeleton
+          rounded={15}
+          h="204px"
+          minW="412px"
+          w="100%"
+          startColor="#F703FE"
+          endColor="#05F5FA"
+          speed={3}
+          boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
         />
-      </Box>
-      <Box w="100%">
-        {/* Title and Price */}
-        <Flex direction="row" justifyContent="space-between">
-          <Heading size="md">{title}</Heading>
-          <Text fontWeight="bold" size="lg">
-            {priceFormatter.format(price * count)}
-          </Text>
+      ) : (
+        <Flex
+          direction="row"
+          backgroundColor={background}
+          color={font}
+          p={15}
+          rounded={15}
+          gap={15}
+          boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+        >
+          {/* Item Image */}
+          <Box bg="white" p={3} rounded={15}>
+            <Image
+              src={image}
+              alt={title}
+              boxSize="150px"
+              objectFit="contain"
+              cursor="pointer"
+              onClick={() => router.push(`/listings/${id}`)}
+            />
+          </Box>
+          <Box w="100%">
+            {/* Title and Price */}
+            <Flex direction="row" justifyContent="space-between">
+              <Heading size="md">{title}</Heading>
+              <Text fontWeight="bold" size="lg">
+                {priceFormatter.format(price * count)}
+              </Text>
+            </Flex>
+            {/* Quantity */}
+            <Flex direction="row" alignItems="center" py={1} gap={1}>
+              <Button
+                onClick={() => addItemToCartHandler()}
+                variant="ghost"
+                colorScheme="cyan"
+                fontWeight="bold"
+                fontSize={24}
+              >
+                +
+              </Button>
+              <Text fontSize={24}>{count}</Text>
+              <Button
+                onClick={() => removeItemFromCart()}
+                fontWeight="bold"
+                fontSize={24}
+                variant="ghost"
+                colorScheme="cyan"
+              >
+                -
+              </Button>
+            </Flex>
+            {/* Delete Button*/}
+            <Flex justifyContent="space-between">
+              <Button
+                onClick={() => removeFromCartHandler(item)}
+                variant="ghost"
+                colorScheme="cyan"
+              >
+                Delete
+              </Button>
+            </Flex>
+          </Box>
         </Flex>
-        {/* Quantity */}
-        <Flex direction="row" alignItems="center" py={1} gap={1}>
-          <Button
-            onClick={() => addItemToCartHandler()}
-            variant="ghost"
-            colorScheme="cyan"
-            fontWeight="bold"
-            fontSize={24}
-          >
-            +
-          </Button>
-          <Text fontSize={24}>{count}</Text>
-          <Button
-            onClick={() => removeItemFromCart()}
-            fontWeight="bold"
-            fontSize={24}
-            variant="ghost"
-            colorScheme="cyan"
-          >
-            -
-          </Button>
-        </Flex>
-        {/* Delete Button*/}
-        <Flex justifyContent="space-between">
-          <Button
-            onClick={() => removeFromCartHandler(item)}
-            variant="ghost"
-            colorScheme="cyan"
-          >
-            Delete
-          </Button>
-        </Flex>
-      </Box>
-    </Flex>
+      )}
+    </>
   );
 };
 

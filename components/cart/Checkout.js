@@ -37,6 +37,8 @@ const Checkout = ({ background, font, setCursor, display, subtotal }) => {
       p={15}
       rounded={15}
       gap={5}
+      boxShadow="rgba(0, 0, 0, 0.35) 0px 5px 15px"
+      w="100%"
     >
       <HStack>
         <Text>Subtotal:</Text>

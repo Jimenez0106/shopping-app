@@ -70,7 +70,7 @@ const cart = () => {
       <Header />
       <Flex justifyContent="flex-start" alignItems="flex-start" mt={75}>
         {/* Cart Display Container */}
-        <Flex direction="column" gap={5} p={15} w="70%" minW="412px">
+        <Flex direction="column" gap={5} p={15} w="70%" minW="412px" zIndex={1}>
           {/* Has items in cart */}
           {cart.length ? (
             <>
@@ -91,11 +91,13 @@ const cart = () => {
                   />
                 );
               })}
-              {/* Subtotal */}
-              <Flex justifyContent="flex-end" alignItems="center">
-                <Text fontSize="x-large">Subtotal:&nbsp;</Text>
-                <Heading>{subtotal}</Heading>
-              </Flex>
+              <Hide below="md">
+                {/* Subtotal */}
+                <Flex justifyContent="flex-end" alignItems="center">
+                  <Text fontSize="x-large">Subtotal:&nbsp;</Text>
+                  <Heading>{subtotal}</Heading>
+                </Flex>
+              </Hide>
             </>
           ) : (
             //No items in cart
@@ -110,8 +112,8 @@ const cart = () => {
             minH="100%"
             h="100vh"
             mt={-75}
-            
-            w="95%"
+            right={19}
+            w="175px"
             justifyContent="flex-end"
             alignItems="center"
             position="fixed"
@@ -127,13 +129,15 @@ const cart = () => {
         </Hide>
       </Flex>
       <Show below="md">
-        <Checkout
-          subtotal={subtotal}
-          background={background1}
-          font={font}
-          setCursor={setCursor}
-          display={displayCart}
-        />
+        <Flex pos="sticky" bottom={0} zIndex={1} minW="100%">
+          <Checkout
+            subtotal={subtotal}
+            background={background1}
+            font={font}
+            setCursor={setCursor}
+            display={displayCart}
+          />
+        </Flex>
       </Show>
     </Flex>
   );
