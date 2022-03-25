@@ -113,7 +113,7 @@ const cart = () => {
             h="100vh"
             mt={-75}
             right={19}
-            w="175px"
+            w="185px"
             justifyContent="flex-end"
             alignItems="center"
             position="fixed"

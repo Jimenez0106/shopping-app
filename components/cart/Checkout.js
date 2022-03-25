@@ -50,7 +50,11 @@ const Checkout = ({ background, font, setCursor, display, subtotal }) => {
       {/* Checkout Button */}
       {cart.length ? (
         <Button
-          onClick={createCheckoutSession}
+          onClick={() => {
+            console.log(display);
+            createCheckoutSession();
+            setCursor("wait");
+          }}
           variant="ghost"
           colorScheme="cyan"
         >
