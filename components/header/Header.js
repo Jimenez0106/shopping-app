@@ -44,7 +44,7 @@ import Banner from "./Banner";
 import Categories from "./Categories";
 
 export const Header = () => {
-  const { user, error, isLoading } = useUser();
+  const { user } = useUser();
   const router = useRouter();
   const dispatch = useDispatch();
   const [value, setValue] = useState("");
