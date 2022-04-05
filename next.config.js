@@ -11,4 +11,5 @@ console.warn = (...args) => {
 };
 module.exports = {
   reactStrictMode: true,
+  trailingSlash: false,
 };
