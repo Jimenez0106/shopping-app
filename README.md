@@ -10,8 +10,9 @@ This project is a [ReactJS](https://reactjs.org/)/[NextJS](https://nextjs.org/) 
 # Features :clipboard:
 
 - Checkout system made through [Stripe](https://stripe.com/).
-- Login using [Auth0](https://auth0.com/). 
+- Make accounts using [Auth0](https://auth0.com/). 
 - Add items to your favorites.
+- Theme toggling.
 
 # Screenshots :camera:
 
