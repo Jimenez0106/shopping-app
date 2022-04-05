@@ -18,9 +18,9 @@ This project is a [ReactJS](https://reactjs.org/)/[NextJS](https://nextjs.org/) 
 
 # Screenshots :camera:
 
-<img src="https://github.com/Jimenez0106/shopping-app/blob/master/src/styles/images/README/Screenshot_1.png" alt="Screenshot 1"/>
-<img src="https://github.com/Jimenez0106/shopping-app/blob/master/src/styles/images/README/Screenshot_2.png" alt="Screenshot 2"/>
-<img src="https://github.com/Jimenez0106/shopping-app/blob/master/src/styles/images/README/Screenshot_3.png" alt="Screenshot 3"/>
+<img src="https://github.com/Jimenez0106/shopping-app/blob/main/styles/images/README/Screenshot_1.png" alt="Screenshot 1"/>
+<img src="https://github.com/Jimenez0106/shopping-app/blob/main/styles/images/README/Screenshot_2.png" alt="Screenshot 2"/>
+<img src="https://github.com/Jimenez0106/shopping-app/blob/main/styles/images/README/Screenshot_3.png" alt="Screenshot 3"/>
 
 # Author :raising_hand_man:
 
