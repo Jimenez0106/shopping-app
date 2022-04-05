@@ -1,4 +1,4 @@
-<img src="https://github.com/Jimenez0106/shopping-app/blob/main/styles/images/RJ%20Market.png" alt="App Logo" width="200" height="200"/>
+<img src="https://github.com/Jimenez0106/shopping-app/blob/main/styles/images/RJ%20Market.png" alt="App Logo" width="438" height="122"/>
 
 # e-Commerce App with Reactjs and Nextjs :shopping_cart:
 
