@@ -6,7 +6,7 @@ This project is a [ReactJS](https://reactjs.org/)/[NextJS](https://nextjs.org/) 
 
 # Live Demo
 
-[Hosted on Vercel](shopping-app-black.vercel.app/)
+[Hosted on Vercel](https://rjmarket.vercel.app/)
 
 
 # Features :clipboard:
