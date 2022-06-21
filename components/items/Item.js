@@ -165,6 +165,7 @@ const Item = ({ item, refresh, setRefresh }) => {
             <Flex justifyContent="flex-end" w="100%" pt={2} pr={2}>
               <Tooltip label="Add to Favorites!" shouldWrapChildren>
                 <input
+                  aria-label="Favorites"
                   type="checkbox"
                   onChange={() => {
                     favoritesHandler(item);
@@ -194,10 +195,8 @@ const Item = ({ item, refresh, setRefresh }) => {
               <Image
                 src={image}
                 alt={title}
-                minH="200px"
-                maxW="100%"
-                maxH="100%"
-                objectFit="scale-down"
+                h="200px"
+                w="auto"
                 cursor="pointer"
               />
             </Link>

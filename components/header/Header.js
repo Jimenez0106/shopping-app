@@ -121,6 +121,7 @@ export const Header = () => {
             pb={4}
           >
             <Image
+              alt="Site Logo"
               src={logo}
               height={100}
               width={300}
@@ -309,6 +310,7 @@ export const Header = () => {
               onClick={toggleColorMode}
               icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               variant="outline"
+              aria-label="Toggle Theme"
             />
           </Hide>
 
