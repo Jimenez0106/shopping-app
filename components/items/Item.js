@@ -176,7 +176,12 @@ const Item = ({ item, refresh, setRefresh }) => {
           ) : (
             <Flex justifyContent="flex-end" w="100%">
               <Tooltip label="Login to Add to Favorites!" shouldWrapChildren>
-                <input aria-label="Favorites" type="checkbox" disabled="disabled" onChange={false} />
+                <input
+                  aria-label="Favorites"
+                  type="checkbox"
+                  disabled="disabled"
+                  onChange={false}
+                />
               </Tooltip>
             </Flex>
           )}
@@ -191,12 +196,11 @@ const Item = ({ item, refresh, setRefresh }) => {
             rounded={15}
             pos="relative"
           >
-            <Box w="auto" h="200px">
+            <Box w="auto" h="200px" cursor="pointer">
               <Link href={`/listings/${id}`}>
                 <Image
                   src={image}
                   alt={title}
-                  cursor="pointer"
                   layout="fill"
                   objectFit="contain"
                   height={200}

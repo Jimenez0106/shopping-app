@@ -117,14 +117,16 @@ export const Header = () => {
             justifyContent="center"
             alignItems="center"
             maxH={50}
+            w="auto"
             cursor="pointer"
             pb={4}
           >
             <Image
               alt="RJMarket Logo"
               src={logo}
-              height={100}
-              width={300}
+              layout="fill"
+              objectFit="contain"
+              height={50}
               onClick={() => {
                 router.asPath !== "/" ? router.push("/") : "";
               }}
