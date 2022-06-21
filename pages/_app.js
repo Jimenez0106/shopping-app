@@ -16,7 +16,7 @@ const MyApp = ({ Component, pageProps }) => {
         <Head>
           <meta
             name="description"
-            content="Meta description content goes here."
+            content="E-Commerce Store Front made with ReactJS & NextJS"
           />
           <link
             rel="apple-touch-icon"
