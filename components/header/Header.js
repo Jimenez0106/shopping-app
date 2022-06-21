@@ -121,7 +121,7 @@ export const Header = () => {
             pb={4}
           >
             <Image
-              alt="Site Logo"
+              alt="RJMarket Logo"
               src={logo}
               height={100}
               width={300}
@@ -141,6 +141,7 @@ export const Header = () => {
               pb={4}
             >
               <Image
+                alt="RJMarket Logo"
                 src={logo}
                 height={75}
                 width={250}

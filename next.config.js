@@ -10,6 +10,9 @@ console.warn = (...args) => {
   }
 };
 module.exports = {
+  images: {
+    domains: ["fakestoreapi.com"],
+  },
   reactStrictMode: true,
   trailingSlash: false,
 };

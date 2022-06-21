@@ -25,11 +25,14 @@ import {
   RiHeartFill as heart,
 } from "react-icons/ri";
 import { ArrowBackIcon } from "@chakra-ui/icons";
+import { useRouter } from "next/router";
 
 const listings = ({ item }) => {
-  const dispatch = useDispatch();
-  const { description, image, price, rating, title } = item;
   const { user, error, isLoading } = useUser();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { description, image, price, rating, title } = item;
+
   const [refresh, setRefresh] = useState(false);
   const [cursor, setCursor] = useState("default");
   const priceFormatter = new Intl.NumberFormat("en-US", {
@@ -184,7 +187,6 @@ const listings = ({ item }) => {
             gap={5}
             rounded={15}
             bgColor={background1}
-            h="400px"
             w="70%"
             p={15}
             mb={25}
@@ -252,14 +254,25 @@ const listings = ({ item }) => {
                 >
                   Add to Cart
                 </Button>
-                <Button
-                  size="lg"
-                  colorScheme="cyan"
-                  variant="ghost"
-                  onClick={() => favoritesHandler()}
-                >
-                  Favorite
-                </Button>
+                {user ? (
+                  <Button
+                    size="lg"
+                    colorScheme="cyan"
+                    variant="ghost"
+                    onClick={() => favoritesHandler()}
+                  >
+                    Favorite
+                  </Button>
+                ) : (
+                  <Button
+                    size="lg"
+                    colorScheme="cyan"
+                    variant="ghost"
+                    onClick={() => router.push("/api/auth/login")}
+                  >
+                    Login To Favorite!
+                  </Button>
+                )}
               </HStack>
             </Flex>
           </Flex>
@@ -337,13 +350,24 @@ const listings = ({ item }) => {
                   >
                     Add to Cart
                   </Button>
-                  <Button
-                    onClick={() => removeFromFavorite()}
-                    colorScheme="cyan"
-                    variant="ghost"
-                  >
-                    Unfavorite
-                  </Button>
+                  {user ? (
+                    <Button
+                      onClick={() => removeFromFavorite()}
+                      colorScheme="cyan"
+                      variant="ghost"
+                    >
+                      Unfavorite
+                    </Button>
+                  ) : (
+                    <Button
+                      size="lg"
+                      colorScheme="cyan"
+                      variant="ghost"
+                      onClick={() => router.push("/api/auth/login")}
+                    >
+                      Login To Favorite!
+                    </Button>
+                  )}
                 </Flex>
               </Flex>
             </Flex>

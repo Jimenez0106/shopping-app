@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,10 +11,8 @@ import {
 import {
   Box,
   Button,
-  Checkbox,
   Flex,
   Heading,
-  Image,
   Text,
   useToast,
   Tooltip,
@@ -177,7 +176,7 @@ const Item = ({ item, refresh, setRefresh }) => {
           ) : (
             <Flex justifyContent="flex-end" w="100%">
               <Tooltip label="Login to Add to Favorites!" shouldWrapChildren>
-                <input type="checkbox" disabled="disabled" onChange={false} />
+                <input aria-label="Favorites" type="checkbox" disabled="disabled" onChange={false} />
               </Tooltip>
             </Flex>
           )}
@@ -190,16 +189,20 @@ const Item = ({ item, refresh, setRefresh }) => {
             justifyContent="center"
             bg="white"
             rounded={15}
+            pos="relative"
           >
-            <Link href={`/listings/${id}`}>
-              <Image
-                src={image}
-                alt={title}
-                h="200px"
-                w="auto"
-                cursor="pointer"
-              />
-            </Link>
+            <Box w="auto" h="200px">
+              <Link href={`/listings/${id}`}>
+                <Image
+                  src={image}
+                  alt={title}
+                  cursor="pointer"
+                  layout="fill"
+                  objectFit="contain"
+                  height={200}
+                />
+              </Link>
+            </Box>
           </Box>
 
           {/* Title */}
