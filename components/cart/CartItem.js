@@ -198,16 +198,6 @@ const CartItem = ({
             {/* Quantity */}
             <Flex direction="row" alignItems="center" py={1} gap={1}>
               <Button
-                onClick={() => addItemToCartHandler()}
-                variant="ghost"
-                colorScheme="cyan"
-                fontWeight="bold"
-                fontSize={24}
-              >
-                +
-              </Button>
-              <Text fontSize={24}>{count}</Text>
-              <Button
                 onClick={() => removeItemFromCart()}
                 fontWeight="bold"
                 fontSize={24}
@@ -215,6 +205,16 @@ const CartItem = ({
                 colorScheme="cyan"
               >
                 -
+              </Button>
+              <Text fontSize={24}>{count}</Text>
+              <Button
+                onClick={() => addItemToCartHandler()}
+                variant="ghost"
+                colorScheme="cyan"
+                fontWeight="bold"
+                fontSize={24}
+              >
+                +
               </Button>
             </Flex>
             {/* Delete Button*/}
