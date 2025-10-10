@@ -166,11 +166,9 @@ export const Header = () => {
                 onSubmit={searchHandler}
                 placeholder="Search for product"
               />
-              <InputRightElement
-                children={<CloseIcon />}
-                onClick={() => setValue("")}
-                cursor="pointer"
-              />
+              <InputRightElement onClick={() => setValue("")} cursor="pointer">
+                <CloseIcon />
+                </InputRightElement>
             </InputGroup>
           </Stack>
         ) : (
