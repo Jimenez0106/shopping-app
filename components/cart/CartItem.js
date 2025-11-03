@@ -57,7 +57,7 @@ const CartItem = ({
       localStorage.setItem(user.name, JSON.stringify(favorites));
     }
     itemCounter();
-  }, [cart, count]);
+  }, [cart, displayCart, favorites, user, item.id, count]);
 
   //Remove all same ID items from cart
   const removeFromCartHandler = (item) => {

@@ -31,18 +31,10 @@ const Items = () => {
     };
     cartHistoryCheck();
     userFavoriteHistoryCheck();
-  }, [user, refresh]);
+  }, [user, refresh, dispatch]);
 
   return (
-    <Flex
-      wrap="wrap"
-      gap={18}
-      width="90%"
-      p={15}
-      rounded={15}
-      mb={10}
-      mt={75}
-    >
+    <Flex wrap="wrap" gap={18} width="90%" p={15} rounded={15} mb={10} mt={75}>
       {display.map((item) => {
         const { id } = item;
         return (

@@ -40,13 +40,13 @@ const Favorite = ({ item, user, isLoading }) => {
   //ChakraUI Theme
   const background1 = useColorModeValue("#fff", "#292929");
 
+  //Update cart and favorite LocalStorage on any changes
   useEffect(() => {
-    //Update cart and favorite LocalStorage on any changes
     localStorage.setItem("cart", JSON.stringify(cart));
     if (user) {
       localStorage.setItem(user.name, JSON.stringify(favorites));
     }
-  }, [favorites, cart]);
+  }, [favorites, cart, user]);
 
   //***Toasts***
   const toast = useToast();

@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addCategories, resetCategories, setDisplay } from "../../redux/actions";
+import {
+  addCategories,
+  resetCategories,
+  setDisplay,
+} from "../../redux/actions";
 import { useEffect } from "react";
 import { Button, Flex, Hide, useColorModeValue } from "@chakra-ui/react";
 
@@ -17,15 +21,20 @@ const Categories = () => {
 
   useEffect(() => {
     //Set item categories
-    items.map((item) => {
+    const tempCategories = [];
+
+    items.forEach((item) => {
       const { category } = item;
-      tempCategories.includes(category) ? "" : tempCategories.push(category);
+      if (!tempCategories.includes(category)) {
+        tempCategories.push(category);
+      }
     });
+
     dispatch(resetCategories());
-    tempCategories.map((category) => {
+    tempCategories.forEach((category) => {
       dispatch(addCategories(category));
     });
-  }, []);
+  }, [items, dispatch]);
 
   //Filter display based on selected category
   const filterHandler = (category) => {

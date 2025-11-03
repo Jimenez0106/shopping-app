@@ -44,7 +44,7 @@ const Item = ({ item, refresh, setRefresh }) => {
     if (user) {
       localStorage.setItem(user.name, JSON.stringify(favorites));
     }
-  }, [favorites, cart]);
+  }, [favorites, cart, user]);
 
   //Add or remove favorite from REDUX favorite store
   const favoritesHandler = (item) => {
