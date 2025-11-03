@@ -27,7 +27,7 @@ import {
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 
-const listings = ({ item }) => {
+const Listings = ({ item }) => {
   const { user, error, isLoading } = useUser();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -416,4 +416,4 @@ export const getStaticProps = async (pageContext) => {
   };
 };
 
-export default listings;
+export default Listings;

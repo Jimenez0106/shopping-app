@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "../components/header/Header";
 import { setCart } from "../redux/actions";
 
-const success = () => {
+const Success = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [cursor, setCursor] = useState("default");
@@ -83,4 +83,4 @@ const success = () => {
   );
 };
 
-export default success;
+export default Success;
