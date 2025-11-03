@@ -6,7 +6,7 @@ import { setFavorite, setCart } from "../redux/actions";
 import FavoriteItem from "../components/favorites/FavoriteItem";
 import { Flex, useColorMode } from "@chakra-ui/react";
 
-const favorites = () => {
+const Favorites = () => {
   const { user, error, isLoading } = useUser();
   const [refresh, setRefresh] = useState(false);
   const dispatch = useDispatch();
@@ -59,6 +59,6 @@ const favorites = () => {
   );
 };
 
-export default favorites;
+export default Favorites;
 
 export const getServerSideProps = withPageAuthRequired();
