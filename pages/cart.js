@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import Checkout from "../components/cart/Checkout";
 
-const cart = () => {
+const Cart = () => {
   const { user, error, isLoading } = useUser();
 
   const dispatch = useDispatch();
@@ -143,4 +143,4 @@ const cart = () => {
   );
 };
 
-export default cart;
+export default Cart;

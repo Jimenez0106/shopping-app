@@ -16,7 +16,7 @@ import {
 import FavoriteItems from "../components/account/FavoriteItems";
 import CartItems from "../components/account/CartItems";
 
-const account = () => {
+const Account = () => {
   const { user, error, isLoading } = useUser();
   const dispatch = useDispatch();
 
@@ -74,7 +74,6 @@ const account = () => {
             justifyContent="space-evenly"
             w="100%"
             gap={10}
-            
           >
             {/* Name and Image container*/}
             {isLoading ? (
@@ -158,6 +157,6 @@ const account = () => {
     );
 };
 
-export default account;
+export default Account;
 
 export const getServerSideProps = withPageAuthRequired();
